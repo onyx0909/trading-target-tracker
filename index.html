@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Trading Tracker">
+    <meta name="theme-color" content="#0f1419">
+    <meta name="description" content="Dynamische Trading-Tagesziele mit P/L Tracking">
+    
+    <title>Trading Tracker Pro</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icon-192.png">
+    
+    <!-- Splash Screens für iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg: #0f1419; --card: #1e2736; --border: #2d3748;
+            --text: #fff; --muted: #9ca3af;
+            --blue: #3b82f6; --green: #10b981; --gold: #fbbf24; --red: #ef4444; --purple: #8b5cf6; --orange: #f97316;
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            min-height: 100vh; 
+            min-height: -webkit-fill-available;
+            padding: 16px;
+            padding-top: calc(16px + var(--safe-top));
+            padding-bottom: calc(80px + var(--safe-bottom));
+            overscroll-behavior: none;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        /* Header */
+        .header { 
+            background: linear-gradient(135deg, var(--card), var(--border)); 
+            border-radius: 16px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--blue); 
+        }
+        .header h1 { 
+            font-size: 1.5rem; 
+            background: linear-gradient(90deg, var(--gold), var(--green)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .header p { color: var(--muted); margin-top: 6px; font-size: 0.875rem; }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            padding-bottom: calc(8px + var(--safe-bottom));
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 12px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            min-width: 60px;
+        }
+        .nav-item.active { color: var(--blue); background: rgba(59,130,246,0.1); }
+        .nav-item:hover { color: var(--blue); }
+        .nav-icon { font-size: 1.25rem; margin-bottom: 2px; }
+        
+        /* Cards */
+        .grid { display: grid; gap: 12px; margin-bottom: 16px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-1 { grid-template-columns: 1fr; }
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+        .card { 
+            background: var(--card); 
+            border-radius: 12px; 
+            padding: 16px; 
+            border: 1px solid var(--border); 
+        }
+        .card.blue { border: 2px solid var(--blue); background: linear-gradient(135deg, #1e3a5f, var(--card)); }
+        .card.green { border: 2px solid var(--green); background: linear-gradient(135deg, #1a3d2e, var(--card)); }
+        .card.purple { border: 2px solid var(--purple); background: linear-gradient(135deg, #2e1a4a, var(--card)); }
+        .card-title { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-value { font-size: 1.35rem; font-weight: 700; margin-top: 4px; }
+        .card-value.blue { color: var(--blue); }
+        .card-value.green { color: var(--green); }
+        .card-value.gold { color: var(--gold); }
+        .card-value.purple { color: var(--purple); }
+        .card-value.red { color: var(--red); }
+        
+        /* Progress */
+        .progress-bar { height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); border-radius: 5px; transition: width 0.5s; }
+        
+        /* Forms */
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; 
+            padding: 12px 14px; 
+            background: var(--bg); 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            color: var(--text); 
+            font-size: 16px; /* Verhindert iOS Zoom */
+            -webkit-appearance: none;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
+            outline: none; 
+            border-color: var(--blue); 
+        }
+        .form-group small { color: var(--muted); font-size: 0.7rem; margin-top: 4px; display: block; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        /* Buttons */
+        .btn { 
+            padding: 14px 24px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 1rem; 
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-green { background: var(--green); color: var(--bg); }
+        .btn-blue { background: var(--blue); color: white; }
+        .btn-red { background: var(--red); color: white; }
+        .btn-sm { padding: 8px 14px; font-size: 0.8rem; }
+        
+        /* Badges */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        .badge.success { background: rgba(16,185,129,0.2); color: var(--green); }
+        .badge.warning { background: rgba(249,115,22,0.2); color: var(--orange); }
+        .badge.danger { background: rgba(239,68,68,0.2); color: var(--red); }
+        .badge.info { background: rgba(139,92,246,0.2); color: var(--purple); }
+        
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .stat-item { text-align: center; padding: 12px 8px; background: var(--bg); border-radius: 8px; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; }
+        .stat-label { font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
+        
+        /* Tables */
+        .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+        th { color: var(--muted); font-size: 0.65rem; text-transform: uppercase; font-weight: 500; }
+        
+        /* Target Comparison */
+        .target-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .target-row:last-child { border-bottom: none; }
+        .target-label { color: var(--muted); font-size: 0.8rem; }
+        .target-value { font-weight: 600; font-size: 0.9rem; }
+        .mini-progress { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+        .mini-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+        
+        /* Milestone */
+        .milestone { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .milestone:last-child { border-bottom: none; }
+        .milestone-amount { font-weight: 600; font-size: 0.95rem; }
+        .milestone-amount.reached { color: var(--green); }
+        .milestone-info { text-align: right; color: var(--muted); font-size: 0.8rem; }
+        
+        /* Alerts */
+        .alert { padding: 14px; border-radius: 10px; margin-bottom: 14px; font-size: 0.85rem; }
+        .alert.warning { background: rgba(249,115,22,0.15); border: 1px solid var(--orange); color: var(--orange); }
+        .alert.success { background: rgba(16,185,129,0.15); border: 1px solid var(--green); color: var(--green); }
+        
+        /* Overnight */
+        .overnight-indicator { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 0.65rem; 
+            background: rgba(139,92,246,0.2); 
+            color: var(--purple); 
+        }
+        
+        /* Divider */
+        .divider { height: 1px; background: var(--border); margin: 16px 0; }
+        
+        /* Toast */
+        .toast { 
+            position: fixed; 
+            bottom: calc(80px + var(--safe-bottom)); 
+            left: 50%; 
+            transform: translateX(-50%) translateY(100px); 
+            padding: 12px 24px; 
+            background: var(--green); 
+            color: var(--bg); 
+            border-radius: 10px; 
+            font-weight: 600; 
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1001;
+            font-size: 0.9rem;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.warning { background: var(--orange); color: white; }
+        
+        /* Tabs Content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Calc Grid */
+        .calc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
+        .calc-item { text-align: center; padding: 14px; background: var(--bg); border-radius: 10px; }
+        .calc-item .value { font-size: 1.15rem; font-weight: 700; }
+        .calc-item .label { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+        
+        h3 { margin-top: 0; margin-bottom: 14px; font-weight: 600; font-size: 1rem; }
+        h4 { font-size: 0.9rem; margin-bottom: 10px; }
+        
+        .hidden { display: none !important; }
+        
+        /* Pull to refresh indicator */
+        .refresh-indicator {
+            position: fixed;
+            top: var(--safe-top);
+            left: 50%;
+            transform: translateX(-50%) translateY(-50px);
+            background: var(--card);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        .refresh-indicator.visible { transform: translateX(-50%) translateY(10px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Trading Tracker Pro</h1>
+            <p>Dynamische Tagesziele • Realisiert & Offen</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="tab-content active">
+            <div id="overnight-alert"></div>
+            
+            <div class="grid grid-2">
+                <div class="card blue">
+                    <div class="card-title">Kontostand</div>
+                    <div class="card-value blue" id="d-balance">-</div>
+                </div>
+                <div class="card green">
+                    <div class="card-title">Tagesziel</div>
+                    <div class="card-value green" id="d-target">-</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="card purple">
+                    <div class="card-title">Offen (unrealisiert)</div>
+                    <div class="card-value purple" id="d-open-pnl">€0,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Zeit bis Ziel</div>
+                    <div class="card-value" id="d-time">-</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Heute vs. Tagesziel</h3>
+                <div class="target-row">
+                    <span class="target-label">Tagesziel</span>
+                    <span class="target-value" id="tc-target">-</span>
+                </div>
+                <div class="target-row">
+                    <div style="flex:1">
+                        <span class="target-label">Realisiert</span>
+                        <div class="mini-progress"><div class="mini-progress-fill" id="tc-realized-bar" style="width:0%; background: var(--green)"></div></div>
+                    </div>
+                    <span class="target-value" style="color: var(--green); margin-left: 12px;" id="tc-realized">€0</span>
+                </div>
+                <div class="target-row">
+                    <div style="flex:1">
+                        <span class="target-label">Offen</span>
+                        <div class="mini-progress"><div class="mini-progress-fill" id="tc-open-bar" style="width:0%; background: var(--purple)"></div></div>
+                    </div>
+                    <span class="target-value" style="color: var(--purple); margin-left: 12px;" id="tc-open">€0</span>
+                </div>
+                <div class="target-row" style="border-top: 2px solid var(--border); margin-top: 8px; padding-top: 12px;">
+                    <div style="flex:1">
+                        <span class="target-label" style="font-weight: 600;">Gesamt</span>
+                        <div class="mini-progress"><div class="mini-progress-fill" id="tc-total-bar" style="width:0%; background: var(--gold)"></div></div>
+                    </div>
+                    <span class="target-value" style="color: var(--gold); margin-left: 12px;" id="tc-total">€0</span>
+                </div>
+                <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--muted); font-size: 0.8rem;">Status (realisiert)</span>
+                    <span id="tc-status" class="badge danger">-</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin-bottom: 0;">Fortschritt</h3>
+                    <span style="color: var(--gold); font-weight: bold; font-size: 0.9rem;" id="d-progress-pct">-</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="d-progress-bar" style="width: 0%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted);">
+                    <span id="d-start">-</span>
+                    <span>→ €1.250.000</span>
+                </div>
+            </div>
+
+            <div class="card" id="stats-card">
+                <h3>📈 Statistiken</h3>
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-item"><div class="stat-value">-</div><div class="stat-label">Tage</div></div>
+                    <div class="stat-item"><div class="stat-value">-</div><div class="stat-label">Gewinnrate</div></div>
+                    <div class="stat-item"><div class="stat-value">-</div><div class="stat-label">Ziel erreicht</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entry -->
+        <div id="entry" class="tab-content">
+            <div class="card">
+                <h3>📝 Tageseintrag</h3>
+                
+                <div class="form-group">
+                    <label>Datum</label>
+                    <input type="date" id="entry-date">
+                </div>
+                
+                <div class="divider"></div>
+                <h4 style="color: var(--green);">💰 Realisiert</h4>
+                
+                <div class="form-group">
+                    <label>Realisierter P/L (€)</label>
+                    <input type="number" id="entry-realized" step="0.01" placeholder="z.B. 150.00" inputmode="decimal">
+                    <small>Geschlossene Trades</small>
+                </div>
+                
+                <div class="divider"></div>
+                <h4 style="color: var(--purple);">📊 Offen</h4>
+                
+                <div class="form-group">
+                    <label>Offener P/L (€)</label>
+                    <input type="number" id="entry-open" step="0.01" placeholder="z.B. 80.00" inputmode="decimal">
+                    <small>Unrealisierte Positionen</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Overnight-Position?</label>
+                    <select id="entry-has-overnight">
+                        <option value="no">Nein</option>
+                        <option value="yes">Ja</option>
+                    </select>
+                </div>
+                
+                <div id="overnight-fields" class="hidden">
+                    <div class="form-group">
+                        <label>Instrument</label>
+                        <input type="text" id="entry-instruments" placeholder="z.B. XAUUSD">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Richtung</label>
+                            <select id="entry-direction">
+                                <option value="long">Long</option>
+                                <option value="short">Short</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lots</label>
+                            <input type="number" id="entry-lots" step="0.01" placeholder="0.5" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Notizen</label>
+                    <textarea id="entry-notes" rows="2" placeholder="Optional..."></textarea>
+                </div>
+                
+                <button class="btn btn-green" onclick="saveEntry()" style="width: 100%;">💾 Speichern</button>
+            </div>
+            
+            <div class="card" style="margin-top: 14px;">
+                <h3>📊 Vorschau</h3>
+                <div class="target-row">
+                    <span class="target-label">Tagesziel</span>
+                    <span class="target-value" id="ep-target">-</span>
+                </div>
+                <div class="target-row">
+                    <span class="target-label">Realisiert</span>
+                    <span class="target-value" style="color: var(--green)" id="ep-realized">€0</span>
+                </div>
+                <div class="target-row">
+                    <span class="target-label">Offen</span>
+                    <span class="target-value" style="color: var(--purple)" id="ep-open">€0</span>
+                </div>
+                <div class="target-row">
+                    <span class="target-label"><strong>Gesamt</strong></span>
+                    <span class="target-value" style="color: var(--gold)" id="ep-total">€0</span>
+                </div>
+                <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+                    <span style="color: var(--muted); font-size: 0.8rem;">Ziel erreicht?</span>
+                    <span id="ep-status" class="badge danger">Nein</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div id="history" class="tab-content">
+            <div class="card">
+                <h3>📅 Historie</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Real.</th>
+                                <th>Offen</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 24px;">Keine Einträge</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 14px;">
+                <h3>📊 Summen</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" style="color: var(--green)" id="h-total-realized">€0</div>
+                        <div class="stat-label">Realisiert</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" style="color: var(--purple)" id="h-total-open">€0</div>
+                        <div class="stat-label">Offen</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" style="color: var(--gold)" id="h-total-combined">€0</div>
+                        <div class="stat-label">Gesamt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Targets -->
+        <div id="targets" class="tab-content">
+            <div class="card">
+                <h3>🎯 Dynamische Ziele</h3>
+                <p style="color: var(--muted); font-size: 0.8rem; margin-bottom: 14px;">
+                    <span id="t-pct">1.03</span>% pro Tag
+                </p>
+                <div class="table-container">
+                    <table id="targets-table">
+                        <thead><tr><th>Kapital</th><th>Tag</th><th>Woche</th><th>1% Risk</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 14px;">
+                <h3>🧮 Rechner</h3>
+                <div class="form-group">
+                    <label>Kontostand</label>
+                    <input type="number" id="calc-balance" step="0.01" inputmode="decimal" oninput="updateCalc()">
+                </div>
+                <div class="calc-grid">
+                    <div class="calc-item"><div class="value" style="color: var(--green)" id="c-target">-</div><div class="label">Tagesziel</div></div>
+                    <div class="calc-item"><div class="value" style="color: var(--blue)" id="c-risk1">-</div><div class="label">1% Risiko</div></div>
+                    <div class="calc-item"><div class="value" style="color: var(--gold)" id="c-risk2">-</div><div class="label">2% Risiko</div></div>
+                    <div class="calc-item"><div class="value" style="color: var(--red)" id="c-stop">-</div><div class="label">Stop 3%</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <h3>⚙️ Einstellungen</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Startkapital</label>
+                        <input type="number" id="s-start" step="0.01" inputmode="decimal" onchange="saveSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>Zielkapital</label>
+                        <input type="number" id="s-target" step="0.01" inputmode="decimal" onchange="saveSettings()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tagesziel %</label>
+                        <input type="number" id="s-daily" step="0.01" inputmode="decimal" onchange="saveSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>Erfolgsquote %</label>
+                        <input type="number" id="s-success" step="0.1" inputmode="decimal" onchange="saveSettings()">
+                    </div>
+                </div>
+                <p style="color: var(--green); margin-top: 8px; font-size: 0.8rem;">✓ Auto-gespeichert</p>
+            </div>
+            
+            <div class="card" style="margin-top: 14px;">
+                <h3>🔧 Kontostand setzen</h3>
+                <div class="form-group">
+                    <label>Neuer Kontostand</label>
+                    <input type="number" id="s-reset-balance" step="0.01" inputmode="decimal" placeholder="z.B. 15000">
+                </div>
+                <button class="btn btn-blue" onclick="resetBalance()" style="width: 100%;">Setzen</button>
+                
+                <div class="divider"></div>
+                
+                <button class="btn btn-red" onclick="clearAllData()" style="width: 100%;">🗑 Alle Daten löschen</button>
+            </div>
+            
+            <div class="card" style="margin-top: 14px;">
+                <h3>📱 App Info</h3>
+                <p style="color: var(--muted); font-size: 0.8rem;">
+                    Trading Tracker Pro v2.0<br>
+                    Daten werden lokal auf deinem Gerät gespeichert.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-tab="dashboard">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-tab="entry">
+            <span class="nav-icon">📝</span>
+            <span>Eintrag</span>
+        </div>
+        <div class="nav-item" data-tab="history">
+            <span class="nav-icon">📅</span>
+            <span>Historie</span>
+        </div>
+        <div class="nav-item" data-tab="targets">
+            <span class="nav-icon">🎯</span>
+            <span>Ziele</span>
+        </div>
+        <div class="nav-item" data-tab="settings">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </div>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== DATA ====================
+        const STORAGE_KEY = 'trading-tracker-pro-v3';
+        let data = {
+            settings: { 
+                startCapital: 14528.23, 
+                targetCapital: 1250000, 
+                dailyTargetPercent: 1.03, 
+                successRate: 75, 
+                lossRatio: 66.67, 
+                tradingDaysPerMonth: 21 
+            },
+            logs: []
+        };
+
+        // ==================== STORAGE ====================
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) data = { ...data, ...JSON.parse(saved) };
+            } catch(e) { console.error('Load error:', e); }
+            updateAll();
+        }
+        
+        function saveData() { 
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); 
+            } catch(e) { console.error('Save error:', e); }
+            updateAll(); 
+        }
+
+        // ==================== FORMATTERS ====================
+        const fmt = v => new Intl.NumberFormat('de-DE', {style:'currency',currency:'EUR'}).format(v);
+        const fmtPct = v => v.toFixed(1) + '%';
+        const fmtPnL = v => (v >= 0 ? '+' : '') + fmt(v);
+
+        // ==================== CALCULATIONS ====================
+        function getRealizedBalance() {
+            return data.settings.startCapital + data.logs.reduce((sum, l) => sum + (l.realizedPnL || 0), 0);
+        }
+        
+        function getCurrentOpenPnL() {
+            if (data.logs.length === 0) return 0;
+            const lastLog = [...data.logs].sort((a,b) => new Date(b.date) - new Date(a.date))[0];
+            return lastLog.openPnL || 0;
+        }
+        
+        function getTotalBalance() { return getRealizedBalance() + getCurrentOpenPnL(); }
+        
+        function getTodaysLog() {
+            const today = new Date().toISOString().split('T')[0];
+            return data.logs.find(l => l.date === today);
+        }
+        
+        function getRealizedBalanceAtDate(date) {
+            const before = data.logs.filter(l => l.date < date);
+            return data.settings.startCapital + before.reduce((s, l) => s + (l.realizedPnL || 0), 0);
+        }
+        
+        const calcTarget = b => b * (data.settings.dailyTargetPercent / 100);
+        
+        const calcMonthlyReturn = () => {
+            const dg = data.settings.dailyTargetPercent / 100;
+            const dl = dg * (data.settings.lossRatio / 100);
+            const sr = data.settings.successRate / 100;
+            return Math.pow(1 + (sr * dg) - ((1-sr) * dl), data.settings.tradingDaysPerMonth) - 1;
+        };
+        
+        const calcMonths = b => { 
+            const mr = calcMonthlyReturn(); 
+            return mr <= 0 ? Infinity : Math.log(data.settings.targetCapital / b) / Math.log(1 + mr); 
+        };
+
+        // ==================== UI ====================
+        function updateAll() {
+            const realizedBal = getRealizedBalance();
+            const openPnL = getCurrentOpenPnL();
+            const totalBal = realizedBal + openPnL;
+            const target = calcTarget(realizedBal);
+            const mr = calcMonthlyReturn();
+            const months = calcMonths(totalBal);
+            const progress = (totalBal / data.settings.targetCapital) * 100;
+            
+            const todaysLog = getTodaysLog();
+            const todayRealized = todaysLog ? todaysLog.realizedPnL : 0;
+            const todayOpen = todaysLog ? todaysLog.openPnL : openPnL;
+            const todayTotal = todayRealized + todayOpen;
+
+            // Dashboard
+            document.getElementById('d-balance').textContent = fmt(totalBal);
+            document.getElementById('d-target').textContent = fmt(target);
+            document.getElementById('d-open-pnl').textContent = fmtPnL(openPnL);
+            document.getElementById('d-time').textContent = Math.round(months) + ' Mo.';
+            document.getElementById('d-progress-pct').textContent = fmtPct(progress);
+            document.getElementById('d-progress-bar').style.width = Math.min(progress, 100) + '%';
+            document.getElementById('d-start').textContent = fmt(data.settings.startCapital);
+
+            // Target comparison
+            document.getElementById('tc-target').textContent = fmt(target);
+            document.getElementById('tc-realized').textContent = fmtPnL(todayRealized);
+            document.getElementById('tc-open').textContent = fmtPnL(todayOpen);
+            document.getElementById('tc-total').textContent = fmtPnL(todayTotal);
+            
+            const realizedPct = target > 0 ? Math.min(Math.max((todayRealized / target) * 100, 0), 150) : 0;
+            const openPct = target > 0 ? Math.min(Math.max((todayOpen / target) * 100, 0), 150) : 0;
+            const totalPct = target > 0 ? Math.min(Math.max((todayTotal / target) * 100, 0), 150) : 0;
+            
+            document.getElementById('tc-realized-bar').style.width = realizedPct + '%';
+            document.getElementById('tc-open-bar').style.width = openPct + '%';
+            document.getElementById('tc-total-bar').style.width = totalPct + '%';
+            
+            const statusEl = document.getElementById('tc-status');
+            if (todayRealized >= target) {
+                statusEl.textContent = '✓ Erreicht';
+                statusEl.className = 'badge success';
+            } else if (todayRealized >= target * 0.5) {
+                statusEl.textContent = Math.round((todayRealized/target)*100) + '%';
+                statusEl.className = 'badge warning';
+            } else {
+                statusEl.textContent = Math.round((todayRealized/target)*100) + '%';
+                statusEl.className = 'badge danger';
+            }
+
+            // Overnight alert
+            const alertEl = document.getElementById('overnight-alert');
+            if (openPnL !== 0) {
+                const lastLog = [...data.logs].sort((a,b) => new Date(b.date) - new Date(a.date))[0];
+                alertEl.innerHTML = `<div class="alert ${openPnL > 0 ? 'success' : 'warning'}">
+                    🌙 <strong>Offen:</strong> ${lastLog?.instruments || 'Position'} mit ${fmtPnL(openPnL)}
+                </div>`;
+            } else {
+                alertEl.innerHTML = '';
+            }
+
+            // Stats
+            if (data.logs.length > 0) {
+                const wins = data.logs.filter(l => (l.realizedPnL || 0) > 0).length;
+                const achieved = data.logs.filter(l => (l.realizedPnL || 0) >= calcTarget(getRealizedBalanceAtDate(l.date))).length;
+                const totalReal = data.logs.reduce((s,l) => s + (l.realizedPnL || 0), 0);
+                
+                document.getElementById('stats-grid').innerHTML = [
+                    [data.logs.length, 'Tage', 'var(--text)'],
+                    [Math.round(wins/data.logs.length*100)+'%', 'Gewinn', 'var(--green)'],
+                    [Math.round(achieved/data.logs.length*100)+'%', 'Ziel', 'var(--gold)'],
+                ].map(([v,l,c])=>`<div class="stat-item"><div class="stat-value" style="color:${c}">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+            }
+
+            // History
+            updateHistory();
+            
+            // Targets
+            document.getElementById('t-pct').textContent = data.settings.dailyTargetPercent;
+            document.querySelector('#targets-table tbody').innerHTML = 
+                [15000,20000,25000,50000,75000,100000,150000,250000,500000,1000000,1250000].map(c =>
+                `<tr style="background:${c<=totalBal?'rgba(16,185,129,0.1)':'transparent'}">
+                    <td style="font-weight:600">${fmt(c)}</td>
+                    <td style="color:var(--green)">${fmt(c*data.settings.dailyTargetPercent/100)}</td>
+                    <td>${fmt(c*data.settings.dailyTargetPercent/100*5)}</td>
+                    <td style="color:var(--blue)">${fmt(c*0.01)}</td>
+                </tr>`).join('');
+
+            // Settings
+            document.getElementById('s-start').value = data.settings.startCapital;
+            document.getElementById('s-target').value = data.settings.targetCapital;
+            document.getElementById('s-daily').value = data.settings.dailyTargetPercent;
+            document.getElementById('s-success').value = data.settings.successRate;
+
+            // Calc
+            document.getElementById('calc-balance').value = realizedBal.toFixed(2);
+            updateCalc();
+            
+            // Entry preview
+            document.getElementById('ep-target').textContent = fmt(target);
+            updateEntryPreview();
+        }
+
+        function updateHistory() {
+            const tbody = document.getElementById('history-body');
+            if (data.logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Keine Einträge</td></tr>';
+                document.getElementById('h-total-realized').textContent = '€0';
+                document.getElementById('h-total-open').textContent = '€0';
+                document.getElementById('h-total-combined').textContent = '€0';
+                return;
+            }
+            
+            const sorted = [...data.logs].sort((a,b) => new Date(b.date) - new Date(a.date));
+            tbody.innerHTML = sorted.map(l => {
+                const t = calcTarget(getRealizedBalanceAtDate(l.date));
+                const r = l.realizedPnL || 0;
+                const o = l.openPnL || 0;
+                const ok = r >= t;
+                return `<tr>
+                    <td>${new Date(l.date).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</td>
+                    <td style="color:${r>=0?'var(--green)':'var(--red)'}">${fmtPnL(r)}</td>
+                    <td style="color:var(--purple)">${o!==0?fmtPnL(o):'-'}</td>
+                    <td><span class="badge ${ok?'success':'danger'}">${ok?'✓':'✗'}</span></td>
+                    <td><button class="btn btn-red btn-sm" onclick="deleteLog('${l.date}')" style="padding:4px 8px">🗑</button></td>
+                </tr>`;
+            }).join('');
+            
+            const totalR = data.logs.reduce((s,l) => s + (l.realizedPnL || 0), 0);
+            const lastOpen = sorted[0]?.openPnL || 0;
+            document.getElementById('h-total-realized').textContent = fmt(totalR);
+            document.getElementById('h-total-open').textContent = fmt(lastOpen);
+            document.getElementById('h-total-combined').textContent = fmt(totalR + lastOpen);
+        }
+
+        function updateCalc() {
+            const b = parseFloat(document.getElementById('calc-balance').value) || 0;
+            document.getElementById('c-target').textContent = fmt(b * data.settings.dailyTargetPercent / 100);
+            document.getElementById('c-risk1').textContent = fmt(b * 0.01);
+            document.getElementById('c-risk2').textContent = fmt(b * 0.02);
+            document.getElementById('c-stop').textContent = fmt(b * 0.03);
+        }
+        
+        function updateEntryPreview() {
+            const r = parseFloat(document.getElementById('entry-realized').value) || 0;
+            const o = parseFloat(document.getElementById('entry-open').value) || 0;
+            const total = r + o;
+            const target = calcTarget(getRealizedBalance());
+            
+            document.getElementById('ep-realized').textContent = fmtPnL(r);
+            document.getElementById('ep-realized').style.color = r >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('ep-open').textContent = fmtPnL(o);
+            document.getElementById('ep-total').textContent = fmtPnL(total);
+            document.getElementById('ep-total').style.color = total >= 0 ? 'var(--gold)' : 'var(--red)';
+            
+            const status = document.getElementById('ep-status');
+            if (r >= target) {
+                status.textContent = '✓ Ja';
+                status.className = 'badge success';
+            } else {
+                status.textContent = '✗ ' + Math.round((r/target)*100) + '%';
+                status.className = 'badge danger';
+            }
+        }
+
+        // ==================== ACTIONS ====================
+        function saveEntry() {
+            const date = document.getElementById('entry-date').value;
+            const realized = parseFloat(document.getElementById('entry-realized').value) || 0;
+            const open = parseFloat(document.getElementById('entry-open').value) || 0;
+            const hasOvernight = document.getElementById('entry-has-overnight').value === 'yes';
+            
+            const idx = data.logs.findIndex(l => l.date === date);
+            const entry = {
+                date,
+                realizedPnL: realized,
+                openPnL: open,
+                hasOvernight,
+                instruments: hasOvernight ? document.getElementById('entry-instruments').value : '',
+                direction: hasOvernight ? document.getElementById('entry-direction').value : '',
+                lots: hasOvernight ? parseFloat(document.getElementById('entry-lots').value) || 0 : 0,
+                notes: document.getElementById('entry-notes').value
+            };
+            
+            if (idx >= 0) {
+                data.logs[idx] = entry;
+                showToast('✓ Aktualisiert!');
+            } else {
+                data.logs.push(entry);
+                showToast('✓ Gespeichert!');
+            }
+            
+            saveData();
+            document.getElementById('entry-realized').value = '';
+            document.getElementById('entry-open').value = '';
+            document.getElementById('entry-notes').value = '';
+            document.getElementById('entry-has-overnight').value = 'no';
+            document.getElementById('overnight-fields').classList.add('hidden');
+        }
+
+        function deleteLog(date) {
+            if (!confirm('Löschen?')) return;
+            data.logs = data.logs.filter(l => l.date !== date);
+            saveData();
+            showToast('Gelöscht');
+        }
+
+        function saveSettings() {
+            data.settings.startCapital = parseFloat(document.getElementById('s-start').value) || 14528.23;
+            data.settings.targetCapital = parseFloat(document.getElementById('s-target').value) || 1250000;
+            data.settings.dailyTargetPercent = parseFloat(document.getElementById('s-daily').value) || 1.03;
+            data.settings.successRate = parseFloat(document.getElementById('s-success').value) || 75;
+            saveData();
+        }
+        
+        function resetBalance() {
+            const val = parseFloat(document.getElementById('s-reset-balance').value);
+            if (!val) return;
+            if (!confirm('Kontostand auf ' + fmt(val) + ' setzen?')) return;
+            data.settings.startCapital = val;
+            data.logs = [];
+            saveData();
+            showToast('✓ Zurückgesetzt');
+        }
+        
+        function clearAllData() {
+            if (!confirm('ALLE Daten löschen?')) return;
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        }
+
+        function showToast(msg, isWarning = false) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (isWarning ? ' warning' : '');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // ==================== EVENTS ====================
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                item.classList.add('active');
+                document.getElementById(item.dataset.tab).classList.add('active');
+            });
+        });
+        
+        document.getElementById('entry-has-overnight').addEventListener('change', function() {
+            document.getElementById('overnight-fields').classList.toggle('hidden', this.value === 'no');
+        });
+        
+        ['entry-realized', 'entry-open'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateEntryPreview);
+        });
+
+        // ==================== INIT ====================
+        document.getElementById('entry-date').valueAsDate = new Date();
+        loadData();
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(e => console.log('SW error:', e));
+        }
+    </script>
+</body>
+</html>
