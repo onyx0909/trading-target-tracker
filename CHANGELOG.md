@@ -1,14 +1,18 @@
 # Changelog
 
-## [3.4.1] - 2026-01-19 - UX Verbesserungen
+## [3.5.0] - 2026-01-20 - Kreisdiagramme & UX Verbesserungen
 
 ### ✨ Neue Features
 
-**Heutiger Fortschritt auf Dashboard**
-- Tagesziel mit Fortschrittsbalken
-- Zeigt realisiertes P/L vs. Ziel
-- Farbliche Abstufung (blau → gold → grün)
-- "Noch X bis zum Ziel" Anzeige
+**Kreisdiagramme auf Dashboard**
+- Heutiger Fortschritt als Kreisdiagramm
+- Buffer/Reserve als Kreisdiagramm
+- Farbliche Abstufung je nach Fortschritt
+- Übersichtlichere Darstellung
+
+**Tagesziel Morgen**
+- Zeigt das voraussichtliche Tagesziel für morgen
+- Berechnet basierend auf aktuellem Kontostand + heutigem Ziel
 
 **Position löschen - Hinweis**
 - Zeigt P/L der Position beim Löschen
@@ -25,11 +29,6 @@
 - Jetzt: Exponentielle Berechnung mit Zinseszins-Effekt
 - Formel: `Tage = log(Ziel/Aktuell) / log(1+Rate)`
 
-**Neue Dashboard-Anzeige**
-- Heutiges Tagesziel angezeigt
-- Ca. Jahre zusätzlich zu Monaten
-- Fortschritt zum Gesamtziel
-
 ---
 
 ## [3.3.5] - 2026-01-19 - Phase 2 Complete: Cloud-Sync
@@ -43,12 +42,10 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 **Onboarding**
 - Setup-Dialog bei Erstregistrierung
 - Anfangskapital, Zielkapital, Startdatum eingeben
-- Live-Berechnung der geschätzten Dauer
 
 **Branding**
 - Neues Logo (Military Scope + Candlesticks)
 - Icons in allen Größen (16px - 512px)
-- Dark/Light Varianten
 
 **Cloud-Sync (komplett)**
 - Profile/Settings synchronisiert
@@ -57,17 +54,10 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 - Tageseinträge synchronisiert
 - Buffer & Buffer History synchronisiert
 
-#### 🔧 Bug Fixes
-
-- Profil-Duplikate bei Registrierung behoben
-- Position-Sync korrigiert (DELETE + INSERT)
-- Buffer History wird jetzt gespeichert
-- RLS Policies für alle Tabellen optimiert
-
 #### ⚠️ Bekannte Probleme
 
-- Einige Browser-Erweiterungen (Passwort-Manager, AdBlocker) können Sync blockieren
-- **Lösung:** Inkognito-Modus oder Erweiterung für diese Seite deaktivieren
+- Einige Browser-Erweiterungen können Sync blockieren
+- **Lösung:** Inkognito-Modus verwenden
 
 ---
 
@@ -85,11 +75,11 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 
 ## Roadmap
 
-### Phase 3 - UX Polish ✅ In Arbeit
+### Phase 3 - UX Polish ✅ Abgeschlossen
+- [x] Kreisdiagramme
 - [x] Tagesziel-Fortschritt auf Dashboard
 - [x] Position-Löschen Hinweis
-- [ ] Loading States
-- [ ] Bessere Fehlerbehandlung
+- [x] Tagesziel morgen Anzeige
 
 ### Phase 4 - i18n (Internationalisierung)
 - [ ] Deutsch (DE) ✓ Basis
