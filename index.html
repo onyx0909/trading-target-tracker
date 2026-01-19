@@ -408,7 +408,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.3.2';
+        const VERSION = '3.3.3';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -565,8 +565,10 @@
                     trading_days_per_week: localData.settings?.tradingDaysPerWeek,
                     buffer_enabled: localData.buffer?.settings?.enabled,
                     buffer_max_days: localData.buffer?.settings?.maxBufferDays,
-                    buffer_current: localData.buffer?.currentBuffer || 0
-                });
+                    buffer_current: localData.buffer?.currentBuffer || 0,
+                    start_date: localData.settings?.startDate,
+                    onboarding_complete: localData.settings?.onboardingComplete
+                }, { onConflict: 'id' });
                 if (profileError) console.error('Profile error:', profileError);
                 
                 // 2. Instrumente migrieren
@@ -819,20 +821,17 @@
         async function loadUserData() {
             if (!currentUser) { loadLocalData(); return; }
             try {
-                // Profile laden (ohne .single() um 406 zu vermeiden)
+                // Profile laden - wird automatisch vom Trigger erstellt
                 const { data: profiles, error: profileError } = await db.from('profiles').select('*').eq('id', currentUser.id);
                 const profile = profiles && profiles.length > 0 ? profiles[0] : null;
                 
                 if (profile) {
-                    data.settings = { accountCurrency: profile.account_currency||'EUR', broker: profile.broker||'IBKR', startCapital: parseFloat(profile.start_capital)||10000, currentBalance: parseFloat(profile.current_balance)||10000, targetCapital: parseFloat(profile.target_capital)||1000000, dailyTargetPercent: parseFloat(profile.daily_target_percent)||1.03, riskPerTradePercent: parseFloat(profile.risk_per_trade_percent)||2.0, maxDailyLossPercent: parseFloat(profile.max_daily_loss_percent)||3.0, rrRatio: parseFloat(profile.rr_ratio)||2, tradingDaysPerWeek: profile.trading_days_per_week||5, weekStartDay: 1 };
+                    data.settings = { accountCurrency: profile.account_currency||'EUR', broker: profile.broker||'IBKR', startCapital: parseFloat(profile.start_capital)||0, currentBalance: parseFloat(profile.current_balance)||0, targetCapital: parseFloat(profile.target_capital)||0, dailyTargetPercent: parseFloat(profile.daily_target_percent)||1.03, riskPerTradePercent: parseFloat(profile.risk_per_trade_percent)||2.0, maxDailyLossPercent: parseFloat(profile.max_daily_loss_percent)||3.0, rrRatio: parseFloat(profile.rr_ratio)||2, tradingDaysPerWeek: profile.trading_days_per_week||5, weekStartDay: 1, startDate: profile.start_date, onboardingComplete: profile.onboarding_complete || false };
                     data.buffer.settings.enabled = profile.buffer_enabled !== false;
                     data.buffer.settings.maxBufferDays = profile.buffer_max_days || 10;
                     data.buffer.currentBuffer = parseFloat(profile.buffer_current) || 0;
-                } else {
-                    // Profil existiert nicht - erstellen
-                    console.log('Creating new profile for user');
-                    await db.from('profiles').insert({ id: currentUser.id, email: currentUser.email });
                 }
+                // Kein INSERT hier - Trigger erstellt das Profil automatisch
                 
                 const { data: instruments } = await db.from('instruments').select('*').eq('user_id', currentUser.id);
                 if (instruments) instruments.forEach(i => { data.instruments[i.symbol.toLowerCase()] = { id: i.symbol.toLowerCase(), symbol: i.symbol, name: i.name, icon: i.icon, color: i.color, priceDecimals: i.price_decimals, calculationType: i.calculation_type, plFactor: i.pl_factor ? parseFloat(i.pl_factor) : null, standardSize: parseFloat(i.standard_size)||1, isCalibrated: i.is_calibrated, lastCalibrated: i.last_calibrated, calibrationData: i.calibration_data }; });
@@ -850,7 +849,7 @@
             if (!currentUser || !isOnline) return;
             updateSyncStatus('syncing');
             try {
-                await db.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, account_currency: data.settings.accountCurrency, broker: data.settings.broker, start_capital: data.settings.startCapital, current_balance: data.settings.currentBalance, target_capital: data.settings.targetCapital, daily_target_percent: data.settings.dailyTargetPercent, risk_per_trade_percent: data.settings.riskPerTradePercent, max_daily_loss_percent: data.settings.maxDailyLossPercent, rr_ratio: data.settings.rrRatio, trading_days_per_week: data.settings.tradingDaysPerWeek, buffer_enabled: data.buffer.settings.enabled, buffer_max_days: data.buffer.settings.maxBufferDays, buffer_current: data.buffer.currentBuffer });
+                await db.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, account_currency: data.settings.accountCurrency, broker: data.settings.broker, start_capital: data.settings.startCapital, current_balance: data.settings.currentBalance, target_capital: data.settings.targetCapital, daily_target_percent: data.settings.dailyTargetPercent, risk_per_trade_percent: data.settings.riskPerTradePercent, max_daily_loss_percent: data.settings.maxDailyLossPercent, rr_ratio: data.settings.rrRatio, trading_days_per_week: data.settings.tradingDaysPerWeek, buffer_enabled: data.buffer.settings.enabled, buffer_max_days: data.buffer.settings.maxBufferDays, buffer_current: data.buffer.currentBuffer, start_date: data.settings.startDate, onboarding_complete: data.settings.onboardingComplete }, { onConflict: 'id' });
                 for (const [id, inst] of Object.entries(data.instruments)) {
                     if (inst.isCalibrated) await db.from('instruments').upsert({ user_id: currentUser.id, symbol: inst.symbol, name: inst.name, asset_class: 'metal', icon: inst.icon, color: inst.color, price_decimals: inst.priceDecimals, calculation_type: inst.calculationType, pl_factor: inst.plFactor, standard_size: inst.standardSize, is_calibrated: inst.isCalibrated, last_calibrated: inst.lastCalibrated, calibration_data: inst.calibrationData }, { onConflict: 'user_id,symbol' });
                 }
