@@ -408,7 +408,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.3.4';
+        const VERSION = '3.3.5';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -894,14 +894,17 @@
                         is_active: pos.active !== false, 
                         open_date: pos.openDate 
                     };
+                    console.log('Position data to insert:', posData);
                     // Erst löschen, dann neu einfügen (vermeidet Duplikate)
                     console.log('Deleting position:', pos.id);
-                    const { error: delError } = await db.from('positions').delete().eq('id', pos.id);
-                    if (delError) console.log('Delete result:', delError);
-                    console.log('Inserting position:', pos.id);
-                    const { error } = await db.from('positions').insert(posData);
-                    if (error) console.error('Position sync error:', error);
-                    else console.log('Position inserted successfully');
+                    await db.from('positions').delete().eq('id', pos.id);
+                    console.log('Inserting position...');
+                    const { data: insertedData, error } = await db.from('positions').insert(posData).select();
+                    if (error) {
+                        console.error('Position INSERT error:', error);
+                    } else {
+                        console.log('Position inserted successfully:', insertedData);
+                    }
                 }
             } catch (e) { console.error('Position sync error:', e); }
         }
