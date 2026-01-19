@@ -408,7 +408,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.3.3';
+        const VERSION = '3.3.4';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -552,9 +552,7 @@
                 
                 // 1. Profile/Settings migrieren (inkl. Buffer)
                 console.log('Migrating buffer:', localData.buffer?.currentBuffer);
-                const { error: profileError } = await db.from('profiles').upsert({
-                    id: currentUser.id,
-                    email: currentUser.email,
+                const { error: profileError } = await db.from('profiles').update({
                     start_capital: localData.settings?.startCapital,
                     current_balance: localData.settings?.currentBalance,
                     target_capital: localData.settings?.targetCapital,
@@ -568,7 +566,7 @@
                     buffer_current: localData.buffer?.currentBuffer || 0,
                     start_date: localData.settings?.startDate,
                     onboarding_complete: localData.settings?.onboardingComplete
-                }, { onConflict: 'id' });
+                }).eq('id', currentUser.id);
                 if (profileError) console.error('Profile error:', profileError);
                 
                 // 2. Instrumente migrieren
@@ -849,7 +847,25 @@
             if (!currentUser || !isOnline) return;
             updateSyncStatus('syncing');
             try {
-                await db.from('profiles').upsert({ id: currentUser.id, email: currentUser.email, account_currency: data.settings.accountCurrency, broker: data.settings.broker, start_capital: data.settings.startCapital, current_balance: data.settings.currentBalance, target_capital: data.settings.targetCapital, daily_target_percent: data.settings.dailyTargetPercent, risk_per_trade_percent: data.settings.riskPerTradePercent, max_daily_loss_percent: data.settings.maxDailyLossPercent, rr_ratio: data.settings.rrRatio, trading_days_per_week: data.settings.tradingDaysPerWeek, buffer_enabled: data.buffer.settings.enabled, buffer_max_days: data.buffer.settings.maxBufferDays, buffer_current: data.buffer.currentBuffer, start_date: data.settings.startDate, onboarding_complete: data.settings.onboardingComplete }, { onConflict: 'id' });
+                const { error: profileError } = await db.from('profiles').update({ 
+                    email: currentUser.email, 
+                    account_currency: data.settings.accountCurrency, 
+                    broker: data.settings.broker, 
+                    start_capital: data.settings.startCapital, 
+                    current_balance: data.settings.currentBalance, 
+                    target_capital: data.settings.targetCapital, 
+                    daily_target_percent: data.settings.dailyTargetPercent, 
+                    risk_per_trade_percent: data.settings.riskPerTradePercent, 
+                    max_daily_loss_percent: data.settings.maxDailyLossPercent, 
+                    rr_ratio: data.settings.rrRatio, 
+                    trading_days_per_week: data.settings.tradingDaysPerWeek, 
+                    buffer_enabled: data.buffer.settings.enabled, 
+                    buffer_max_days: data.buffer.settings.maxBufferDays, 
+                    buffer_current: data.buffer.currentBuffer, 
+                    start_date: data.settings.startDate, 
+                    onboarding_complete: data.settings.onboardingComplete 
+                }).eq('id', currentUser.id);
+                if (profileError) console.error('Profile sync error:', profileError);
                 for (const [id, inst] of Object.entries(data.instruments)) {
                     if (inst.isCalibrated) await db.from('instruments').upsert({ user_id: currentUser.id, symbol: inst.symbol, name: inst.name, asset_class: 'metal', icon: inst.icon, color: inst.color, price_decimals: inst.priceDecimals, calculation_type: inst.calculationType, pl_factor: inst.plFactor, standard_size: inst.standardSize, is_calibrated: inst.isCalibrated, last_calibrated: inst.lastCalibrated, calibration_data: inst.calibrationData }, { onConflict: 'user_id,symbol' });
                 }
