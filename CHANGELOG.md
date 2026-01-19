@@ -1,52 +1,64 @@
 # Changelog
 
-Alle wichtigen Änderungen werden hier dokumentiert.
+## [3.1.0] - 2026-01-19 - Phase 2: Cloud-Sync
 
-Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
+### 🚀 Neu: Supabase Cloud-Sync
+
+Diese Version fügt vollständige Cloud-Synchronisation hinzu!
+
+#### ✨ Features
+
+**Authentication**
+- Email/Passwort Anmeldung
+- Google Sign-In (OAuth)
+- Automatische Session-Verwaltung
+- Offline-Modus weiterhin verfügbar
+
+**Cloud-Sync**
+- Echtzeit-Synchronisation aller Daten
+- Profile/Settings werden in der Cloud gespeichert
+- Daily Logs automatisch synchronisiert
+- Instrumente und Kalibrierungen gespeichert
+- Positionen synchronisiert
+
+**Offline-First**
+- App funktioniert ohne Internet
+- Lokale Datenspeicherung als Backup
+- Automatischer Sync wenn online
+- Sync-Status Anzeige im Header
+
+**UI-Verbesserungen**
+- Login/Register Screen
+- User Badge im Header
+- Sync-Status Indikator (grün/orange/blau)
+- Cloud-Sync Karte in Settings
+
+#### 📦 Neue Dateien
+
+- `supabase-schema.sql` - Datenbank-Schema für Supabase
+
+#### 🔧 Technisch
+
+- Supabase Client integriert
+- Row Level Security (RLS) für Datenisolation
+- Automatische Profil-Erstellung bei Signup
+- Conflict Resolution bei Sync
 
 ---
 
-## [2.0.0] - 2026-01-18
-
-### ✨ Hinzugefügt
-- **Realisiert vs. Offen P/L**: Separate Erfassung von geschlossenen und offenen Trades
-- **Overnight-Position Tracking**: Erfassung von Overnight-Positionen mit Instrument, Richtung und Lots
-- **Live-Vorschau**: Echtzeit-Berechnung beim Eintragen
-- **Bottom Navigation**: Mobile-optimierte Tab-Navigation
-- **Safe Area Support**: Optimiert für iPhone Notch/Home-Indicator
-- **Erweiterte Statistiken**: Separate Quoten für realisiert vs. gesamt
-
-### 🔄 Geändert
-- Komplettes UI-Redesign für Mobile-First
-- Tagesziel-Status basiert auf **realisiertem** P/L (nicht gesamt)
-- Verbesserte Farbgebung und Kontraste
-- Optimierte Touch-Targets
+## [3.0.1] - 2026-01-19
 
 ### 🐛 Behoben
-- iOS Safari: Kein Zoom mehr bei Input-Fokus
-- Überscroll-Verhalten auf iOS
-- Service Worker Caching-Probleme
+- Datums-Anzeige korrigiert (Zeitzonenproblem)
 
 ---
 
-## [1.0.0] - 2026-01-17
+## [3.0.0] - 2026-01-18 - Phase 1
 
-### ✨ Hinzugefügt
-- Initiale Version
-- Dynamische Tagesziele basierend auf Kapital
-- Compound-Wachstum Berechnung
-- Meilenstein-Tracking
-- Lokale Datenspeicherung (localStorage)
-- PWA-Grundfunktionen
-
----
-
-## Geplant
-
-### [2.1.0]
-- Export/Import (JSON/CSV)
-- Erweiterte Statistiken
-
-### [2.2.0]
-- Multi-Account Support
-- Charts
+### 🚀 Major Release
+- Multi-Asset System mit Instrument-Bibliothek
+- Buffer/Reserve-System
+- Wochen-Tracking mit Fortschrittsanzeige
+- Smart Recommendations
+- Performance-Varianz Tracking
+- Export/Import JSON

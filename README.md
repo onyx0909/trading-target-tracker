@@ -1,150 +1,220 @@
-# 🎯 Trading Target Tracker Pro
+# 🎯 Trading Tracker Pro
 
-Eine Progressive Web App (PWA) für dynamische Trading-Tagesziele mit Compound-Wachstum und vollständigem P/L-Tracking.
+**Multi-Asset Portfolio & Risk Management PWA**
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![PWA](https://img.shields.io/badge/PWA-ready-purple.svg)
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-lightgrey.svg)
+Eine professionelle Trading-App für Retail Trader zur Verwaltung von dynamischen Tageszielen, Stop/Limit-Berechnung und Performance-Tracking.
+
+![Version](https://img.shields.io/badge/version-3.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-PWA-orange)
 
 ---
 
 ## ✨ Features
 
-### 📊 Dynamische Tagesziele
-- Tagesziele skalieren automatisch mit dem Kontostand
-- Basierend auf prozentualem Tages-Renditeziel (Standard: 1,03%)
-- Compound-Wachstum-Berechnung
+### 📊 Dashboard
+- Kontostand und Tages-P/L auf einen Blick
+- Wochenübersicht mit Fortschrittsanzeige
+- Smart Recommendations (proaktive Empfehlungen)
+- Buffer/Reserve-System mit Auto-Use bei Verlusten
+- Offene Positionen Übersicht
 
-### 💰 Realisiert vs. Offen P/L
-- Separate Erfassung von realisierten und unrealisierten Gewinnen/Verlusten
-- Klare Unterscheidung: Nur realisierte Gewinne zählen für das Tagesziel
-- Overnight-Position-Tracking mit Instrumenten-Details
+### 📍 Positionen
+- Multi-Instrument Support (Edelmetalle, später Aktien & Forex)
+- Automatische Stop-Loss und Take-Profit Berechnung
+- P/L pro $1 Bewegung
+- Quick Copy für Order-Eingabe
 
-### 📈 Umfassende Statistiken
-- Gewinnrate und Ziel-Erreichungsrate
-- Historische Performance-Übersicht
-- Fortschritts-Tracking zum Endziel
-- Meilenstein-Übersicht
+### 🔧 Kalibrierung
+- Individuelle Faktor-Kalibrierung pro Instrument
+- IBKR-kompatibel (Interactive Brokers)
+- Exakte P/L-Berechnung durch Broker-Daten
 
-### 📱 Mobile-First Design
-- Optimiert für iPad, iPhone und Android
-- Vollbild-App-Modus (keine Browser-Leiste)
-- Offline-Funktionalität
-- Touch-optimierte Bottom-Navigation
+### 📈 Performance
+- Wochen- und Monatsstatistiken
+- Ziel-Projektion
+- Erfolgsquote und Durchschnitts-P/L
 
----
+### 🏦 Buffer-System
+- Automatisches Sammeln von Überschüssen
+- Auto-Use bei Verlusttagen
+- Konfigurierbares Maximum (in Tagen)
 
-## 🚀 Quick Start
-
-### Option 1: GitHub Pages (empfohlen)
-
-1. **Fork** dieses Repository
-2. Gehe zu **Settings → Pages**
-3. Wähle **Source: "Deploy from a branch"**
-4. Wähle **Branch: "main"** und **Folder: "/ (root)"**
-5. Klicke **Save**
-6. Deine App ist in ~2 Minuten verfügbar unter:
-   ```
-   https://DEIN-USERNAME.github.io/trading-target-tracker/
-   ```
-
-### Option 2: Lokal nutzen
-
-Einfach `index.html` im Browser öffnen - fertig!
+### 💾 Backup & Restore
+- JSON Export/Import
+- Plattformübergreifende Datenübertragung
 
 ---
 
-## 📱 Installation auf Mobilgeräten
+## 🚀 Installation
 
-### iOS (iPhone/iPad)
+### Als PWA (Progressive Web App)
 
-1. Öffne die App-URL in **Safari**
-2. Tippe auf das **Teilen-Symbol** (⬆️)
-3. Wähle **"Zum Home-Bildschirm"**
-4. Bestätige mit **"Hinzufügen"**
+#### Desktop (Chrome/Edge)
+1. Öffne die App im Browser
+2. Klicke auf das Install-Icon in der Adressleiste
+3. "Installieren" bestätigen
 
-### Android
+#### iPad/iPhone (Safari)
+1. Öffne die App in Safari
+2. Tippe auf "Teilen" (⬆️)
+3. Wähle "Zum Home-Bildschirm"
+4. "Hinzufügen" bestätigen
 
-1. Öffne die App-URL in **Chrome**
-2. Tippe auf das **Menü** (⋮)
-3. Wähle **"Zum Startbildschirm hinzufügen"**
+#### Android (Chrome)
+1. Öffne die App in Chrome
+2. Tippe auf das Menü (⋮)
+3. Wähle "App installieren"
 
----
+### Selbst hosten
 
-## 📖 Täglicher Workflow
+```bash
+# Repository klonen
+git clone https://github.com/DEIN-USERNAME/trading-tracker-pro.git
 
-### Morgens
-- Dashboard öffnen → Tagesziel sehen
-- Bei offenen Positionen: Overnight-Warning beachten
+# In den Ordner wechseln
+cd trading-tracker-pro
 
-### Abends
-1. Gehe zu **"Eintrag"**
-2. Trage ein:
-   - **Realisierter P/L**: Alle geschlossenen Trades
-   - **Offener P/L**: Unrealisierte Positionen
-   - **Overnight**: Falls Positionen gehalten werden
-3. **Speichern**
+# Mit beliebigem Webserver starten
+# Beispiel mit Python:
+python -m http.server 8000
 
----
-
-## ⚙️ Standard-Einstellungen
-
-| Parameter | Standardwert | Beschreibung |
-|-----------|--------------|--------------|
-| Startkapital | €14.528 | Dein Anfangskapital |
-| Zielkapital | €1.250.000 | Dein Endziel |
-| Tagesziel | 1,03% | Tägliche Rendite-Erwartung |
-| Erfolgsquote | 75% | Erwartete Gewinn-Tage |
-
-Alle Werte können in **Settings** angepasst werden.
-
----
-
-## 🔧 Technische Details
-
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6+)
-- **Storage**: localStorage (100% lokal)
-- **PWA**: Service Worker für Offline-Support
-- **Keine Abhängigkeiten**: Läuft standalone
-
-### Datenschutz
-- ✅ Keine Cloud-Synchronisation
-- ✅ Keine Datenübertragung
-- ✅ Keine Tracking/Analytics
-- ✅ Alle Daten bleiben auf deinem Gerät
-
----
-
-## 📁 Projektstruktur
-
+# Oder mit Node.js:
+npx serve
 ```
-trading-target-tracker/
-├── index.html          # Hauptanwendung
-├── manifest.json       # PWA-Konfiguration
-├── sw.js              # Service Worker
-├── icon-192.png       # App-Icon (192x192)
-├── icon-512.png       # App-Icon (512x512)
-├── README.md          # Diese Datei
-├── LICENSE            # MIT-Lizenz
-└── CHANGELOG.md       # Versionshistorie
+
+---
+
+## 📱 Screenshots
+
+### Dashboard
 ```
+┌─────────────────────────────────────────┐
+│  🎯 Trading Tracker Pro                 │
+├─────────────────────────────────────────┤
+│  €15.365  │  +€841   │  112%  │  €691   │
+│  Konto    │  Heute   │  Woche │  Reserve│
+├─────────────────────────────────────────┤
+│  💡 EMPFEHLUNGEN                        │
+│  🎯 Wochenziel erreicht!                │
+├─────────────────────────────────────────┤
+│  📅 DIESE WOCHE (KW 03)                 │
+│  Mo   Di   Mi   Do   Fr                 │
+│ +841   -    -    -    -                 │
+│  [████████████████░░░░] 112%            │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## ⚙️ Konfiguration
+
+### Grundeinstellungen
+
+| Einstellung | Beschreibung | Standard |
+|-------------|--------------|----------|
+| Tagesziel | Prozent vom Kontostand | 1.03% |
+| Risiko/Trade | Max. Risiko pro Trade | 2.0% |
+| Max. Tagesverlust | Stopp-Trading Limit | 3.0% |
+| Risk:Reward | Verhältnis | 1:2 |
+
+### Buffer-System
+
+| Einstellung | Beschreibung | Standard |
+|-------------|--------------|----------|
+| Aktiviert | Buffer-System nutzen | Ja |
+| Auto-Use | Bei Verlust automatisch nutzen | Ja |
+| Max. Buffer | Maximum in Tagen | 10 |
+
+---
+
+## 📊 Unterstützte Instrumente
+
+### Phase 1 (Aktuell)
+- 🥇 XAUUSD (Gold)
+- 🥈 XAGUSD (Silber)
+- ⚪ XPTUSD (Platin)
+- 🔘 XPDUSD (Palladium)
+
+### Phase 3 (Geplant)
+- 📈 Aktien (US, EU)
+- 💱 Forex (Majors, Crosses)
+
+---
+
+## 🔧 Kalibrierung
+
+Die App verwendet individuelle Faktoren pro Instrument für exakte P/L-Berechnung.
+
+### So kalibrierst du:
+
+1. Öffne den Tab **🎸 Instrumente**
+2. Klicke auf das gewünschte Instrument
+3. Gib die Werte aus deinem Broker-Screenshot ein:
+   - Position Size
+   - Average Price
+   - Current Price
+   - Unrealisierter P/L (€)
+4. Klicke **Faktor speichern**
+
+### Formel
+```
+Faktor = P/L (€) ÷ (Preisdifferenz × Position Size)
+```
+
+### Beispiel XAUUSD
+```
+P/L = 18€
+Preisdiff = 1.065$ (4595.68 - 4594.615)
+Size = 10
+
+Faktor = 18 ÷ (1.065 × 10) = 1.69 EUR/Einheit/$1
+```
+
+---
+
+## 💾 Datenstruktur
+
+Die App speichert alle Daten lokal im Browser (LocalStorage).
+
+```javascript
+{
+  version: "3.0.0",
+  settings: { ... },
+  instruments: { ... },
+  positions: [ ... ],
+  dailyLogs: [ ... ],
+  buffer: { ... }
+}
+```
+
+### Backup erstellen
+1. Gehe zu **⚙️ Settings**
+2. Klicke **📤 Daten exportieren**
+3. JSON-Datei wird heruntergeladen
+
+### Backup wiederherstellen
+1. Gehe zu **⚙️ Settings**
+2. Klicke **📥 Daten importieren**
+3. Wähle die JSON-Backup-Datei
 
 ---
 
 ## 🛣️ Roadmap
 
-### v2.1 (geplant)
-- [ ] Export/Import von Daten (JSON/CSV)
-- [ ] Erweiterte Statistiken
+- [x] Phase 1: Multi-Asset Basis, Buffer-System, Recommendations
+- [ ] Phase 2: Cloud-Sync (Supabase)
+- [ ] Phase 3: Aktien & Forex Support
+- [ ] Phase 4: Dark/Light Mode, Animationen
+- [ ] Phase 5: Mehrsprachigkeit (DE/EN/ES)
+- [ ] Phase 6: Premium Features & Monetarisierung
+- [ ] Phase 7: IBKR API Integration
 
-### v2.2 (geplant)
-- [ ] Multi-Account Support
-- [ ] Chart-Visualisierungen
+---
 
-### v3.0 (Zukunft)
-- [ ] Optionale Cloud-Sync
-- [ ] Broker-API Integration
+## 🤝 Contributing
+
+Beiträge sind willkommen! Bitte erstelle einen Pull Request oder öffne ein Issue.
 
 ---
 
@@ -156,8 +226,16 @@ MIT License - siehe [LICENSE](LICENSE)
 
 ## ⚠️ Disclaimer
 
-Diese App dient zu **Tracking-Zwecken** und stellt keine Finanzberatung dar. Trading birgt erhebliche Risiken.
+**Trading Tracker Pro ist ein Tool zur Organisation und Verwaltung von Trading-Aktivitäten. Es stellt keine Anlageberatung dar.**
+
+Der Handel mit Finanzinstrumenten birgt erhebliche Risiken und kann zum Verlust des eingesetzten Kapitals führen. Vergangene Performance ist keine Garantie für zukünftige Ergebnisse.
 
 ---
 
-**Viel Erfolg beim Trading! 🚀📈**
+## 📧 Kontakt
+
+- GitHub Issues: [Issues](https://github.com/DEIN-USERNAME/trading-tracker-pro/issues)
+
+---
+
+Made with ❤️ for Traders
