@@ -1,12 +1,44 @@
 # Changelog
 
+## [3.4.1] - 2026-01-19 - UX Verbesserungen
+
+### ✨ Neue Features
+
+**Heutiger Fortschritt auf Dashboard**
+- Tagesziel mit Fortschrittsbalken
+- Zeigt realisiertes P/L vs. Ziel
+- Farbliche Abstufung (blau → gold → grün)
+- "Noch X bis zum Ziel" Anzeige
+
+**Position löschen - Hinweis**
+- Zeigt P/L der Position beim Löschen
+- Warnt, dass Gewinn/Verlust im Tageseintrag erfasst sein sollte
+
+---
+
+## [3.4.0] - 2026-01-19 - Exponentielle Projektion
+
+### 🔧 Kritischer Fix
+
+**Ziel-Projektion korrigiert**
+- Vorher: Lineare Berechnung (falsch)
+- Jetzt: Exponentielle Berechnung mit Zinseszins-Effekt
+- Formel: `Tage = log(Ziel/Aktuell) / log(1+Rate)`
+
+**Neue Dashboard-Anzeige**
+- Heutiges Tagesziel angezeigt
+- Ca. Jahre zusätzlich zu Monaten
+- Fortschritt zum Gesamtziel
+
+---
+
 ## [3.3.5] - 2026-01-19 - Phase 2 Complete: Cloud-Sync
 
 ### 🎉 Cloud-Sync ist komplett!
 
 Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 
-#### ✨ Neue Features
+#### ✨ Features
 
 **Onboarding**
 - Setup-Dialog bei Erstregistrierung
@@ -17,8 +49,6 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 - Neues Logo (Military Scope + Candlesticks)
 - Icons in allen Größen (16px - 512px)
 - Dark/Light Varianten
-- Favicon für Browser-Tab
-- Apple Touch Icons für iOS
 
 **Cloud-Sync (komplett)**
 - Profile/Settings synchronisiert
@@ -33,57 +63,11 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 - Position-Sync korrigiert (DELETE + INSERT)
 - Buffer History wird jetzt gespeichert
 - RLS Policies für alle Tabellen optimiert
-- onConflict Parameter korrigiert
-- Trigger für automatische Profil-Erstellung
 
 #### ⚠️ Bekannte Probleme
 
 - Einige Browser-Erweiterungen (Passwort-Manager, AdBlocker) können Sync blockieren
 - **Lösung:** Inkognito-Modus oder Erweiterung für diese Seite deaktivieren
-
----
-
-## [3.1.0] - 2026-01-19 - Phase 2: Cloud-Sync Start
-
-### 🚀 Neu: Supabase Cloud-Sync
-
-#### ✨ Features
-
-**Authentication**
-- Email/Passwort Anmeldung
-- Google Sign-In (OAuth)
-- Automatische Session-Verwaltung
-- Offline-Modus weiterhin verfügbar
-
-**Cloud-Sync**
-- Echtzeit-Synchronisation aller Daten
-- Profile/Settings werden in der Cloud gespeichert
-- Daily Logs automatisch synchronisiert
-- Instrumente und Kalibrierungen gespeichert
-- Positionen synchronisiert
-
-**Offline-First**
-- App funktioniert ohne Internet
-- Lokale Datenspeicherung als Backup
-- Automatischer Sync wenn online
-- Sync-Status Anzeige im Header
-
-**UI-Verbesserungen**
-- Login/Register Screen
-- User Badge im Header
-- Sync-Status Indikator (grün/orange/blau)
-- Cloud-Sync Karte in Settings
-
-#### 📦 Neue Dateien
-
-- `supabase-schema.sql` - Datenbank-Schema für Supabase
-
----
-
-## [3.0.1] - 2026-01-19
-
-### 🐛 Behoben
-- Datums-Anzeige korrigiert (Zeitzonenproblem)
 
 ---
 
@@ -101,12 +85,11 @@ Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
 
 ## Roadmap
 
-### Phase 3 - UX Polish (nächster Schritt)
-- [ ] UI/UX Verbesserungen
-- [ ] Performance Optimierung
-- [ ] Bessere Fehlerbehandlung
+### Phase 3 - UX Polish ✅ In Arbeit
+- [x] Tagesziel-Fortschritt auf Dashboard
+- [x] Position-Löschen Hinweis
 - [ ] Loading States
-- [ ] Konfirmations-Dialoge
+- [ ] Bessere Fehlerbehandlung
 
 ### Phase 4 - i18n (Internationalisierung)
 - [ ] Deutsch (DE) ✓ Basis

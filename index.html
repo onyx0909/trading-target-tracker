@@ -262,6 +262,10 @@
                     <div class="progress-bar"><div class="progress-fill green" id="week-progress-fill" style="width:0%"></div></div>
                 </div>
             </div>
+            <div class="card card-green">
+                <div class="card-title"><span>🎯</span> Heutiger Fortschritt</div>
+                <div id="today-progress-content"></div>
+            </div>
             <div class="card card-purple">
                 <div class="card-title"><span>🏦</span> Reserve / Buffer</div>
                 <div class="grid grid-3">
@@ -408,7 +412,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.4.0';
+        const VERSION = '3.4.1';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1058,6 +1062,22 @@
             document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${inst?.icon||'📊'} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">Unrealisiert: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">Keine offenen Positionen</p>';
             const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
             document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">noch ${fmt(m-balance)}</div></div>`).join('');
+            
+            // Heutiger Fortschritt
+            const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 150) : 0;
+            const remaining = target - todayPL;
+            const progressColor = todayPL >= target ? 'green' : (todayPL >= target * 0.5 ? 'gold' : 'blue');
+            document.getElementById('today-progress-content').innerHTML = `
+                <div class="grid grid-2 mb-2">
+                    <div class="stat-box"><div class="stat-label">Tagesziel</div><div class="stat-value">${fmt(target)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Realisiert</div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div></div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header"><span>${todayPL >= target ? '✅ Ziel erreicht!' : '⏳ Fortschritt'}</span><span>${fmtPct(todayProgressPct)}</span></div>
+                    <div class="progress-bar"><div class="progress-fill ${progressColor}" style="width:${Math.min(Math.abs(todayProgressPct), 100)}%"></div></div>
+                </div>
+                ${todayPL < target ? `<div class="text-center mt-2" style="font-size:0.85rem;"><span class="text-orange">Noch <strong>${fmt(remaining)}</strong> bis zum Tagesziel</span></div>` : ''}
+            `;
         }
         function renderPositions() {
             const target = getDailyTarget(); const risk = getRiskPerTrade();
@@ -1161,7 +1181,22 @@
             render(); closeModal('position-modal'); showToast('Position hinzugefügt');
         }
         function updatePositionPrice(id) { const newPrice = prompt('Neuer Preis:'); if (newPrice === null) return; const pos = data.positions.find(p => p.id === id); if (pos) { pos.currentPrice = parseFloat(newPrice); saveData(); syncPosition(pos); render(); } }
-        async function removePosition(id) { if (!confirm('Position entfernen?')) return; const pos = data.positions.find(p => p.id === id); data.positions = data.positions.filter(p => p.id !== id); saveData(); if (pos) await syncPosition(pos, 'delete'); render(); showToast('Entfernt'); }
+        async function removePosition(id) { 
+            const pos = data.positions.find(p => p.id === id);
+            if (!pos) return;
+            const inst = data.instruments[pos.instrumentId];
+            const pl = calculatePL(pos);
+            const plText = pl >= 0 ? `+${fmt(pl)} Gewinn` : `${fmt(pl)} Verlust`;
+            
+            const confirmed = confirm(`Position ${inst?.symbol || pos.instrumentId} entfernen?\n\nUnrealisierter P/L: ${plText}\n\n⚠️ Hinweis: Falls du diese Position geschlossen hast, stelle sicher dass der Gewinn/Verlust bereits im heutigen Tageseintrag (Kontostand) erfasst wurde.`);
+            if (!confirmed) return;
+            
+            data.positions = data.positions.filter(p => p.id !== id); 
+            saveData(); 
+            await syncPosition(pos, 'delete'); 
+            render(); 
+            showToast('Position entfernt'); 
+        }
         function openCalibrationModal(instrumentId) {
             const inst = data.instruments[instrumentId]; if (!inst) return;
             document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><span style="font-size:2.5rem;">${inst.icon}</span><div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ Faktor: ${fmtNum(inst.plFactor,4)} | Letzte: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:'<div class="text-orange" style="font-size:0.85rem;">⚠️ Noch nicht kalibriert</div>'}</div><p class="text-muted mb-3" style="font-size:0.85rem;">Werte aus IBKR Screenshot eingeben:</p><div class="grid grid-2"><div class="form-group"><label>Position Size</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>Average Price</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>Current/Last Price</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>Unrealisierter P/L (€)</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">Berechneter Faktor:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">💾 Faktor speichern</button>`;
