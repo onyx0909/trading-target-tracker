@@ -408,7 +408,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.3.5';
+        const VERSION = '3.4.0';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1079,8 +1079,34 @@
             const winRate = data.dailyLogs.length > 0 ? (profit/data.dailyLogs.length)*100 : 0;
             const avgPL = data.dailyLogs.length > 0 ? data.dailyLogs.reduce((s,l) => s+(l.realizedPL||0), 0)/data.dailyLogs.length : 0;
             document.getElementById('performance-stats').innerHTML = `<div class="stat-box"><div class="stat-label">Handelstage</div><div class="stat-value">${data.dailyLogs.length}</div></div><div class="stat-box"><div class="stat-label">Gewinn/Verlust</div><div class="stat-value">${profit}/${loss}</div></div><div class="stat-box"><div class="stat-label">Erfolgsquote</div><div class="stat-value ${winRate>=50?'text-green':'text-red'}">${fmtPct(winRate)}</div></div><div class="stat-box"><div class="stat-label">Ø Tages-P/L</div><div class="stat-value ${avgPL>=0?'text-green':'text-red'}">${fmt(avgPL)}</div></div>`;
-            const target = getDailyTarget(); const targetCap = data.settings.targetCapital; const remaining = targetCap - balance; const daysToTarget = remaining / target;
-            document.getElementById('projection-content').innerHTML = `<div class="grid grid-3"><div class="stat-box"><div class="stat-label">Noch zu erreichen</div><div class="stat-value">${fmt(remaining)}</div></div><div class="stat-box"><div class="stat-label">Handelstage</div><div class="stat-value">${Math.ceil(daysToTarget)}</div></div><div class="stat-box"><div class="stat-label">Ca. Monate</div><div class="stat-value">${(daysToTarget/21).toFixed(1)}</div></div></div><div class="progress-container mt-3"><div class="progress-header"><span>Fortschritt (${fmt(targetCap)})</span><span>${fmtPct((balance/targetCap)*100)}</span></div><div class="progress-bar"><div class="progress-fill blue" style="width:${Math.min((balance/targetCap)*100,100)}%"></div></div></div>`;
+            
+            // Exponentielle Projektion (Zinseszins-Effekt)
+            const targetCap = data.settings.targetCapital; 
+            const dailyRate = data.settings.dailyTargetPercent / 100;
+            const remaining = targetCap - balance;
+            const todayTarget = getDailyTarget();
+            
+            // Korrekte exponentielle Formel: Tage = log(Ziel/Aktuell) / log(1+Rate)
+            const daysToTarget = balance > 0 && dailyRate > 0 
+                ? Math.ceil(Math.log(targetCap / balance) / Math.log(1 + dailyRate))
+                : 0;
+            const monthsToTarget = (daysToTarget / 21).toFixed(1);
+            const yearsToTarget = (daysToTarget / 252).toFixed(1);
+            
+            document.getElementById('projection-content').innerHTML = `
+                <div class="grid grid-2 mb-2">
+                    <div class="stat-box"><div class="stat-label">Heutiges Tagesziel</div><div class="stat-value text-green">${fmt(todayTarget)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Noch zu erreichen</div><div class="stat-value">${fmt(remaining)}</div></div>
+                </div>
+                <div class="grid grid-3">
+                    <div class="stat-box"><div class="stat-label">Handelstage</div><div class="stat-value">${daysToTarget}</div></div>
+                    <div class="stat-box"><div class="stat-label">Ca. Monate</div><div class="stat-value">${monthsToTarget}</div></div>
+                    <div class="stat-box"><div class="stat-label">Ca. Jahre</div><div class="stat-value">${yearsToTarget}</div></div>
+                </div>
+                <div class="progress-container mt-3">
+                    <div class="progress-header"><span>Fortschritt zum Ziel (${fmt(targetCap)})</span><span>${fmtPct((balance/targetCap)*100)}</span></div>
+                    <div class="progress-bar"><div class="progress-fill blue" style="width:${Math.min((balance/targetCap)*100,100)}%"></div></div>
+                </div>`;
         }
         function renderInstruments() {
             document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${inst.icon}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?'✓ Kalibriert':'⚠️ Nicht kalibriert'}</div></div></div>`; }).join('');
