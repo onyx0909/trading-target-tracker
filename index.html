@@ -140,14 +140,19 @@
         .circle-value{font-size:1.4rem;font-weight:700;line-height:1.2}
         .circle-label{font-size:0.7rem;color:var(--muted)}
         .progress-grid{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center}
+        .progress-grid-compact{display:flex;flex-direction:column;align-items:center;gap:12px}
         .progress-details{display:flex;flex-direction:column;gap:8px}
+        .progress-details-compact{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;width:100%;font-size:0.85rem}
+        .progress-details-compact .detail-item{display:flex;flex-direction:column;text-align:center;padding:6px;background:var(--bg);border-radius:6px}
+        .progress-details-compact .detail-label{font-size:0.7rem;color:var(--muted)}
+        .progress-details-compact .detail-value{font-weight:600;font-size:0.9rem}
         .progress-detail-row{display:flex;justify-content:space-between;font-size:0.9rem}
         .progress-detail-row .label{color:var(--muted)}
         .progress-detail-row .value{font-weight:600}
         .progress-detail-row .value.green{color:var(--green)}
         .progress-detail-row .value.gold{color:var(--gold)}
         .progress-detail-row .value.blue{color:var(--blue)}
-        .tomorrow-hint{margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);text-align:center;font-size:0.85rem}
+        .tomorrow-hint{margin-top:12px;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);text-align:center;font-size:0.8rem}
         .position-card{border-left:4px solid var(--gold)}
         .position-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .position-info{display:flex;align-items:center;gap:10px}
@@ -193,6 +198,7 @@
         .text-green{color:var(--green)}
         .text-red{color:var(--red)}
         .text-gold{color:var(--gold)}
+        .text-purple{color:var(--purple)}
         .text-blue{color:var(--blue)}
         .text-muted{color:var(--muted)}
         .text-center{text-align:center}
@@ -282,14 +288,16 @@
                     <div class="progress-bar"><div class="progress-fill green" id="week-progress-fill" style="width:0%"></div></div>
                 </div>
             </div>
-            <div class="card card-green">
-                <div class="card-title"><span>🎯</span> Heutiger Fortschritt</div>
-                <div id="today-progress-content"></div>
-            </div>
-            <div class="card card-purple">
-                <div class="card-title"><span>🏦</span> Reserve / Buffer</div>
-                <div id="buffer-content"></div>
-                <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
+            <div class="grid grid-2">
+                <div class="card card-green">
+                    <div class="card-title"><span>🎯</span> Heutiger Fortschritt</div>
+                    <div id="today-progress-content"></div>
+                </div>
+                <div class="card card-purple">
+                    <div class="card-title"><span>🏦</span> Reserve / Buffer</div>
+                    <div id="buffer-content"></div>
+                    <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
+                </div>
             </div>
             <div class="card"><div class="card-title"><span>📍</span> Offene Positionen</div><div id="dashboard-positions"></div></div>
             <div class="card"><div class="card-title"><span>🏆</span> Nächste Meilensteine</div><div class="grid grid-4" id="milestones"></div></div>
@@ -427,7 +435,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.5.0';
+        const VERSION = '3.5.1';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1076,7 +1084,7 @@
             const bufColor = bufPct >= 80 ? 'green' : (bufPct >= 40 ? 'gold' : 'purple');
             
             document.getElementById('buffer-content').innerHTML = `
-                <div class="progress-grid">
+                <div class="progress-grid-compact">
                     <div class="circle-progress">
                         <svg viewBox="0 0 100 100">
                             <circle class="bg" cx="50" cy="50" r="45"/>
@@ -1089,18 +1097,18 @@
                             <div class="circle-label">Tage</div>
                         </div>
                     </div>
-                    <div class="progress-details">
-                        <div class="progress-detail-row">
-                            <span class="label">Reserve</span>
-                            <span class="value green">${fmt(data.buffer.currentBuffer)}</span>
+                    <div class="progress-details-compact">
+                        <div class="detail-item">
+                            <span class="detail-label">Reserve</span>
+                            <span class="detail-value text-green">${fmt(data.buffer.currentBuffer)}</span>
                         </div>
-                        <div class="progress-detail-row">
-                            <span class="label">Maximum</span>
-                            <span class="value">${fmt(maxBuf)}</span>
+                        <div class="detail-item">
+                            <span class="detail-label">Maximum</span>
+                            <span class="detail-value">${fmt(maxBuf)}</span>
                         </div>
-                        <div class="progress-detail-row">
-                            <span class="label">Kapazität</span>
-                            <span class="value ${bufColor}">${fmtPct(bufPct)}</span>
+                        <div class="detail-item" style="grid-column: span 2;">
+                            <span class="detail-label">Kapazität</span>
+                            <span class="detail-value ${bufColor === 'green' ? 'text-green' : bufColor === 'gold' ? 'text-gold' : 'text-purple'}">${fmtPct(bufPct)}</span>
                         </div>
                     </div>
                 </div>
@@ -1125,7 +1133,7 @@
             const tomorrowTarget = tomorrowBalance * (data.settings.dailyTargetPercent / 100);
             
             document.getElementById('today-progress-content').innerHTML = `
-                <div class="progress-grid">
+                <div class="progress-grid-compact">
                     <div class="circle-progress">
                         <svg viewBox="0 0 100 100">
                             <circle class="bg" cx="50" cy="50" r="45"/>
@@ -1138,24 +1146,24 @@
                             <div class="circle-label">${todayPL >= target ? '✅ Erreicht!' : 'Fortschritt'}</div>
                         </div>
                     </div>
-                    <div class="progress-details">
-                        <div class="progress-detail-row">
-                            <span class="label">Tagesziel</span>
-                            <span class="value">${fmt(target)}</span>
+                    <div class="progress-details-compact">
+                        <div class="detail-item">
+                            <span class="detail-label">Tagesziel</span>
+                            <span class="detail-value">${fmt(target)}</span>
                         </div>
-                        <div class="progress-detail-row">
-                            <span class="label">Realisiert</span>
-                            <span class="value ${todayPL>=0?'green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</span>
+                        <div class="detail-item">
+                            <span class="detail-label">Realisiert</span>
+                            <span class="detail-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</span>
                         </div>
-                        <div class="progress-detail-row">
-                            <span class="label">${todayPL >= target ? 'Überschuss' : 'Noch offen'}</span>
-                            <span class="value ${todayPL >= target ? 'green' : 'gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
+                        <div class="detail-item">
+                            <span class="detail-label">${todayPL >= target ? 'Überschuss' : 'Noch offen'}</span>
+                            <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">📅 Morgen</span>
+                            <span class="detail-value text-blue">${fmt(tomorrowTarget)}</span>
                         </div>
                     </div>
-                </div>
-                <div class="tomorrow-hint">
-                    📅 <span class="text-muted">Tagesziel morgen:</span> <strong class="text-blue">${fmt(tomorrowTarget)}</strong>
-                    <span class="text-muted" style="font-size:0.75rem;"> (bei Erreichen des heutigen Ziels)</span>
                 </div>
             `;
         }
