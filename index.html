@@ -488,7 +488,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.7.0';
+        const VERSION = '3.7.1';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1240,48 +1240,79 @@
                 return;
             }
             
-            // Berechne Werte für die Linie
+            // Werte
             const values = last7.map(l => l.endingBalance);
-            const min = Math.min(...values) * 0.995;
-            const max = Math.max(...values) * 1.005;
+            const pls = last7.map(l => l.realizedPL || 0);
+            const min = Math.min(...values) * 0.998;
+            const max = Math.max(...values) * 1.002;
             const range = max - min || 1;
             
-            // SVG Punkte berechnen
-            const width = 100;
-            const height = 100;
-            const padding = 10;
-            const points = values.map((v, i) => {
-                const x = padding + (i / (values.length - 1 || 1)) * (width - 2 * padding);
-                const y = height - padding - ((v - min) / range) * (height - 2 * padding);
-                return `${x},${y}`;
-            });
+            // Farben für Balken basierend auf Performance
+            const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#10b981', '#059669'];
             
-            const pathD = points.length > 1 ? `M ${points.join(' L ')}` : '';
-            const areaD = pathD ? `${pathD} L ${padding + (width - 2 * padding)},${height - padding} L ${padding},${height - padding} Z` : '';
-            
+            // Labels
             const labels = last7.map(l => {
                 const d = new Date(l.date + 'T12:00:00');
                 return d.toLocaleDateString('de-DE', { weekday: 'short' }).substring(0, 2);
             });
             
+            // SVG Dimensionen
+            const width = 280;
+            const height = 120;
+            const barWidth = 28;
+            const gap = 12;
+            const startX = 20;
+            
+            // Berechne Balkenhöhen (prozentual zum Bereich)
+            const bars = values.map((v, i) => {
+                const heightPct = ((v - min) / range) * 80 + 15; // 15-95% Höhe
+                const x = startX + i * (barWidth + gap);
+                const barHeight = (heightPct / 100) * height;
+                const y = height - barHeight;
+                const colorIndex = Math.min(Math.floor((heightPct - 15) / 12), 6);
+                return { x, y, height: barHeight, color: colors[colorIndex], pl: pls[i], value: v };
+            });
+            
+            // Trendlinie Punkte
+            const linePoints = bars.map(b => `${b.x + barWidth/2},${b.y}`).join(' ');
+            
             document.getElementById('mini-equity-chart').innerHTML = `
-                <div class="equity-line">
-                    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
-                        <defs>
-                            <linearGradient id="equityGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="var(--green)" stop-opacity="0.4"/>
-                                <stop offset="100%" stop-color="var(--green)" stop-opacity="0"/>
-                            </linearGradient>
-                        </defs>
-                        <path class="area" d="${areaD}"/>
-                        <path class="line" d="${pathD}"/>
-                        ${points.map((p, i) => `<circle class="dot" cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="3"/>`).join('')}
-                    </svg>
-                </div>
-                <div class="equity-labels">${labels.map(l => `<span>${l}</span>`).join('')}</div>
-                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.8rem;">
-                    <span class="text-muted">Min: ${fmt(min)}</span>
-                    <span class="text-muted">Max: ${fmt(max)}</span>
+                <svg width="100%" height="${height + 30}" viewBox="0 0 ${width} ${height + 30}" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--green)" stop-opacity="1"/>
+                            <stop offset="100%" stop-color="var(--green)" stop-opacity="0.6"/>
+                        </linearGradient>
+                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Balken -->
+                    ${bars.map((b, i) => `
+                        <rect x="${b.x}" y="${b.y}" width="${barWidth}" height="${b.height}" 
+                              rx="4" fill="${b.color}" filter="url(#shadow)"/>
+                        <text x="${b.x + barWidth/2}" y="${height + 12}" text-anchor="middle" 
+                              fill="var(--muted)" font-size="10">${labels[i]}</text>
+                        <text x="${b.x + barWidth/2}" y="${b.y - 5}" text-anchor="middle" 
+                              fill="${b.pl >= 0 ? 'var(--green)' : 'var(--red)'}" font-size="9" font-weight="600">
+                            ${b.pl >= 0 ? '+' : ''}${Math.round(b.pl)}
+                        </text>
+                    `).join('')}
+                    
+                    <!-- Trendlinie -->
+                    <polyline points="${linePoints}" fill="none" stroke="var(--blue)" 
+                              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-dasharray="none" opacity="0.8"/>
+                    
+                    <!-- Punkte auf der Linie -->
+                    ${bars.map(b => `
+                        <circle cx="${b.x + barWidth/2}" cy="${b.y}" r="4" fill="var(--blue)" stroke="var(--card)" stroke-width="2"/>
+                    `).join('')}
+                </svg>
+                <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:0.75rem;padding:0 8px;">
+                    <span class="text-muted">📉 ${fmt(min)}</span>
+                    <span class="text-green font-bold">📈 ${fmt(max)}</span>
                 </div>
             `;
         }
