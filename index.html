@@ -488,7 +488,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.7.1';
+        const VERSION = '3.7.2';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1240,79 +1240,77 @@
                 return;
             }
             
-            // Werte
             const values = last7.map(l => l.endingBalance);
-            const pls = last7.map(l => l.realizedPL || 0);
             const min = Math.min(...values) * 0.998;
             const max = Math.max(...values) * 1.002;
             const range = max - min || 1;
             
-            // Farben für Balken basierend auf Performance
-            const colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#10b981', '#059669'];
-            
-            // Labels
             const labels = last7.map(l => {
                 const d = new Date(l.date + 'T12:00:00');
-                return d.toLocaleDateString('de-DE', { weekday: 'short' }).substring(0, 2);
+                return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
             });
             
             // SVG Dimensionen
-            const width = 280;
-            const height = 120;
-            const barWidth = 28;
-            const gap = 12;
-            const startX = 20;
+            const width = 300;
+            const height = 140;
+            const padding = { top: 30, right: 15, bottom: 25, left: 15 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
             
-            // Berechne Balkenhöhen (prozentual zum Bereich)
-            const bars = values.map((v, i) => {
-                const heightPct = ((v - min) / range) * 80 + 15; // 15-95% Höhe
-                const x = startX + i * (barWidth + gap);
-                const barHeight = (heightPct / 100) * height;
-                const y = height - barHeight;
-                const colorIndex = Math.min(Math.floor((heightPct - 15) / 12), 6);
-                return { x, y, height: barHeight, color: colors[colorIndex], pl: pls[i], value: v };
+            // Punkte berechnen
+            const points = values.map((v, i) => {
+                const x = padding.left + (i / (values.length - 1 || 1)) * chartWidth;
+                const y = padding.top + chartHeight - ((v - min) / range) * chartHeight;
+                return { x, y, value: v };
             });
             
-            // Trendlinie Punkte
-            const linePoints = bars.map(b => `${b.x + barWidth/2},${b.y}`).join(' ');
+            // Pfad für Linie
+            const linePath = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x},${p.y}`).join(' ');
+            
+            // Pfad für Fläche (geschlossen)
+            const areaPath = linePath + ` L${points[points.length-1].x},${padding.top + chartHeight} L${padding.left},${padding.top + chartHeight} Z`;
             
             document.getElementById('mini-equity-chart').innerHTML = `
-                <svg width="100%" height="${height + 30}" viewBox="0 0 ${width} ${height + 30}" preserveAspectRatio="xMidYMid meet">
+                <svg width="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" style="overflow:visible;">
                     <defs>
-                        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="var(--green)" stop-opacity="1"/>
-                            <stop offset="100%" stop-color="var(--green)" stop-opacity="0.6"/>
+                        <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--green)" stop-opacity="0.6"/>
+                            <stop offset="100%" stop-color="var(--green)" stop-opacity="0.05"/>
                         </linearGradient>
-                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
-                        </filter>
+                        <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="var(--blue)"/>
+                            <stop offset="100%" stop-color="var(--green)"/>
+                        </linearGradient>
                     </defs>
                     
-                    <!-- Balken -->
-                    ${bars.map((b, i) => `
-                        <rect x="${b.x}" y="${b.y}" width="${barWidth}" height="${b.height}" 
-                              rx="4" fill="${b.color}" filter="url(#shadow)"/>
-                        <text x="${b.x + barWidth/2}" y="${height + 12}" text-anchor="middle" 
-                              fill="var(--muted)" font-size="10">${labels[i]}</text>
-                        <text x="${b.x + barWidth/2}" y="${b.y - 5}" text-anchor="middle" 
-                              fill="${b.pl >= 0 ? 'var(--green)' : 'var(--red)'}" font-size="9" font-weight="600">
-                            ${b.pl >= 0 ? '+' : ''}${Math.round(b.pl)}
-                        </text>
+                    <!-- Horizontale Grid-Linien -->
+                    <line x1="${padding.left}" y1="${padding.top}" x2="${width - padding.right}" y2="${padding.top}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="${padding.left}" y1="${padding.top + chartHeight/2}" x2="${width - padding.right}" y2="${padding.top + chartHeight/2}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="${padding.left}" y1="${padding.top + chartHeight}" x2="${width - padding.right}" y2="${padding.top + chartHeight}" stroke="var(--border)" stroke-width="1"/>
+                    
+                    <!-- Fläche -->
+                    <path d="${areaPath}" fill="url(#areaGradient)"/>
+                    
+                    <!-- Linie -->
+                    <path d="${linePath}" fill="none" stroke="url(#lineGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Punkte und Werte -->
+                    ${points.map((p, i) => `
+                        <circle cx="${p.x}" cy="${p.y}" r="5" fill="var(--card)" stroke="var(--green)" stroke-width="2"/>
+                        <text x="${p.x}" y="${p.y - 10}" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="600">${(p.value/1000).toFixed(1)}k</text>
                     `).join('')}
                     
-                    <!-- Trendlinie -->
-                    <polyline points="${linePoints}" fill="none" stroke="var(--blue)" 
-                              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                              stroke-dasharray="none" opacity="0.8"/>
-                    
-                    <!-- Punkte auf der Linie -->
-                    ${bars.map(b => `
-                        <circle cx="${b.x + barWidth/2}" cy="${b.y}" r="4" fill="var(--blue)" stroke="var(--card)" stroke-width="2"/>
+                    <!-- X-Achsen Labels -->
+                    ${points.map((p, i) => `
+                        <text x="${p.x}" y="${height - 5}" text-anchor="middle" fill="var(--muted)" font-size="8">${labels[i]}</text>
                     `).join('')}
                 </svg>
-                <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:0.75rem;padding:0 8px;">
-                    <span class="text-muted">📉 ${fmt(min)}</span>
-                    <span class="text-green font-bold">📈 ${fmt(max)}</span>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.8rem;">
+                    <span><span class="text-muted">Start:</span> <strong>${fmt(values[0])}</strong></span>
+                    <span><span class="text-muted">Aktuell:</span> <strong class="text-green">${fmt(values[values.length-1])}</strong></span>
+                    <span class="${values[values.length-1] >= values[0] ? 'text-green' : 'text-red'}">
+                        ${values[values.length-1] >= values[0] ? '↑' : '↓'} ${fmt(Math.abs(values[values.length-1] - values[0]))}
+                    </span>
                 </div>
             `;
         }
