@@ -495,7 +495,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.9.1';
+        const VERSION = '3.9.2';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1714,13 +1714,16 @@
                 gold: [251, 191, 36],
                 red: [239, 68, 68],
                 gray: [107, 114, 128],
-                dark: [30, 39, 54]
+                dark: [30, 39, 54],
+                lightGray: [245, 247, 250]
             };
             
             // Helper
             const addLine = () => { doc.setDrawColor(...colors.gray); doc.line(20, y, pageWidth - 20, y); y += 5; };
             const checkPage = (needed = 30) => { if (y + needed > pageHeight - 20) { doc.addPage(); y = 20; } };
             const moodText = (mood) => { const m = { great: '++', good: '+', neutral: 'o', bad: '-' }; return m[mood] || 'o'; };
+            // PDF Format mit Leerzeichen
+            const fmtPDF = (n, d = 2) => 'EUR ' + (n||0).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d });
             
             // === HEADER ===
             doc.setFillColor(...colors.dark);
@@ -1742,7 +1745,7 @@
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(...colors.green);
-            doc.text(fmt(getBalance()), pageWidth - 20, 25, { align: 'right' });
+            doc.text(fmtPDF(getBalance()), pageWidth - 20, 25, { align: 'right' });
             doc.setFontSize(9);
             doc.setTextColor(200, 200, 200);
             doc.text('Kontostand', pageWidth - 20, 35, { align: 'right' });
@@ -1764,25 +1767,150 @@
             // Boxen
             const boxWidth = (pageWidth - 50) / 3;
             const boxes = [
-                { label: 'Startkapital', value: fmt(start), color: colors.gray },
-                { label: 'Aktueller Stand', value: fmt(balance), color: colors.primary },
-                { label: 'Gesamtgewinn', value: (total >= 0 ? '+' : '') + fmt(total) + ' (' + fmtPct(totalPct) + ')', color: total >= 0 ? colors.green : colors.red }
+                { label: 'Startkapital', value: fmtPDF(start), color: colors.gray },
+                { label: 'Aktueller Stand', value: fmtPDF(balance), color: colors.primary },
+                { label: 'Gesamtgewinn', value: (total >= 0 ? '+' : '') + fmtPDF(total), color: total >= 0 ? colors.green : colors.red }
             ];
             
             boxes.forEach((box, i) => {
                 const x = 20 + i * (boxWidth + 5);
-                doc.setFillColor(245, 247, 250);
+                doc.setFillColor(...colors.lightGray);
                 doc.roundedRect(x, y, boxWidth, 25, 3, 3, 'F');
                 doc.setFontSize(8);
                 doc.setTextColor(...colors.gray);
                 doc.text(box.label, x + 5, y + 8);
-                doc.setFontSize(12);
+                doc.setFontSize(11);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(...box.color);
                 doc.text(box.value, x + 5, y + 19);
             });
             
             y += 35;
+            
+            // === EQUITY CURVE CHART ===
+            const sortedLogs = [...data.dailyLogs].sort((a, b) => a.date.localeCompare(b.date));
+            if (sortedLogs.length >= 2) {
+                doc.setTextColor(...colors.dark);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('EQUITY CURVE', 20, y);
+                y += 8;
+                
+                const chartX = 30;
+                const chartY = y;
+                const chartW = pageWidth - 60;
+                const chartH = 40;
+                
+                // Chart Hintergrund
+                doc.setFillColor(...colors.lightGray);
+                doc.roundedRect(chartX - 5, chartY - 3, chartW + 10, chartH + 10, 3, 3, 'F');
+                
+                const values = sortedLogs.map(l => l.endingBalance);
+                const minVal = Math.min(...values) * 0.995;
+                const maxVal = Math.max(...values) * 1.005;
+                const range = maxVal - minVal || 1;
+                
+                // Grid Linien
+                doc.setDrawColor(220, 220, 220);
+                doc.setLineWidth(0.2);
+                for (let i = 0; i <= 3; i++) {
+                    const gy = chartY + (chartH / 3) * i;
+                    doc.line(chartX, gy, chartX + chartW, gy);
+                }
+                
+                // Y-Achsen Labels
+                doc.setFontSize(7);
+                doc.setTextColor(...colors.gray);
+                doc.text((maxVal/1000).toFixed(1) + 'k', chartX - 2, chartY + 3, { align: 'right' });
+                doc.text((minVal/1000).toFixed(1) + 'k', chartX - 2, chartY + chartH, { align: 'right' });
+                
+                // Linie zeichnen
+                const points = values.map((v, i) => ({
+                    x: chartX + (i / (values.length - 1)) * chartW,
+                    y: chartY + chartH - ((v - minVal) / range) * chartH
+                }));
+                
+                // Fläche füllen
+                doc.setFillColor(200, 240, 220);
+                const areaPoints = [...points, {x: points[points.length-1].x, y: chartY + chartH}, {x: chartX, y: chartY + chartH}];
+                doc.moveTo(areaPoints[0].x, areaPoints[0].y);
+                for (let i = 1; i < areaPoints.length; i++) {
+                    doc.lineTo(areaPoints[i].x, areaPoints[i].y);
+                }
+                doc.fill();
+                
+                // Linie
+                doc.setDrawColor(...colors.green);
+                doc.setLineWidth(1);
+                for (let i = 1; i < points.length; i++) {
+                    doc.line(points[i-1].x, points[i-1].y, points[i].x, points[i].y);
+                }
+                
+                // Punkte
+                doc.setFillColor(...colors.green);
+                [points[0], points[points.length-1]].forEach(p => {
+                    doc.circle(p.x, p.y, 2, 'F');
+                });
+                
+                y += chartH + 15;
+            }
+            
+            // === P/L BALKENDIAGRAMM (letzte 7 Tage) ===
+            const last7 = sortedLogs.slice(-7);
+            if (last7.length > 0) {
+                doc.setTextColor(...colors.dark);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('P/L LETZTE TAGE', 20, y);
+                y += 8;
+                
+                const barChartX = 30;
+                const barChartY = y;
+                const barChartW = pageWidth - 60;
+                const barChartH = 30;
+                const barWidth = (barChartW - 10) / last7.length - 3;
+                
+                // Hintergrund
+                doc.setFillColor(...colors.lightGray);
+                doc.roundedRect(barChartX - 5, barChartY - 3, barChartW + 10, barChartH + 18, 3, 3, 'F');
+                
+                const pls = last7.map(l => l.realizedPL || 0);
+                const maxPL = Math.max(...pls.map(Math.abs), 1);
+                
+                // Nulllinie
+                const zeroY = barChartY + barChartH / 2;
+                doc.setDrawColor(...colors.gray);
+                doc.setLineWidth(0.3);
+                doc.line(barChartX, zeroY, barChartX + barChartW, zeroY);
+                
+                // Balken
+                last7.forEach((log, i) => {
+                    const pl = log.realizedPL || 0;
+                    const barH = (Math.abs(pl) / maxPL) * (barChartH / 2 - 2);
+                    const x = barChartX + 5 + i * (barWidth + 3);
+                    const barY = pl >= 0 ? zeroY - barH : zeroY;
+                    
+                    doc.setFillColor(...(pl >= 0 ? colors.green : colors.red));
+                    doc.roundedRect(x, barY, barWidth, Math.max(barH, 1), 1, 1, 'F');
+                    
+                    // Label
+                    doc.setFontSize(6);
+                    doc.setTextColor(...colors.gray);
+                    const d = new Date(log.date + 'T12:00:00');
+                    const label = d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+                    doc.text(label, x + barWidth/2, barChartY + barChartH + 8, { align: 'center' });
+                    
+                    // Wert
+                    doc.setFontSize(5);
+                    doc.setTextColor(...(pl >= 0 ? colors.green : colors.red));
+                    doc.text((pl >= 0 ? '+' : '') + Math.round(pl), x + barWidth/2, pl >= 0 ? barY - 1 : barY + barH + 4, { align: 'center' });
+                });
+                
+                y += barChartH + 22;
+            }
+            
+            addLine();
+            y += 3;
             
             // === STATISTIKEN ===
             doc.setTextColor(...colors.dark);
@@ -1802,28 +1930,28 @@
                 ['Gewinn-Tage', profit.toString()],
                 ['Verlust-Tage', loss.toString()],
                 ['Erfolgsquote', fmtPct(winRate)],
-                ['Avg. Tages-P/L', fmt(avgPL)],
-                ['Ziel erreicht', targetHits + ' / ' + data.dailyLogs.length]
+                ['Avg. Tages-P/L', fmtPDF(avgPL)],
+                ['Ziel erreicht', targetHits + '/' + data.dailyLogs.length]
             ];
             
             doc.setFontSize(10);
             stats.forEach((stat, i) => {
-                const x = 20 + (i % 3) * 60;
+                const x = 20 + (i % 3) * 63;
                 const row = Math.floor(i / 3);
                 doc.setTextColor(...colors.gray);
                 doc.setFont('helvetica', 'normal');
-                doc.text(stat[0] + ':', x, y + row * 12);
+                doc.text(stat[0] + ':', x, y + row * 10);
                 doc.setTextColor(...colors.dark);
                 doc.setFont('helvetica', 'bold');
-                doc.text(stat[1], x + 38, y + row * 12);
+                doc.text(stat[1], x + 30, y + row * 10);
             });
             
-            y += 30;
+            y += 25;
             addLine();
-            y += 5;
+            y += 3;
             
             // === ZIEL-PROJEKTION ===
-            checkPage(50);
+            checkPage(40);
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
@@ -1835,81 +1963,77 @@
             const daysToTarget = balance > 0 && dailyRate > 0 ? Math.ceil(Math.log(targetCap / balance) / Math.log(1 + dailyRate)) : 0;
             const progressPct = (balance / targetCap) * 100;
             
-            doc.setFontSize(10);
+            doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(...colors.gray);
-            doc.text('Zielkapital: ' + fmt(targetCap), 20, y);
+            doc.text('Zielkapital: ' + fmtPDF(targetCap), 20, y);
             doc.text('Tagesziel: ' + fmtPct(data.settings.dailyTargetPercent), 80, y);
-            doc.text('Verbleibend: ca. ' + daysToTarget + ' Handelstage (' + (daysToTarget / 21).toFixed(1) + ' Monate)', 130, y);
-            y += 10;
+            doc.text('Verbleibend: ca. ' + daysToTarget + ' Tage (' + (daysToTarget / 21).toFixed(1) + ' Mon.)', 125, y);
+            y += 8;
             
             // Progress Bar
             doc.setFillColor(230, 230, 230);
-            doc.roundedRect(20, y, pageWidth - 40, 8, 2, 2, 'F');
+            doc.roundedRect(20, y, pageWidth - 40, 6, 2, 2, 'F');
             doc.setFillColor(...colors.green);
-            doc.roundedRect(20, y, (pageWidth - 40) * Math.min(progressPct / 100, 1), 8, 2, 2, 'F');
-            doc.setFontSize(8);
+            doc.roundedRect(20, y, (pageWidth - 40) * Math.min(progressPct / 100, 1), 6, 2, 2, 'F');
+            doc.setFontSize(7);
             doc.setTextColor(...colors.dark);
-            doc.text(fmtPct(progressPct), pageWidth - 20, y + 6, { align: 'right' });
+            doc.text(fmtPct(progressPct), pageWidth - 20, y + 5, { align: 'right' });
             
-            y += 20;
+            y += 15;
             addLine();
-            y += 5;
+            y += 3;
             
             // === LETZTE EINTRÄGE ===
-            checkPage(80);
+            checkPage(60);
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
             doc.text('LETZTE EINTRAGE', 20, y);
-            y += 10;
+            y += 8;
             
-            const recentLogs = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
+            const recentLogs = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
             
             if (recentLogs.length > 0) {
                 // Header
-                doc.setFillColor(245, 247, 250);
-                doc.rect(20, y, pageWidth - 40, 8, 'F');
-                doc.setFontSize(8);
+                doc.setFillColor(...colors.lightGray);
+                doc.rect(20, y, pageWidth - 40, 7, 'F');
+                doc.setFontSize(7);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(...colors.gray);
-                doc.text('Datum', 25, y + 6);
-                doc.text('Kontostand', 55, y + 6);
-                doc.text('P/L', 95, y + 6);
-                doc.text('Ziel', 125, y + 6);
-                doc.text('Stimmung', 145, y + 6);
-                y += 10;
+                doc.text('Datum', 25, y + 5);
+                doc.text('Kontostand', 55, y + 5);
+                doc.text('P/L', 105, y + 5);
+                doc.text('Ziel', 145, y + 5);
+                doc.text('Stimmung', 165, y + 5);
+                y += 9;
                 
                 // Rows
                 doc.setFont('helvetica', 'normal');
                 recentLogs.forEach(log => {
-                    checkPage(10);
+                    checkPage(8);
                     doc.setTextColor(...colors.dark);
+                    doc.setFontSize(8);
                     doc.text(formatDate(log.date), 25, y + 4);
-                    doc.text(fmt(log.endingBalance), 55, y + 4);
+                    doc.text(fmtPDF(log.endingBalance), 55, y + 4);
                     doc.setTextColor(...(log.realizedPL >= 0 ? colors.green : colors.red));
-                    doc.text((log.realizedPL >= 0 ? '+' : '') + fmt(log.realizedPL), 95, y + 4);
+                    doc.text((log.realizedPL >= 0 ? '+' : '') + fmtPDF(log.realizedPL), 105, y + 4);
                     doc.setTextColor(...(log.targetHit ? colors.green : colors.red));
-                    doc.text(log.targetHit ? 'JA' : 'NEIN', 125, y + 4);
+                    doc.text(log.targetHit ? 'JA' : 'NEIN', 148, y + 4);
                     doc.setTextColor(...colors.dark);
-                    doc.text(moodText(log.mood), 150, y + 4);
-                    y += 8;
+                    doc.text(moodText(log.mood), 172, y + 4);
+                    y += 7;
                 });
-            } else {
-                doc.setFontSize(10);
-                doc.setTextColor(...colors.gray);
-                doc.text('Noch keine Eintrage vorhanden', 20, y);
-                y += 10;
             }
             
-            y += 10;
+            y += 3;
             
             // === OFFENE POSITIONEN ===
             const activePos = data.positions.filter(p => p.active);
             if (activePos.length > 0) {
-                checkPage(50);
+                checkPage(40);
                 addLine();
-                y += 5;
+                y += 3;
                 
                 doc.setTextColor(...colors.dark);
                 doc.setFontSize(14);
@@ -1925,7 +2049,7 @@
                     doc.setTextColor(...colors.dark);
                     doc.text((inst?.symbol || pos.instrumentId) + ' - ' + pos.size + ' x ' + pos.direction.toUpperCase(), 25, y + 4);
                     doc.setTextColor(...(pl >= 0 ? colors.green : colors.red));
-                    doc.text((pl >= 0 ? '+' : '') + fmt(pl), 120, y + 4);
+                    doc.text((pl >= 0 ? '+' : '') + fmtPDF(pl), 140, y + 4);
                     y += 8;
                 });
             }
@@ -1934,10 +2058,10 @@
             const totalPages = doc.internal.getNumberOfPages();
             for (let i = 1; i <= totalPages; i++) {
                 doc.setPage(i);
-                doc.setFontSize(8);
+                doc.setFontSize(7);
                 doc.setTextColor(...colors.gray);
-                doc.text('Trading Target Tracker v' + VERSION + ' | Erstellt am ' + new Date().toLocaleString('de-DE'), 20, pageHeight - 10);
-                doc.text('Seite ' + i + ' / ' + totalPages, pageWidth - 20, pageHeight - 10, { align: 'right' });
+                doc.text('Trading Target Tracker v' + VERSION + ' | ' + new Date().toLocaleString('de-DE'), 20, pageHeight - 10);
+                doc.text('Seite ' + i + '/' + totalPages, pageWidth - 20, pageHeight - 10, { align: 'right' });
             }
             
             // Speichern
