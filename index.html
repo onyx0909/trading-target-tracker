@@ -176,6 +176,26 @@
         .progress-detail-row .value.gold{color:var(--gold)}
         .progress-detail-row .value.blue{color:var(--blue)}
         .tomorrow-hint{margin-top:12px;padding:8px;background:var(--bg);border-radius:8px;border:1px solid var(--border);text-align:center;font-size:0.8rem}
+        .mini-chart{height:120px;display:flex;align-items:flex-end;gap:4px;padding:10px 0}
+        .mini-chart-bar{flex:1;border-radius:4px 4px 0 0;transition:all 0.3s;min-height:4px;position:relative}
+        .mini-chart-bar.positive{background:linear-gradient(180deg,var(--green),#059669)}
+        .mini-chart-bar.negative{background:linear-gradient(180deg,var(--red),#dc2626)}
+        .mini-chart-bar.neutral{background:var(--border)}
+        .mini-chart-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:0.65rem;color:var(--muted);white-space:nowrap}
+        .mini-chart-value{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:0.7rem;font-weight:600;white-space:nowrap}
+        .equity-line{height:120px;position:relative;margin-top:20px}
+        .equity-line svg{width:100%;height:100%}
+        .equity-line .line{fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+        .equity-line .area{fill:url(#equityGradient);opacity:0.3}
+        .equity-line .dot{fill:var(--green);stroke:var(--card);stroke-width:2}
+        .equity-line .grid-line{stroke:var(--border);stroke-width:1;stroke-dasharray:4}
+        .equity-labels{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);margin-top:8px}
+        .streak-container{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .streak-box{text-align:center;padding:16px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+        .streak-value{font-size:2rem;font-weight:700;line-height:1}
+        .streak-label{font-size:0.75rem;color:var(--muted);margin-top:4px}
+        .streak-fire{color:var(--orange)}
+        .streak-ice{color:var(--blue)}
         .position-card{border-left:4px solid var(--gold)}
         .position-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .position-info{display:flex;align-items:center;gap:10px}
@@ -329,6 +349,10 @@
                 </div>
             </div>
             <div class="card"><div class="card-title"><span>📍</span> Offene Positionen</div><div id="dashboard-positions"></div></div>
+            <div class="grid grid-2">
+                <div class="card"><div class="card-title"><span>📈</span> Equity Curve (7 Tage)</div><div id="mini-equity-chart"></div></div>
+                <div class="card"><div class="card-title"><span>🔥</span> Streak & Statistiken</div><div id="streak-stats"></div></div>
+            </div>
             <div class="card"><div class="card-title"><span>🏆</span> Nächste Meilensteine</div><div class="grid grid-4" id="milestones"></div></div>
         </div>
         <div id="positions" class="tab-content">
@@ -464,7 +488,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.6.1';
+        const VERSION = '3.7.0';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1200,6 +1224,133 @@
                         </div>
                     </div>
                 </div>
+            `;
+            
+            // Mini Equity Chart (letzte 7 Tage)
+            renderMiniEquityChart();
+            
+            // Streak & Statistiken
+            renderStreakStats();
+        }
+        
+        function renderMiniEquityChart() {
+            const last7 = [...data.dailyLogs].sort((a, b) => a.date.localeCompare(b.date)).slice(-7);
+            if (last7.length === 0) {
+                document.getElementById('mini-equity-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">Noch keine Daten</p>';
+                return;
+            }
+            
+            // Berechne Werte für die Linie
+            const values = last7.map(l => l.endingBalance);
+            const min = Math.min(...values) * 0.995;
+            const max = Math.max(...values) * 1.005;
+            const range = max - min || 1;
+            
+            // SVG Punkte berechnen
+            const width = 100;
+            const height = 100;
+            const padding = 10;
+            const points = values.map((v, i) => {
+                const x = padding + (i / (values.length - 1 || 1)) * (width - 2 * padding);
+                const y = height - padding - ((v - min) / range) * (height - 2 * padding);
+                return `${x},${y}`;
+            });
+            
+            const pathD = points.length > 1 ? `M ${points.join(' L ')}` : '';
+            const areaD = pathD ? `${pathD} L ${padding + (width - 2 * padding)},${height - padding} L ${padding},${height - padding} Z` : '';
+            
+            const labels = last7.map(l => {
+                const d = new Date(l.date + 'T12:00:00');
+                return d.toLocaleDateString('de-DE', { weekday: 'short' }).substring(0, 2);
+            });
+            
+            document.getElementById('mini-equity-chart').innerHTML = `
+                <div class="equity-line">
+                    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="equityGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--green)" stop-opacity="0.4"/>
+                                <stop offset="100%" stop-color="var(--green)" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path class="area" d="${areaD}"/>
+                        <path class="line" d="${pathD}"/>
+                        ${points.map((p, i) => `<circle class="dot" cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="3"/>`).join('')}
+                    </svg>
+                </div>
+                <div class="equity-labels">${labels.map(l => `<span>${l}</span>`).join('')}</div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.8rem;">
+                    <span class="text-muted">Min: ${fmt(min)}</span>
+                    <span class="text-muted">Max: ${fmt(max)}</span>
+                </div>
+            `;
+        }
+        
+        function renderStreakStats() {
+            // Berechne Streak
+            const sortedLogs = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date));
+            let currentStreak = 0;
+            let maxStreak = 0;
+            let tempStreak = 0;
+            
+            for (const log of sortedLogs) {
+                if (log.targetHit) {
+                    tempStreak++;
+                    if (tempStreak > maxStreak) maxStreak = tempStreak;
+                } else {
+                    if (currentStreak === 0 && tempStreak > 0) currentStreak = 0; // Streak gebrochen
+                    tempStreak = 0;
+                }
+                if (currentStreak === 0 && log.targetHit) currentStreak = tempStreak;
+            }
+            
+            // Aktueller Streak (von heute rückwärts)
+            currentStreak = 0;
+            for (const log of sortedLogs) {
+                if (log.targetHit) currentStreak++;
+                else break;
+            }
+            
+            // Weitere Stats
+            const totalDays = data.dailyLogs.length;
+            const targetHitDays = data.dailyLogs.filter(l => l.targetHit).length;
+            const hitRate = totalDays > 0 ? (targetHitDays / totalDays) * 100 : 0;
+            
+            // Bester/schlechtester Tag
+            const bestDay = data.dailyLogs.reduce((best, l) => (l.realizedPL || 0) > (best?.realizedPL || -Infinity) ? l : best, null);
+            const worstDay = data.dailyLogs.reduce((worst, l) => (l.realizedPL || 0) < (worst?.realizedPL || Infinity) ? l : worst, null);
+            
+            document.getElementById('streak-stats').innerHTML = `
+                <div class="streak-container">
+                    <div class="streak-box">
+                        <div class="streak-value streak-fire">${currentStreak} 🔥</div>
+                        <div class="streak-label">Aktueller Streak</div>
+                    </div>
+                    <div class="streak-box">
+                        <div class="streak-value">${maxStreak}</div>
+                        <div class="streak-label">Bester Streak</div>
+                    </div>
+                    <div class="streak-box">
+                        <div class="streak-value text-green">${fmtPct(hitRate)}</div>
+                        <div class="streak-label">Ziel-Trefferquote</div>
+                    </div>
+                    <div class="streak-box">
+                        <div class="streak-value">${targetHitDays}/${totalDays}</div>
+                        <div class="streak-label">Tage mit Ziel</div>
+                    </div>
+                </div>
+                ${bestDay ? `
+                <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;">
+                    <div class="streak-box" style="padding:10px;">
+                        <div class="text-green font-bold">+${fmt(bestDay.realizedPL)}</div>
+                        <div class="streak-label">Bester Tag (${formatDate(bestDay.date)})</div>
+                    </div>
+                    <div class="streak-box" style="padding:10px;">
+                        <div class="text-red font-bold">${fmt(worstDay?.realizedPL || 0)}</div>
+                        <div class="streak-label">Schlechtester (${worstDay ? formatDate(worstDay.date) : '-'})</div>
+                    </div>
+                </div>
+                ` : ''}
             `;
         }
         function renderPositions() {
