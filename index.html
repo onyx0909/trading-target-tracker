@@ -495,7 +495,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.9.0';
+        const VERSION = '3.9.1';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1720,6 +1720,7 @@
             // Helper
             const addLine = () => { doc.setDrawColor(...colors.gray); doc.line(20, y, pageWidth - 20, y); y += 5; };
             const checkPage = (needed = 30) => { if (y + needed > pageHeight - 20) { doc.addPage(); y = 20; } };
+            const moodText = (mood) => { const m = { great: '++', good: '+', neutral: 'o', bad: '-' }; return m[mood] || 'o'; };
             
             // === HEADER ===
             doc.setFillColor(...colors.dark);
@@ -1752,7 +1753,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('📊 Übersicht', 20, y);
+            doc.text('UBERSICHT', 20, y);
             y += 10;
             
             const balance = getBalance();
@@ -1787,7 +1788,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('📈 Statistiken', 20, y);
+            doc.text('STATISTIKEN', 20, y);
             y += 10;
             
             const profit = data.dailyLogs.filter(l => l.realizedPL > 0).length;
@@ -1801,7 +1802,7 @@
                 ['Gewinn-Tage', profit.toString()],
                 ['Verlust-Tage', loss.toString()],
                 ['Erfolgsquote', fmtPct(winRate)],
-                ['Ø Tages-P/L', fmt(avgPL)],
+                ['Avg. Tages-P/L', fmt(avgPL)],
                 ['Ziel erreicht', targetHits + ' / ' + data.dailyLogs.length]
             ];
             
@@ -1814,7 +1815,7 @@
                 doc.text(stat[0] + ':', x, y + row * 12);
                 doc.setTextColor(...colors.dark);
                 doc.setFont('helvetica', 'bold');
-                doc.text(stat[1], x + 35, y + row * 12);
+                doc.text(stat[1], x + 38, y + row * 12);
             });
             
             y += 30;
@@ -1826,7 +1827,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('🎯 Ziel-Projektion', 20, y);
+            doc.text('ZIEL-PROJEKTION', 20, y);
             y += 10;
             
             const targetCap = data.settings.targetCapital;
@@ -1839,7 +1840,7 @@
             doc.setTextColor(...colors.gray);
             doc.text('Zielkapital: ' + fmt(targetCap), 20, y);
             doc.text('Tagesziel: ' + fmtPct(data.settings.dailyTargetPercent), 80, y);
-            doc.text('Verbleibend: ~' + daysToTarget + ' Handelstage (' + (daysToTarget / 21).toFixed(1) + ' Monate)', 140, y);
+            doc.text('Verbleibend: ca. ' + daysToTarget + ' Handelstage (' + (daysToTarget / 21).toFixed(1) + ' Monate)', 130, y);
             y += 10;
             
             // Progress Bar
@@ -1860,7 +1861,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('📅 Letzte Einträge', 20, y);
+            doc.text('LETZTE EINTRAGE', 20, y);
             y += 10;
             
             const recentLogs = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
@@ -1873,10 +1874,10 @@
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(...colors.gray);
                 doc.text('Datum', 25, y + 6);
-                doc.text('Kontostand', 60, y + 6);
-                doc.text('P/L', 100, y + 6);
-                doc.text('Ziel', 130, y + 6);
-                doc.text('Stimmung', 150, y + 6);
+                doc.text('Kontostand', 55, y + 6);
+                doc.text('P/L', 95, y + 6);
+                doc.text('Ziel', 125, y + 6);
+                doc.text('Stimmung', 145, y + 6);
                 y += 10;
                 
                 // Rows
@@ -1885,18 +1886,19 @@
                     checkPage(10);
                     doc.setTextColor(...colors.dark);
                     doc.text(formatDate(log.date), 25, y + 4);
-                    doc.text(fmt(log.endingBalance), 60, y + 4);
+                    doc.text(fmt(log.endingBalance), 55, y + 4);
                     doc.setTextColor(...(log.realizedPL >= 0 ? colors.green : colors.red));
-                    doc.text((log.realizedPL >= 0 ? '+' : '') + fmt(log.realizedPL), 100, y + 4);
+                    doc.text((log.realizedPL >= 0 ? '+' : '') + fmt(log.realizedPL), 95, y + 4);
+                    doc.setTextColor(...(log.targetHit ? colors.green : colors.red));
+                    doc.text(log.targetHit ? 'JA' : 'NEIN', 125, y + 4);
                     doc.setTextColor(...colors.dark);
-                    doc.text(log.targetHit ? '✓' : '✗', 135, y + 4);
-                    doc.text(getMoodEmoji(log.mood), 155, y + 4);
+                    doc.text(moodText(log.mood), 150, y + 4);
                     y += 8;
                 });
             } else {
                 doc.setFontSize(10);
                 doc.setTextColor(...colors.gray);
-                doc.text('Noch keine Einträge vorhanden', 20, y);
+                doc.text('Noch keine Eintrage vorhanden', 20, y);
                 y += 10;
             }
             
@@ -1912,7 +1914,7 @@
                 doc.setTextColor(...colors.dark);
                 doc.setFontSize(14);
                 doc.setFont('helvetica', 'bold');
-                doc.text('📍 Offene Positionen', 20, y);
+                doc.text('OFFENE POSITIONEN', 20, y);
                 y += 10;
                 
                 activePos.forEach(pos => {
