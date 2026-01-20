@@ -109,6 +109,16 @@
         .lang-btn{background:var(--card);border:2px solid var(--border);padding:12px;font-size:0.9rem;transition:all 0.2s}
         .lang-btn:hover{border-color:var(--blue);background:var(--card-hover)}
         .lang-btn.active{border-color:var(--green);background:rgba(16,185,129,0.15);color:var(--green)}
+        
+        /* Tooltip System */
+        [data-tooltip]{position:relative;cursor:help}
+        [data-tooltip]::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:8px 12px;border-radius:8px;font-size:0.75rem;white-space:nowrap;max-width:250px;white-space:normal;text-align:center;opacity:0;visibility:hidden;transition:all 0.2s;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.3);pointer-events:none}
+        [data-tooltip]::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--dark);opacity:0;visibility:hidden;transition:all 0.2s;z-index:1000}
+        [data-tooltip]:hover::after,[data-tooltip]:hover::before{opacity:1;visibility:visible}
+        [data-tooltip].tooltip-right::after{left:auto;right:0;transform:none}
+        [data-tooltip].tooltip-left::after{left:0;right:auto;transform:none}
+        .form-label-help{display:inline-flex;align-items:center;gap:6px}
+        .help-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--border);border-radius:50%;font-size:0.65rem;color:var(--muted);cursor:help}
         .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
         .btn-sm{padding:6px 12px;font-size:0.8rem}
         .btn-block{width:100%}
@@ -334,7 +344,7 @@
             <div class="grid grid-4" id="dashboard-stats"></div>
             <div id="recommendations-container"></div>
             <div class="card card-blue">
-                <div class="card-title"><span>📅</span> Diese Woche (KW <span id="week-number">-</span>)</div>
+                <div class="card-title"><span>📅</span> <span data-i18n="thisWeekKW">Diese Woche (KW</span> <span id="week-number">-</span>)</div>
                 <div class="week-grid" id="week-grid"></div>
                 <div class="progress-container">
                     <div class="progress-header"><span>Wochenziel: <span id="week-target">€0</span></span><span id="week-progress-pct">0%</span></div>
@@ -347,73 +357,73 @@
                     <div id="today-progress-content"></div>
                 </div>
                 <div class="card card-purple">
-                    <div class="card-title"><span>🏦</span> Reserve / Buffer</div>
+                    <div class="card-title"><span>🏦</span> <span data-i18n="bufferReserve">Reserve / Buffer</span></div>
                     <div id="buffer-content"></div>
                     <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
                 </div>
             </div>
-            <div class="card"><div class="card-title"><span>📍</span> Offene Positionen</div><div id="dashboard-positions"></div></div>
+            <div class="card"><div class="card-title"><span>📍</span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
             <div class="grid grid-2">
                 <div class="card"><div class="card-title"><span>📈</span> Equity Curve (7 Tage)</div><div id="mini-equity-chart"></div></div>
                 <div class="card"><div class="card-title"><span>🔥</span> Streak & Statistiken</div><div id="streak-stats"></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>🏆</span> Nächste Meilensteine</div><div class="grid grid-4" id="milestones"></div></div>
+            <div class="card"><div class="card-title"><span>🏆</span> <span data-i18n="nextMilestones">Nächste Meilensteine</span></div><div class="grid grid-4" id="milestones"></div></div>
         </div>
         <div id="positions" class="tab-content">
             <div class="grid grid-4" id="position-stats"></div>
             <div id="positions-list"></div>
-            <button class="btn btn-add" onclick="openAddPositionModal()">+ Neue Position hinzufügen</button>
-            <div class="card card-gold mt-3"><div class="card-title"><span>📋</span> Quick Copy</div><div class="grid grid-2" id="quick-copy-list"></div></div>
+            <button class="btn btn-add" onclick="openAddPositionModal()" data-i18n="addPosition">+ Neue Position hinzufügen</button>
+            <div class="card card-gold mt-3"><div class="card-title"><span>📋</span> <span data-i18n="quickCopy">Quick Copy</span></div><div class="grid grid-2" id="quick-copy-list"></div></div>
         </div>
         <div id="entry" class="tab-content">
             <div class="card">
-                <div class="card-title"><span>📝</span> Täglicher Eintrag</div>
+                <div class="card-title"><span>📝</span> <span data-i18n="dailyEntry">Täglicher Eintrag</span></div>
                 <div class="grid grid-2">
-                    <div class="form-group"><label>Datum</label><input type="date" id="entry-date" class="form-input"></div>
-                    <div class="form-group"><label>Neuer Kontostand (€) *</label><input type="number" step="0.01" id="entry-balance" class="form-input" placeholder="z.B. 15365.00"></div>
+                    <div class="form-group"><label data-i18n="date">Datum</label><input type="date" id="entry-date" class="form-input"></div>
+                    <div class="form-group"><label data-i18n="newBalance">Neuer Kontostand (€) *</label><input type="number" step="0.01" id="entry-balance" class="form-input" placeholder="z.B. 15365.00"></div>
                 </div>
                 <div class="grid grid-3">
-                    <div class="form-group"><label>Realisierter P/L (€)</label><input type="number" step="0.01" id="entry-realized" class="form-input" placeholder="0.00"></div>
-                    <div class="form-group"><label>Unrealisierter P/L (€)</label><input type="number" step="0.01" id="entry-unrealized" class="form-input" placeholder="0.00"></div>
-                    <div class="form-group"><label>Anzahl Trades</label><input type="number" id="entry-trades" class="form-input" placeholder="0"></div>
+                    <div class="form-group"><label data-tip="realizedPL" data-tooltip=""><span data-i18n="realizedPL">Realisierter P/L (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="entry-realized" class="form-input" placeholder="0.00"></div>
+                    <div class="form-group"><label data-tip="unrealizedPL" data-tooltip=""><span data-i18n="unrealizedPL">Unrealisierter P/L (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="entry-unrealized" class="form-input" placeholder="0.00"></div>
+                    <div class="form-group"><label data-i18n="numTrades">Anzahl Trades</label><input type="number" id="entry-trades" class="form-input" placeholder="0"></div>
                 </div>
-                <div class="form-group"><label>Stimmung</label><select id="entry-mood" class="form-input"><option value="great">🚀 Hervorragend</option><option value="good">😊 Gut</option><option value="neutral" selected>😐 Neutral</option><option value="bad">😔 Schlecht</option></select></div>
-                <div class="form-group"><label>Notizen</label><textarea id="entry-notes" class="form-input" rows="2" placeholder="z.B. Gold Breakout..."></textarea></div>
+                <div class="form-group"><label data-tip="mood" data-tooltip=""><span data-i18n="mood">Stimmung</span> <span class="help-icon">?</span></label><select id="entry-mood" class="form-input"><option value="great" data-i18n="moodGreat">🚀 Hervorragend</option><option value="good" data-i18n="moodGood">😊 Gut</option><option value="neutral" selected data-i18n="moodNeutral">😐 Neutral</option><option value="bad" data-i18n="moodBad">😔 Schlecht</option></select></div>
+                <div class="form-group"><label data-i18n="notes">Notizen</label><textarea id="entry-notes" class="form-input" rows="2" placeholder="z.B. Gold Breakout..."></textarea></div>
                 <div id="entry-preview" class="card card-dark hidden"></div>
-                <button class="btn btn-success btn-block mt-2" onclick="saveEntry()">💾 Eintrag speichern</button>
+                <button class="btn btn-success btn-block mt-2" onclick="saveEntry()" data-i18n="saveEntry">💾 Eintrag speichern</button>
             </div>
         </div>
         <div id="performance" class="tab-content">
             <div class="grid grid-3">
-                <div class="card card-green"><div class="stat-box"><div class="stat-label">Diese Woche</div><div class="stat-value" id="perf-week">€0</div><div class="stat-sub" id="perf-week-pct">0%</div></div></div>
-                <div class="card card-blue"><div class="stat-box"><div class="stat-label">Dieser Monat</div><div class="stat-value" id="perf-month">€0</div><div class="stat-sub" id="perf-month-pct">0%</div></div></div>
-                <div class="card card-gold"><div class="stat-box"><div class="stat-label">Gesamt</div><div class="stat-value" id="perf-total">€0</div><div class="stat-sub" id="perf-total-pct">0%</div></div></div>
+                <div class="card card-green"><div class="stat-box"><div class="stat-label" data-i18n="thisWeek">Diese Woche</div><div class="stat-value" id="perf-week">€0</div><div class="stat-sub" id="perf-week-pct">0%</div></div></div>
+                <div class="card card-blue"><div class="stat-box"><div class="stat-label" data-i18n="thisMonth">Dieser Monat</div><div class="stat-value" id="perf-month">€0</div><div class="stat-sub" id="perf-month-pct">0%</div></div></div>
+                <div class="card card-gold"><div class="stat-box"><div class="stat-label" data-i18n="total">Gesamt</div><div class="stat-value" id="perf-total">€0</div><div class="stat-sub" id="perf-total-pct">0%</div></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>📈</span> Equity Curve (Gesamtverlauf)</div><div id="full-equity-chart"></div></div>
+            <div class="card"><div class="card-title"><span>📈</span> <span data-i18n="equityCurve">Equity Curve (Gesamtverlauf)</span></div><div id="full-equity-chart"></div></div>
             <div class="grid grid-2">
-                <div class="card"><div class="card-title"><span>📊</span> Monatsübersicht</div><div id="monthly-chart"></div></div>
-                <div class="card"><div class="card-title"><span>📅</span> Wochentags-Analyse</div><div id="weekday-chart"></div></div>
+                <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="monthlyOverview">Monatsübersicht</span></div><div id="monthly-chart"></div></div>
+                <div class="card"><div class="card-title"><span>📅</span> <span data-i18n="weekdayAnalysis">Wochentags-Analyse</span></div><div id="weekday-chart"></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>📊</span> Statistiken</div><div class="grid grid-4" id="performance-stats"></div></div>
-            <div class="card"><div class="card-title"><span>🎯</span> Ziel-Projektion</div><div id="projection-content"></div></div>
+            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="statistics">Statistiken</span></div><div class="grid grid-4" id="performance-stats"></div></div>
+            <div class="card"><div class="card-title"><span>🎯</span> <span data-i18n="projection">Ziel-Projektion</span></div><div id="projection-content"></div></div>
         </div>
         <div id="instruments" class="tab-content">
             <div class="card"><div class="card-title"><span>🥇</span> Edelmetalle</div><div id="instruments-metals"></div></div>
             <div class="card" style="opacity:0.6;"><div class="card-title"><span>📈</span> Aktien <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;">🔒 Kommt bald</p></div>
         </div>
         <div id="history" class="tab-content">
-            <div class="card"><div class="card-title"><span>📅</span> Trading Historie</div><div style="overflow-x:auto;"><table><thead><tr><th>Datum</th><th style="text-align:right">Start</th><th style="text-align:right">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center">Ziel</th><th style="text-align:center">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
+            <div class="card"><div class="card-title"><span>📅</span> <span data-i18n="tradingHistory">Trading Historie</span></div><div style="overflow-x:auto;"><table><thead><tr><th data-i18n="date">Datum</th><th style="text-align:right" data-i18n="start">Start</th><th style="text-align:right" data-i18n="end">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center" data-i18n="target">Ziel</th><th style="text-align:center" data-i18n="mood">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
         </div>
         <div id="settings" class="tab-content">
             <div class="card card-blue" id="cloud-sync-card"><div class="card-title"><span>☁️</span> Cloud-Sync</div><div id="cloud-sync-content"></div></div>
-            <div class="card"><div class="card-title"><span>💰</span> Kapital & Ziele</div><div class="grid grid-3"><div class="form-group"><label>Startkapital (€)</label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label>Aktueller Stand (€)</label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label>Zielkapital (€)</label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>📊</span> Risk Management</div><div class="grid grid-4"><div class="form-group"><label>Tagesziel (%)</label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label>Risiko/Trade (%)</label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label>Max. Tagesverlust (%)</label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label>Risk:Reward</label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>🏦</span> Buffer-System</div><div class="grid grid-2"><div class="form-group"><label>Buffer aktiviert</label><select id="set-buffer-enabled" class="form-input"><option value="true">Ja</option><option value="false">Nein</option></select></div><div class="form-group"><label>Max. Buffer (Tage)</label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
-            <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()">💾 Einstellungen speichern</button>
-            <div class="card"><div class="card-title"><span>💾</span> Backup & Restore</div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()">📤 Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;">📥 Importieren<input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
+            <div class="card"><div class="card-title"><span>💰</span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip="">Startkapital (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip="">Aktueller Stand (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip="">Zielkapital (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip="">Tagesziel (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip="">Risiko/Trade (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip="">Max. Tagesverlust (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip="">Risk:Reward <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span>🏦</span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip="">Buffer aktiviert <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip="">Max. Buffer (Tage) <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
+            <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()" data-i18n="saveSettings">💾 Einstellungen speichern</button>
+            <div class="card"><div class="card-title"><span>💾</span> <span data-i18n="backupRestore">Backup & Restore</span></div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()" data-i18n="export">📤 Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;"><span data-i18n="import">📥 Importieren</span><input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
             <div class="card card-blue"><div class="card-title"><span>📄</span> <span data-i18n="pdfReport">PDF Bericht</span></div><p class="text-muted mb-2" style="font-size:0.85rem;" data-i18n="pdfDescription">Exportiere einen Performance-Bericht als PDF</p><button class="btn btn-primary btn-block" onclick="exportPDF()" data-i18n="createPdf">📄 PDF Bericht erstellen</button></div>
             <div class="card"><div class="card-title"><span>🌍</span> <span data-i18n="language">Sprache</span></div><div class="grid grid-3"><button class="btn lang-btn" onclick="setLanguage('de')" id="lang-de">🇩🇪 Deutsch</button><button class="btn lang-btn" onclick="setLanguage('en')" id="lang-en">🇬🇧 English</button><button class="btn lang-btn" onclick="setLanguage('es')" id="lang-es">🇪🇸 Español</button></div></div>
-            <div class="card card-red"><div class="card-title"><span>⚠️</span> Gefahrenzone</div><button class="btn btn-danger" onclick="resetAllData()">🗑️ Alle Daten löschen</button></div>
+            <div class="card card-red"><div class="card-title"><span>⚠️</span> <span data-i18n="dangerZone">Gefahrenzone</span></div><button class="btn btn-danger" onclick="resetAllData()" data-i18n="deleteAll">🗑️ Alle Daten löschen</button></div>
         </div>
     </div>
     <div class="modal-overlay" id="user-modal"><div class="modal" style="max-width:350px;"><div class="modal-header"><h3 class="modal-title">👤 Benutzer</h3><button class="modal-close" onclick="closeModal('user-modal')">&times;</button></div><div id="user-modal-content"></div></div></div>
@@ -703,7 +713,59 @@
                 
                 // Validation
                 targetMustBeHigher: 'Zielkapital muss größer als Anfangskapital sein',
-                weekTargetReached: 'Wochenziel erreicht!'
+                weekTargetReached: 'Wochenziel erreicht!',
+                
+                // Additional UI texts
+                thisWeekKW: 'Diese Woche (KW',
+                noOpenPositions: 'Keine offenen Positionen',
+                enterBalance: 'z.B. 15365.00',
+                enterNotes: 'z.B. Gold Breakout...',
+                from: 'von',
+                to: 'bis',
+                preview: 'Vorschau',
+                targetReached: 'Ziel erreicht',
+                overTarget: 'über Ziel',
+                underTarget: 'unter Ziel',
+                localData: 'Lokale Daten',
+                cloudData: 'Cloud-Daten',
+                useCloud: 'Cloud verwenden',
+                useLocal: 'Lokal verwenden',
+                syncToCloud: 'Diese Daten in die Cloud speichern',
+                migrateToCloud: 'In Cloud migrieren',
+                offlineMode: 'Offline-Modus',
+                continueOffline: 'Offline fortfahren',
+                createAccount: 'Konto erstellen',
+                emailPlaceholder: 'deine@email.com',
+                passwordPlaceholder: '••••••••',
+                orContinueWith: 'Oder weiter mit',
+                confirmEmail: 'Bitte bestätige deine Email',
+                accountCreated: 'Konto erstellt!',
+                loginSuccess: 'Erfolgreich angemeldet!',
+                loginFailed: 'Login fehlgeschlagen',
+                phase: 'Phase',
+                locked: 'Gesperrt',
+                
+                // Tooltips
+                tipStartCapital: 'Dein anfängliches Trading-Kapital. Basis für alle Berechnungen.',
+                tipCurrentBalance: 'Aktueller Kontostand bei deinem Broker.',
+                tipTargetCapital: 'Dein finanzielles Ziel. Bei Erreichen ist die Challenge geschafft!',
+                tipDailyTarget: 'Tägliches Gewinnziel in Prozent. 1-1.5% ist realistisch für Daytrading.',
+                tipRiskPerTrade: 'Maximales Risiko pro Trade. 1-2% wird empfohlen.',
+                tipMaxDailyLoss: 'Stop-Trading wenn dieser Verlust erreicht wird.',
+                tipRRRatio: 'Verhältnis von Gewinn zu Risiko. 2:1 bedeutet doppelter Gewinn bei gleichem Risiko.',
+                tipBufferEnabled: 'Buffer sammelt Übergewinne als Reserve für schlechte Tage.',
+                tipMaxBufferDays: 'Maximale Anzahl Tage, die der Buffer abdecken kann.',
+                tipRealizedPL: 'Bereits geschlossene Trades - tatsächlicher Gewinn/Verlust.',
+                tipUnrealizedPL: 'Noch offene Positionen - kann sich noch ändern.',
+                tipMood: 'Deine Trading-Stimmung hilft bei der Analyse deiner Performance.',
+                tipPositionSize: 'Anzahl der Einheiten (Lots, Kontrakte, Unzen).',
+                tipAvgPrice: 'Durchschnittlicher Einstiegspreis deiner Position.',
+                tipCurrentPrice: 'Aktueller Marktpreis für P/L Berechnung.',
+                tipEquityCurve: 'Zeigt die Entwicklung deines Kontostands über Zeit.',
+                tipStreak: 'Aufeinanderfolgende Tage mit erreichtem Tagesziel.',
+                tipHitRate: 'Prozentsatz der Tage, an denen das Tagesziel erreicht wurde.',
+                tipWeekProgress: 'Fortschritt zum wöchentlichen Gewinnziel.',
+                tipBuffer: 'Angesammeltes Polster aus Übergewinnen für Verlustphasen.'
             },
             en: {
                 // General
@@ -903,7 +965,59 @@
                 
                 // Validation
                 targetMustBeHigher: 'Target capital must be higher than start capital',
-                weekTargetReached: 'Weekly target reached!'
+                weekTargetReached: 'Weekly target reached!',
+                
+                // Additional UI texts
+                thisWeekKW: 'This Week (CW',
+                noOpenPositions: 'No open positions',
+                enterBalance: 'e.g. 15365.00',
+                enterNotes: 'e.g. Gold breakout...',
+                from: 'from',
+                to: 'to',
+                preview: 'Preview',
+                targetReached: 'Target reached',
+                overTarget: 'over target',
+                underTarget: 'under target',
+                localData: 'Local Data',
+                cloudData: 'Cloud Data',
+                useCloud: 'Use Cloud',
+                useLocal: 'Use Local',
+                syncToCloud: 'Sync this data to cloud',
+                migrateToCloud: 'Migrate to Cloud',
+                offlineMode: 'Offline Mode',
+                continueOffline: 'Continue Offline',
+                createAccount: 'Create Account',
+                emailPlaceholder: 'your@email.com',
+                passwordPlaceholder: '••••••••',
+                orContinueWith: 'Or continue with',
+                confirmEmail: 'Please confirm your email',
+                accountCreated: 'Account created!',
+                loginSuccess: 'Successfully logged in!',
+                loginFailed: 'Login failed',
+                phase: 'Phase',
+                locked: 'Locked',
+                
+                // Tooltips
+                tipStartCapital: 'Your initial trading capital. Basis for all calculations.',
+                tipCurrentBalance: 'Current account balance at your broker.',
+                tipTargetCapital: 'Your financial goal. Challenge completed when reached!',
+                tipDailyTarget: 'Daily profit target in percent. 1-1.5% is realistic for day trading.',
+                tipRiskPerTrade: 'Maximum risk per trade. 1-2% is recommended.',
+                tipMaxDailyLoss: 'Stop trading when this loss is reached.',
+                tipRRRatio: 'Reward to risk ratio. 2:1 means double profit for same risk.',
+                tipBufferEnabled: 'Buffer collects excess profits as reserve for bad days.',
+                tipMaxBufferDays: 'Maximum number of days the buffer can cover.',
+                tipRealizedPL: 'Already closed trades - actual profit/loss.',
+                tipUnrealizedPL: 'Still open positions - can still change.',
+                tipMood: 'Your trading mood helps analyze your performance.',
+                tipPositionSize: 'Number of units (lots, contracts, ounces).',
+                tipAvgPrice: 'Average entry price of your position.',
+                tipCurrentPrice: 'Current market price for P/L calculation.',
+                tipEquityCurve: 'Shows the development of your account balance over time.',
+                tipStreak: 'Consecutive days with daily target achieved.',
+                tipHitRate: 'Percentage of days where daily target was reached.',
+                tipWeekProgress: 'Progress towards weekly profit target.',
+                tipBuffer: 'Accumulated cushion from excess profits for loss phases.'
             },
             es: {
                 // General
@@ -1103,17 +1217,78 @@
                 
                 // Validation
                 targetMustBeHigher: 'El capital objetivo debe ser mayor que el inicial',
-                weekTargetReached: '¡Objetivo semanal alcanzado!'
+                weekTargetReached: '¡Objetivo semanal alcanzado!',
+                
+                // Additional UI texts
+                thisWeekKW: 'Esta Semana (Sem',
+                noOpenPositions: 'Sin posiciones abiertas',
+                enterBalance: 'ej. 15365.00',
+                enterNotes: 'ej. Ruptura del oro...',
+                from: 'desde',
+                to: 'hasta',
+                preview: 'Vista previa',
+                targetReached: 'Objetivo alcanzado',
+                overTarget: 'sobre objetivo',
+                underTarget: 'bajo objetivo',
+                localData: 'Datos Locales',
+                cloudData: 'Datos en la Nube',
+                useCloud: 'Usar Nube',
+                useLocal: 'Usar Local',
+                syncToCloud: 'Sincronizar datos a la nube',
+                migrateToCloud: 'Migrar a la Nube',
+                offlineMode: 'Modo Sin Conexión',
+                continueOffline: 'Continuar Sin Conexión',
+                createAccount: 'Crear Cuenta',
+                emailPlaceholder: 'tu@email.com',
+                passwordPlaceholder: '••••••••',
+                orContinueWith: 'O continuar con',
+                confirmEmail: 'Por favor confirma tu email',
+                accountCreated: '¡Cuenta creada!',
+                loginSuccess: '¡Sesión iniciada!',
+                loginFailed: 'Error de inicio de sesión',
+                phase: 'Fase',
+                locked: 'Bloqueado',
+                
+                // Tooltips
+                tipStartCapital: 'Tu capital inicial de trading. Base para todos los cálculos.',
+                tipCurrentBalance: 'Saldo actual de la cuenta en tu broker.',
+                tipTargetCapital: '¡Tu meta financiera. Desafío completado al alcanzarlo!',
+                tipDailyTarget: 'Objetivo de ganancia diaria en porcentaje. 1-1.5% es realista.',
+                tipRiskPerTrade: 'Riesgo máximo por operación. Se recomienda 1-2%.',
+                tipMaxDailyLoss: 'Dejar de operar cuando se alcance esta pérdida.',
+                tipRRRatio: 'Relación beneficio/riesgo. 2:1 significa el doble de ganancia.',
+                tipBufferEnabled: 'El buffer acumula ganancias extra como reserva.',
+                tipMaxBufferDays: 'Número máximo de días que el buffer puede cubrir.',
+                tipRealizedPL: 'Operaciones ya cerradas - ganancia/pérdida real.',
+                tipUnrealizedPL: 'Posiciones aún abiertas - pueden cambiar.',
+                tipMood: 'Tu estado de ánimo ayuda a analizar tu rendimiento.',
+                tipPositionSize: 'Número de unidades (lotes, contratos, onzas).',
+                tipAvgPrice: 'Precio promedio de entrada de tu posición.',
+                tipCurrentPrice: 'Precio actual del mercado para cálculo de P/L.',
+                tipEquityCurve: 'Muestra la evolución de tu saldo a lo largo del tiempo.',
+                tipStreak: 'Días consecutivos con objetivo diario alcanzado.',
+                tipHitRate: 'Porcentaje de días donde se alcanzó el objetivo.',
+                tipWeekProgress: 'Progreso hacia el objetivo de ganancias semanal.',
+                tipBuffer: 'Colchón acumulado de ganancias extra para fases de pérdidas.'
             }
         };
         
         let currentLang = localStorage.getItem('trading-tracker-lang') || 'de';
         function t(key) { return LANG[currentLang]?.[key] || LANG.de[key] || key; }
+        function tt(key) { return t('tip' + key.charAt(0).toUpperCase() + key.slice(1)); }
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('trading-tracker-lang', lang);
             render();
             renderTabs();
+            updateTooltips();
+        }
+        
+        function updateTooltips() {
+            document.querySelectorAll('[data-tip]').forEach(el => {
+                const key = el.getAttribute('data-tip');
+                el.setAttribute('data-tooltip', tt(key));
+            });
         }
         
         const INSTRUMENT_LIBRARY = {
@@ -1740,7 +1915,7 @@
         // ============================================================
         // RENDER
         // ============================================================
-        function render() { renderHeader(); renderDashboard(); renderPositions(); renderPerformance(); renderInstruments(); renderHistory(); renderSettings(); updateI18n(); updateLangButtons(); }
+        function render() { renderHeader(); renderDashboard(); renderPositions(); renderPerformance(); renderInstruments(); renderHistory(); renderSettings(); updateI18n(); updateLangButtons(); updateTooltips(); }
         
         function renderTabs() {
             document.querySelectorAll('.tabs .tab').forEach(tab => {
