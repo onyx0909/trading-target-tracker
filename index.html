@@ -25,11 +25,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        :root{--bg:#0f1419;--card:#1e2736;--card-hover:#252f3f;--border:#2d3748;--text:#fff;--muted:#9ca3af;--dark:#6b7280;--blue:#3b82f6;--green:#10b981;--gold:#fbbf24;--red:#ef4444;--orange:#f59e0b;--purple:#8b5cf6;--safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom)}
-        [data-theme="light"]{--bg:#f3f4f6;--card:#ffffff;--card-hover:#f9fafb;--border:#e5e7eb;--text:#111827;--muted:#6b7280;--dark:#9ca3af}
+        :root{--bg:#0f1419;--card:#1e2736;--card-hover:#252f3f;--border:#2d3748;--text:#fff;--muted:#9ca3af;--dark:#6b7280;--blue:#3b82f6;--green:#10b981;--gold:#fbbf24;--red:#ef4444;--orange:#f59e0b;--purple:#8b5cf6;--header-bg:linear-gradient(135deg,#1e2736,#1a2332);--safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom)}
+        [data-theme="light"]{--bg:#f8fafc;--card:#ffffff;--card-hover:#f1f5f9;--border:#e2e8f0;--text:#1e293b;--muted:#64748b;--dark:#94a3b8;--header-bg:linear-gradient(135deg,#ffffff,#f1f5f9)}
+        [data-theme="light"] .header{border-color:#cbd5e1;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
+        [data-theme="light"] .header-brand h1{background:linear-gradient(90deg,#0369a1,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        [data-theme="light"] .sl-tp-box.stop{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+        [data-theme="light"] .sl-tp-box.tp{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
+        [data-theme="light"] .sl-tp-box.target{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+        [data-theme="light"] .sl-tp-label{color:rgba(255,255,255,0.9)}
+        [data-theme="light"] .sl-tp-value{color:#fff}
+        [data-theme="light"] .sl-tp-dist{color:rgba(255,255,255,0.8)}
+        [data-theme="light"] .tab.active{background:#0284c7}
+        [data-theme="light"] .card-blue{border-color:#0284c7;background:linear-gradient(135deg,rgba(2,132,199,0.1),transparent)}
+        [data-theme="light"] .card-green{border-color:#059669;background:linear-gradient(135deg,rgba(5,150,105,0.1),transparent)}
+        [data-theme="light"] .card-gold{border-color:#d97706;background:linear-gradient(135deg,rgba(217,119,6,0.1),transparent)}
+        [data-theme="light"] .card-purple{border-color:#7c3aed;background:linear-gradient(135deg,rgba(124,58,237,0.1),transparent)}
+        [data-theme="light"] .week-day{background:#f8fafc}
+        [data-theme="light"] .circle-progress .bg{stroke:#e2e8f0}
         body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:12px;padding-top:calc(12px + var(--safe-top));padding-bottom:calc(80px + var(--safe-bottom))}
         .container{max-width:1200px;margin:0 auto}
-        .header{background:linear-gradient(135deg,var(--card),#1a2332);border-radius:16px;padding:16px 20px;margin-bottom:16px;border:1px solid var(--blue);display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
+        .header{background:var(--header-bg);border-radius:16px;padding:16px 20px;margin-bottom:16px;border:1px solid var(--blue);display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
         .header-left{display:flex;align-items:center;gap:12px}
         .header-left img{width:48px;height:48px}
         .header-brand h1{font-size:1.1rem;font-weight:700;background:linear-gradient(90deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
@@ -449,7 +464,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '3.6.0';
+        const VERSION = '3.6.1';
         const INSTRUMENT_LIBRARY = {
             metals: [
                 { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
@@ -1347,6 +1362,11 @@
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', newTheme === 'dark' ? '' : 'light');
             document.querySelector('.theme-toggle').textContent = newTheme === 'light' ? '🌙' : '☀️';
+            // Logo wechseln
+            const headerLogo = document.querySelector('.header-left img');
+            if (headerLogo) {
+                headerLogo.src = newTheme === 'light' ? 'assets/icon_light_64.png' : 'assets/icon_dark_64.png';
+            }
             localStorage.setItem('theme', newTheme);
         }
         function loadTheme() {
@@ -1355,6 +1375,8 @@
                 document.documentElement.setAttribute('data-theme', 'light');
                 const btn = document.querySelector('.theme-toggle');
                 if (btn) btn.textContent = '🌙';
+                const headerLogo = document.querySelector('.header-left img');
+                if (headerLogo) headerLogo.src = 'assets/icon_light_64.png';
             }
         }
 
