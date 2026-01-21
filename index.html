@@ -30,12 +30,12 @@
         [data-theme="light"]{--bg:#f8fafc;--card:#ffffff;--card-hover:#f1f5f9;--border:#e2e8f0;--text:#1e293b;--muted:#64748b;--dark:#94a3b8;--accent:#059669;--header-bg:linear-gradient(135deg,#ffffff,#f1f5f9)}
         [data-theme="light"] .header{border-color:#cbd5e1;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
         [data-theme="light"] .header-brand h1{color:var(--text)}
-        [data-theme="light"] .sl-tp-box.stop{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
-        [data-theme="light"] .sl-tp-box.tp{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
-        [data-theme="light"] .sl-tp-box.target{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
-        [data-theme="light"] .sl-tp-label{color:rgba(255,255,255,0.9)}
-        [data-theme="light"] .sl-tp-value{color:#fff}
-        [data-theme="light"] .sl-tp-dist{color:rgba(255,255,255,0.8)}
+        [data-theme="light"] .sl-tp-box.stop{background:var(--card);border-left:3px solid #ef4444;color:var(--text)}
+        [data-theme="light"] .sl-tp-box.tp{background:var(--card);border-left:3px solid #10b981;color:var(--text)}
+        [data-theme="light"] .sl-tp-box.target{background:var(--card);border-left:3px solid #00d4aa;color:var(--text)}
+        [data-theme="light"] .sl-tp-label{color:var(--muted)}
+        [data-theme="light"] .sl-tp-value{color:var(--text)}
+        [data-theme="light"] .sl-tp-dist{color:var(--muted)}
         [data-theme="light"] .tab.active{background:#0284c7}
         [data-theme="light"] .card-blue{border-color:#0284c7;background:linear-gradient(135deg,rgba(2,132,199,0.1),transparent)}
         [data-theme="light"] .card-green{border-color:#059669;background:linear-gradient(135deg,rgba(5,150,105,0.1),transparent)}
@@ -214,16 +214,16 @@
         .position-card{border-left:4px solid var(--gold)}
         .position-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
         .position-info{display:flex;align-items:center;gap:10px}
-        .position-icon{font-size:1.5rem}
+        .position-icon{display:flex;align-items:center;justify-content:center}
         .position-symbol{font-weight:700;font-size:1.1rem}
         .position-name{color:var(--dark);font-size:0.8rem}
         .position-pl-value{font-size:1.2rem;font-weight:700}
         .sl-tp-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-        .sl-tp-box{padding:10px;border-radius:8px;text-align:center}
-        .sl-tp-box.stop{background:linear-gradient(135deg,#7f1d1d,#991b1b)}
-        .sl-tp-box.tp{background:linear-gradient(135deg,#14532d,#166534)}
-        .sl-tp-box.target{background:linear-gradient(135deg,#1e3a5f,#1e40af)}
-        .sl-tp-label{font-size:0.65rem;opacity:0.8;margin-bottom:2px}
+        .sl-tp-box{padding:10px;border-radius:8px;text-align:center;background:var(--card);border:1px solid var(--border)}
+        .sl-tp-box.stop{border-left:3px solid #ef4444}
+        .sl-tp-box.tp{border-left:3px solid #10b981}
+        .sl-tp-box.target{border-left:3px solid #00d4aa}
+        .sl-tp-label{font-size:0.7rem;color:var(--muted);margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:4px}
         .sl-tp-value{font-size:1rem;font-weight:700}
         .sl-tp-dist{font-size:0.7rem;opacity:0.7;margin-top:2px}
         .instrument-card{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:all 0.2s}
@@ -576,7 +576,7 @@
             eye:'<svg viewBox="0 0 32 32" fill="none"><path d="M2 16C2 16 7 6 16 6C25 6 30 16 30 16C30 16 25 26 16 26C7 26 2 16 2 16Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="16" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>',
             sync:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 16C4 9.37 9.37 4 16 4C20.42 4 24.27 6.35 26.38 9.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 16C28 22.63 22.63 28 16 28C11.58 28 7.73 25.65 5.62 22.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><polyline points="22 10 27 10 27 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10 22 5 22 5 27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         };
-        const ic=(n,s=20,c)=>`<span class="i i-${s}" style="${c?'color:'+c:''}width:${s}px;height:${s}px">${I[n]||''}</span>`;
+        const ic=(n,s=20,c)=>{const map={'🥇':'gold','🥈':'gold','⚪':'gold','🔘':'gold','📊':'stats'};const key=map[n]||n;return `<span class="i i-${s}" style="${c?'color:'+c+';':''}width:${s}px;height:${s}px">${I[key]||I.gold||''}</span>`;};
 
         // ============================================================
         // SUPABASE CONFIG
