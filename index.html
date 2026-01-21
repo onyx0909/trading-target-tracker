@@ -327,7 +327,7 @@
                 <button class="theme-toggle" onclick="toggleTheme()" data-tooltip="" data-tip="themeToggle">☀️</button>
                 <div class="user-badge" onclick="openUserMenu()">
                     <div class="user-avatar" id="user-avatar">?</div>
-                    <span id="user-name" data-i18n="guest">Gast</span>
+                    <span id="user-name">Gast</span>
                 </div>
             </div>
         </div>
@@ -509,7 +509,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.0.2';
+        const VERSION = '4.0.3';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -1828,6 +1828,7 @@
             db.auth.onAuthStateChange(async (event, session) => {
                 if (event === 'SIGNED_IN' && session) { 
                     currentUser = session.user;
+                    updateUserBadge();
                     // Prüfe ob Cloud bereits Daten hat
                     const cloudHasData = await checkCloudHasData();
                     // Prüfe ob lokale Daten vorhanden
@@ -2335,15 +2336,39 @@
         function calculatePL(pos) { const inst = data.instruments[pos.instrumentId]; if (!inst || !inst.plFactor) return 0; const diff = pos.direction === 'long' ? pos.currentPrice - pos.avgPrice : pos.avgPrice - pos.currentPrice; return diff * pos.size * inst.plFactor; }
         function calculateStopLimit(pos) { const inst = data.instruments[pos.instrumentId]; if (!inst || !inst.plFactor) return null; const plPerUnit = pos.size * inst.plFactor; const risk = getRiskPerTrade(); const target = getDailyTarget(); const rr = data.settings.rrRatio; const stopD = risk / plPerUnit; const tpDRR = stopD * rr; const tpDT = target / plPerUnit; const isLong = pos.direction === 'long'; return { stopPrice: isLong ? pos.avgPrice - stopD : pos.avgPrice + stopD, tpPriceRR: isLong ? pos.avgPrice + tpDRR : pos.avgPrice - tpDRR, tpPriceTarget: isLong ? pos.avgPrice + tpDT : pos.avgPrice - tpDT, potentialLoss: risk, potentialProfitRR: risk * rr, potentialProfitTarget: target }; }
         function getWeekNumber(d) { const dt = new Date(d); dt.setHours(0,0,0,0); dt.setDate(dt.getDate() + 4 - (dt.getDay()||7)); const ys = new Date(dt.getFullYear(),0,1); return Math.ceil((((dt-ys)/86400000)+1)/7); }
-        function getWeekDates(d) { const dt = new Date(d); const day = dt.getDay(); const diff = dt.getDate() - day + (day === 0 ? -6 : 1); const mon = new Date(dt.setDate(diff)); const dates = []; for (let i = 0; i < 5; i++) { const x = new Date(mon); x.setDate(mon.getDate() + i); dates.push(x.toISOString().split('T')[0]); } return dates; }
-        function getWeeklyData() { const today = new Date(); const dates = getWeekDates(today); const logs = data.dailyLogs.filter(l => dates.includes(l.date)); const realized = logs.reduce((s, l) => s + (l.realizedPL||0), 0); const target = getWeeklyTarget(); return { weekNumber: getWeekNumber(today), dates, logs, target, realized, variance: realized - target, progressPercent: target > 0 ? (realized / target) * 100 : 0, status: realized >= target ? 'exceeded' : (realized >= target * 0.5 ? 'on_track' : 'behind') }; }
+        function getLocalDateString(date) { const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0'); return `${y}-${m}-${d}`; }
+        function getWeekDates(d) { 
+            const dt = new Date(d); 
+            dt.setHours(12, 0, 0, 0); 
+            const day = dt.getDay(); // 0=So, 1=Mo, 2=Di, etc.
+            const diff = dt.getDate() - day + (day === 0 ? -6 : 1); 
+            const mon = new Date(dt); 
+            mon.setDate(diff); 
+            const dates = []; 
+            for (let i = 0; i < 5; i++) { 
+                const x = new Date(mon); 
+                x.setDate(mon.getDate() + i); 
+                dates.push(getLocalDateString(x)); 
+            } 
+            console.log('getWeekDates:', { today: getLocalDateString(dt), dayOfWeek: day, mondayDate: getLocalDateString(mon), weekDates: dates });
+            return dates; 
+        }
+        function getWeeklyData() { 
+            const today = new Date(); 
+            const dates = getWeekDates(today); 
+            const logs = data.dailyLogs.filter(l => dates.includes(l.date)); 
+            console.log('getWeeklyData:', { dates, logsInWeek: logs.map(l => ({ date: l.date, pl: l.realizedPL })), allLogs: data.dailyLogs.map(l => ({ date: l.date, pl: l.realizedPL })) });
+            const realized = logs.reduce((s, l) => s + (l.realizedPL||0), 0); 
+            const target = getWeeklyTarget(); 
+            return { weekNumber: getWeekNumber(today), dates, logs, target, realized, variance: realized - target, progressPercent: target > 0 ? (realized / target) * 100 : 0, status: realized >= target ? 'exceeded' : (realized >= target * 0.5 ? 'on_track' : 'behind') }; 
+        }
         function processBuffer(realizedPL) { 
             console.log('processBuffer called with realizedPL:', realizedPL);
             if (!data.buffer.settings.enabled) { console.log('Buffer disabled'); return; }
             const target = getDailyTarget(); 
             console.log('Daily target:', target, 'realizedPL > target?', realizedPL > target);
             const max = target * data.buffer.settings.maxBufferDays; 
-            const today = new Date().toISOString().split('T')[0]; 
+            const today = getLocalDateString(new Date()); 
             
             if (realizedPL > target) { 
                 const surplus = realizedPL - target; 
@@ -2385,7 +2410,7 @@
         // RECOMMENDATIONS
         // ============================================================
         function generateRecommendations() {
-            const recs = []; const weekData = getWeeklyData(); const target = getDailyTarget(); const todayLog = data.dailyLogs.find(l => l.date === new Date().toISOString().split('T')[0]);
+            const recs = []; const weekData = getWeeklyData(); const target = getDailyTarget(); const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
             if (weekData.realized >= weekData.target) recs.push({ id: 'weekly_exceeded', priority: 'medium', icon: '🎯', title: 'Wochenziel erreicht!', message: `${fmt(weekData.realized)} von ${fmt(weekData.target)} (+${fmt(weekData.variance)})`, dismissable: true });
             if (todayLog && todayLog.variancePercent > 100) recs.push({ id: 'great_day_'+todayLog.date, priority: 'info', icon: '🚀', title: 'Hervorragender Tag!', message: `+${todayLog.variancePercent.toFixed(0)}% über Ziel`, dismissable: true });
             const bufferDays = data.buffer.currentBuffer / target;
@@ -2443,14 +2468,14 @@
         }
         function renderDashboard() {
             const balance = getBalance(); const target = getDailyTarget(); const weekData = getWeeklyData();
-            const todayLog = data.dailyLogs.find(l => l.date === new Date().toISOString().split('T')[0]);
+            const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
             const todayPL = todayLog ? todayLog.realizedPL : 0; const totalPL = balance - data.settings.startCapital;
             document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
             updateTooltips();
             const recs = generateRecommendations();
             document.getElementById('recommendations-container').innerHTML = recs.length > 0 ? `<div class="card"><div class="card-title"><span>💡</span> ${t('recommendations')}</div>${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${r.icon}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : '';
             document.getElementById('week-number').textContent = weekData.weekNumber;
-            const dayNames = [t('mon'),t('tue'),t('wed'),t('thu'),t('fri')]; const today = new Date().toISOString().split('T')[0];
+            const dayNames = [t('mon'),t('tue'),t('wed'),t('thu'),t('fri')]; const today = getLocalDateString(new Date());
             document.getElementById('week-grid').innerHTML = weekData.dates.map((d, i) => { const log = weekData.logs.find(l => l.date === d); const pl = log ? log.realizedPL : null; const isToday = d === today; const cls = pl !== null ? (pl >= 0 ? 'profit' : 'loss') : ''; return `<div class="week-day ${cls} ${isToday?'today':''}"><div class="week-day-name">${dayNames[i]}</div><div class="week-day-value ${pl!==null?(pl>=0?'positive':'negative'):'empty'}">${pl!==null?(pl>=0?'+':'')+fmtNum(pl,0):'-'}</div></div>`; }).join('');
             document.getElementById('week-target').textContent = fmt(weekData.target);
             document.getElementById('week-progress-pct').textContent = fmtPct(weekData.progressPercent);
@@ -2970,7 +2995,7 @@
         async function savePosition() {
             const instrumentId = document.getElementById('pos-instrument').value; const size = parseFloat(document.getElementById('pos-size').value); const avgPrice = parseFloat(document.getElementById('pos-avg-price').value); const currentPrice = parseFloat(document.getElementById('pos-current-price').value); const direction = document.getElementById('pos-direction').value;
             if (!instrumentId || !size || !avgPrice || !currentPrice) { showToast('Bitte alle Felder ausfüllen', 'error'); return; }
-            const newPos = { id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(), instrumentId, size, avgPrice, currentPrice, direction, openDate: new Date().toISOString().split('T')[0], active: true };
+            const newPos = { id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(), instrumentId, size, avgPrice, currentPrice, direction, openDate: getLocalDateString(new Date()), active: true };
             data.positions.push(newPos); saveData(); await syncPosition(newPos);
             render(); closeModal('position-modal'); showToast(t('positionAdded'));
         }
@@ -3010,10 +3035,10 @@
             const diff = lastPrice - avgPrice;
             if (Math.abs(diff) < 0.00001 || size <= 0) { showToast('Ungültige Werte', 'error'); return; }
             const factor = Math.abs(unrealizedPL / (diff * size));
-            data.instruments[instrumentId] = { ...data.instruments[instrumentId], plFactor: factor, isCalibrated: true, lastCalibrated: new Date().toISOString().split('T')[0], calibrationData: { size, avgPrice, lastPrice, unrealizedPL, calculatedFactor: factor } };
+            data.instruments[instrumentId] = { ...data.instruments[instrumentId], plFactor: factor, isCalibrated: true, lastCalibrated: getLocalDateString(new Date()), calibrationData: { size, avgPrice, lastPrice, unrealizedPL, calculatedFactor: factor } };
             saveData(); render(); closeModal('calibration-modal'); showToast(`${data.instruments[instrumentId].symbol} kalibriert: ${fmtNum(factor, 4)}`);
         }
-        function exportData() { const exp = { ...data, exportDate: new Date().toISOString(), version: VERSION }; const blob = new Blob([JSON.stringify(exp, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `trading-tracker-backup-${new Date().toISOString().split('T')[0]}.json`; a.click(); URL.revokeObjectURL(url); showToast(t('backupCreated')); }
+        function exportData() { const exp = { ...data, exportDate: new Date().toISOString(), version: VERSION }; const blob = new Blob([JSON.stringify(exp, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `trading-tracker-backup-${getLocalDateString(new Date())}.json`; a.click(); URL.revokeObjectURL(url); showToast(t('backupCreated')); }
         
         function exportPDF() {
             const { jsPDF } = window.jspdf;
@@ -3380,7 +3405,7 @@
             }
             
             // Speichern
-            const filename = 'Trading-Report-' + new Date().toISOString().split('T')[0] + '.pdf';
+            const filename = 'Trading-Report-' + getLocalDateString(new Date()) + '.pdf';
             doc.save(filename);
             showToast('PDF erstellt: ' + filename);
         }
