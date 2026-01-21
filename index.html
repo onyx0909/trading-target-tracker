@@ -598,7 +598,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.0';
+        const VERSION = '4.3.1';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -2652,7 +2652,11 @@
             const balance = getBalance(); const target = getDailyTarget(); const weekData = getWeeklyData();
             const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
             const intradayPL = getIntradayPL();
-            const todayPL = (todayLog ? todayLog.realizedPL : 0) + intradayPL; const totalPL = balance - data.settings.startCapital;
+            const activePos = data.positions.filter(p => p.active);
+            const unrealizedPL = activePos.reduce((s, p) => s + calculatePL(p), 0);
+            const realizedPL = (todayLog ? todayLog.realizedPL : 0) + intradayPL;
+            const todayPL = realizedPL + unrealizedPL; // Combined: realized + unrealized
+            const totalPL = balance - data.settings.startCapital;
             document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
             updateTooltips();
             const recs = generateRecommendations();
@@ -2705,8 +2709,7 @@
             
             const bufHist = data.buffer.history.slice(-3).reverse();
             document.getElementById('buffer-history').innerHTML = bufHist.length > 0 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'+':'-'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') : '<span class="text-muted">' + t('noBufferActivity') + '</span>';
-            const activePos = data.positions.filter(p => p.active); const totalUnr = activePos.reduce((s, p) => s + calculatePL(p), 0);
-            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${ic(inst?.icon||'gold',20,inst?.color)} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
+            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${ic(inst?.icon||'gold',20,inst?.color)} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${unrealizedPL>=0?'text-green':'text-red'} font-bold">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
             const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
             document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">${t('stillMissing')} ${fmt(m-balance)}</div></div>`).join('');
             
@@ -2742,15 +2745,15 @@
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">${t('realized')}</span>
-                            <span class="detail-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</span>
+                            <span class="detail-value ${realizedPL>=0?'text-green':'text-red'}">${realizedPL>=0?'+':''}${fmt(realizedPL)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">${t('unrealized')}</span>
+                            <span class="detail-value ${unrealizedPL>=0?'text-green':'text-red'}">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">${todayPL >= target ? t('surplus') : t('stillOpen')}</span>
                             <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">${t('tomorrow')}</span>
-                            <span class="detail-value text-blue">${fmt(tomorrowTarget)}</span>
                         </div>
                     </div>
                 </div>
