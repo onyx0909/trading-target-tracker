@@ -374,7 +374,7 @@
         
         /* Fix overflow issues */
         .card{overflow:visible}
-        .stat-box{overflow:hidden;word-break:break-word}
+        .stat-box{overflow:visible;word-break:break-word}
         #mini-equity-chart,#full-equity-chart,#monthly-chart,#weekday-chart{overflow:hidden;width:100%}
         #mini-equity-chart svg,#full-equity-chart svg{max-width:100%;height:auto}
         table{width:100%;table-layout:auto}
@@ -512,7 +512,7 @@
                     <div id="today-progress-content"></div>
                 </div>
                 <div class="card card-purple">
-                    <div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="bufferReserve">Reserve / Buffer</span></div>
+                    <div class="card-title" data-tip="buffer" data-tooltip=""><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="bufferReserve">Reserve / Buffer</span> <span class="help-icon">?</span></div>
                     <div id="buffer-content"></div>
                     <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
                 </div>
@@ -711,7 +711,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.3';
+        const VERSION = '4.3.4';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -2868,11 +2868,10 @@
                             <span class="detail-label">${todayPL >= target ? t('surplus') : t('stillOpen')}</span>
                             <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
                         </div>
-                        <div class="detail-item" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
-                            <span class="detail-label">${t('targetTomorrow')}</span>
-                            <span class="detail-value text-accent">${fmt(tomorrowTarget)}</span>
-                        </div>
                     </div>
+                </div>
+                <div class="tomorrow-hint">
+                    ${ic('proj',14,'var(--accent)')} ${t('targetTomorrow')}: <strong class="text-accent">${fmt(tomorrowTarget)}</strong>
                 </div>
             `;
             
