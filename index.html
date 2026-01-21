@@ -1773,22 +1773,6 @@
                 el.setAttribute('data-tooltip', tt(key));
             });
         }
-        function t(key) { return LANG[currentLang]?.[key] || LANG.de[key] || key; }
-        function tt(key) { return t('tip' + key.charAt(0).toUpperCase() + key.slice(1)); }
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('trading-tracker-lang', lang);
-            render();
-            renderTabs();
-            updateTooltips();
-        }
-        
-        function updateTooltips() {
-            document.querySelectorAll('[data-tip]').forEach(el => {
-                const key = el.getAttribute('data-tip');
-                el.setAttribute('data-tooltip', tt(key));
-            });
-        }
         
         const INSTRUMENT_LIBRARY = {
             metals: [
@@ -2574,7 +2558,7 @@
         function renderMiniEquityChart() {
             const last7 = [...data.dailyLogs].sort((a, b) => a.date.localeCompare(b.date)).slice(-7);
             if (last7.length === 0) {
-                document.getElementById('mini-equity-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
+                document.getElementById('mini-equity-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>';
                 return;
             }
             
@@ -2849,7 +2833,7 @@
             
             const months = Object.keys(monthlyData).sort().slice(-6);
             if (months.length === 0) {
-                document.getElementById('monthly-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
+                document.getElementById('monthly-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>';
                 return;
             }
             
@@ -2908,7 +2892,7 @@
             const tradingDays = avgData.slice(1, 6);
             
             if (tradingDays.every(d => d.count === 0)) {
-                document.getElementById('weekday-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
+                document.getElementById('weekday-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>';
                 return;
             }
             
@@ -3444,7 +3428,7 @@
         document.getElementById('entry-balance')?.addEventListener('input', function() {
             const newBalance = parseFloat(this.value); const preview = document.getElementById('entry-preview');
             if (newBalance) { const prevBalance = getBalance(); const pl = newBalance - prevBalance; const target = getDailyTarget(); const variance = pl - target; const variancePct = (variance / target) * 100;
-            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title"><span>👁️</span> ${t('preview')}</div><div class="grid grid-4 text-center"><div><div class="stat-label">${t('current')}</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">${t('new')}</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">${t('pl')}</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">${t('vsTarget')}</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?'<span class="text-green font-bold">✅ '+t('targetReachedYes')+'</span>':`<span class="text-orange">⚠️ ${t('target')}: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
+            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title"><span>👁️</span> ${t('preview')}</div><div class="grid grid-4 text-center"><div><div class="stat-label">${t('current')}</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">${t('new')}</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">${t('pl')}</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">${t('vsTarget')}</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?`<span class="text-green font-bold">✅ ${t('targetReachedYes')}</span>`:`<span class="text-orange">⚠️ ${t('target')}: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
         });
         document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); }); });
 
