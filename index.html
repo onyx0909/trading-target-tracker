@@ -404,7 +404,10 @@
                     <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
                 </div>
             </div>
-            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
+            <div class="grid grid-2">
+                <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
+                <div class="card card-green"><div class="card-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span></div><div id="dashboard-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
+            </div>
             <div class="grid grid-2">
                 <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
                 <div class="card"><div class="card-title" data-tip="streak" data-tooltip=""><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2C16 2 20 8 20 14C20 18 18 20 16 22C14 20 12 18 12 14C12 8 16 2 16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 22C16 22 18 24 18 27C18 29 17 30 16 30S14 29 14 27C14 24 16 22 16 22Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="14" r="2" fill="currentColor"/></svg></span> <span data-i18n="streakStats">Streak & Statistiken</span> <span class="help-icon">?</span></div><div id="streak-stats"></div></div>
@@ -415,11 +418,13 @@
             <div class="grid grid-4" id="position-stats"></div>
             <div id="positions-list"></div>
             <button class="btn btn-add" onclick="openAddPositionModal()" data-i18n="addPosition">+ Neue Position hinzufügen</button>
+            <div class="card card-green mt-3"><div class="card-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span></div><div id="positions-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
             <div class="card card-gold mt-3"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="10" y="10" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M22 10V6C22 4.9 21.1 4 20 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H10" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="quickCopy">Quick Copy</span></div><div class="grid grid-2" id="quick-copy-list"></div></div>
         </div>
         <div id="entry" class="tab-content">
             <div class="card">
                 <div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="22" r="1" fill="currentColor"/></svg></span> <span data-i18n="dailyEntry">Täglicher Eintrag</span></div>
+                <div id="entry-intraday-hint"></div>
                 <div class="grid grid-2">
                     <div class="form-group"><label data-i18n="date">Datum</label><input type="date" id="entry-date" class="form-input"></div>
                     <div class="form-group"><label data-i18n="newBalance">Neuer Kontostand (€) *</label><input type="number" step="0.01" id="entry-balance" class="form-input" placeholder="z.B. 15365.00"></div>
@@ -471,6 +476,10 @@
     <div class="modal-overlay" id="user-modal"><div class="modal" style="max-width:350px;"><div class="modal-header"><h3 class="modal-title">👤 <span data-i18n="user">Benutzer</span></h3><button class="modal-close" onclick="closeModal('user-modal')">&times;</button></div><div id="user-modal-content"></div></div></div>
     <div class="modal-overlay" id="calibration-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title" data-i18n="calibrationTitle">🔧 Instrument kalibrieren</h3><button class="modal-close" onclick="closeModal('calibration-modal')">&times;</button></div><div id="calibration-content"></div></div></div>
     <div class="modal-overlay" id="position-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="addPositionTitle">Position hinzufügen</span></h3><button class="modal-close" onclick="closeModal('position-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="pos-instrument" class="form-input"></select></div><div class="grid grid-2"><div class="form-group"><label data-tip="positionSize" data-tooltip="" data-i18n="size">Position Size</label><input type="number" step="0.01" id="pos-size" class="form-input"></div><div class="form-group"><label data-tip="direction" data-tooltip="" data-i18n="direction">Richtung</label><select id="pos-direction" class="form-input"><option value="long" data-i18n="long">Long</option><option value="short" data-i18n="short">Short</option></select></div></div><div class="grid grid-2"><div class="form-group"><label data-tip="avgPrice" data-tooltip="" data-i18n="avgPrice">Avg. Einstiegspreis</label><input type="number" step="0.00001" id="pos-avg-price" class="form-input"></div><div class="form-group"><label data-tip="currentPrice" data-tooltip="" data-i18n="currentPrice">Aktueller Preis</label><input type="number" step="0.00001" id="pos-current-price" class="form-input"></div></div><button class="btn btn-success btn-block" onclick="savePosition()" data-i18n="positionSave">Position speichern</button></div></div>
+    
+    <!-- Closed Trade Modal -->
+    <div class="modal-overlay" id="closed-trade-modal"><div class="modal" style="max-width:380px;"><div class="modal-header"><h3 class="modal-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="addClosedTrade">Trade erfassen</span></h3><button class="modal-close" onclick="closeModal('closed-trade-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="ct-instrument" class="form-input"></select></div><div class="form-group"><label>P/L (€)</label><input type="number" step="0.01" id="ct-pl" class="form-input" placeholder="z.B. 125.50 oder -45.00"></div><div class="form-group"><label data-i18n="notes">Notiz (optional)</label><input type="text" id="ct-note" class="form-input" placeholder="z.B. TP1 erreicht"></div><button class="btn btn-success btn-block" onclick="saveClosedTrade()">Trade erfassen</button></div></div>
+    
     <div id="toast" class="toast"></div>
     
     <!-- Migration Modal -->
@@ -589,7 +598,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.2.0';
+        const VERSION = '4.3.0';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -666,6 +675,12 @@
                 // === POSITIONS ===
                 openPositions: 'Offene Positionen',
                 noPositions: 'Keine offenen Positionen',
+                closedToday: 'Heute geschlossen',
+                noClosedTrades: 'Keine Trades geschlossen',
+                addClosedTrade: '+ Trade erfassen',
+                closedTradeAdded: 'Trade erfasst',
+                closedTradeRemoved: 'Trade entfernt',
+                intradayRealized: 'Intraday realisiert',
                 addPosition: '+ Neue Position hinzufügen',
                 instrument: 'Instrument',
                 direction: 'Richtung',
@@ -1079,6 +1094,12 @@
                 // === POSITIONS ===
                 openPositions: 'Open Positions',
                 noPositions: 'No open positions',
+                closedToday: 'Closed Today',
+                noClosedTrades: 'No trades closed',
+                addClosedTrade: '+ Log Trade',
+                closedTradeAdded: 'Trade logged',
+                closedTradeRemoved: 'Trade removed',
+                intradayRealized: 'Intraday realized',
                 addPosition: '+ Add New Position',
                 instrument: 'Instrument',
                 direction: 'Direction',
@@ -1492,6 +1513,12 @@
                 // === POSITIONS ===
                 openPositions: 'Posiciones Abiertas',
                 noPositions: 'Sin posiciones abiertas',
+                closedToday: 'Cerradas Hoy',
+                noClosedTrades: 'Sin trades cerrados',
+                addClosedTrade: '+ Registrar Trade',
+                closedTradeAdded: 'Trade registrado',
+                closedTradeRemoved: 'Trade eliminado',
+                intradayRealized: 'Intraday realizado',
                 addPosition: '+ Añadir Posición',
                 instrument: 'Instrumento',
                 direction: 'Dirección',
@@ -1882,6 +1909,7 @@
             instruments: {},
             positions: [],
             dailyLogs: [],
+            intradayClosedTrades: [], // {id, instrumentId, pl, note, closedAt, date}
             buffer: { currentBuffer: 0, history: [], settings: { enabled: true, autoUse: true, maxBufferDays: 10 } },
             dismissedRecommendations: []
         };
@@ -1899,10 +1927,11 @@
             if (session) {
                 currentUser = session.user;
                 await loadUserData();
+                cleanupOldIntradayTrades();
                 showMainApp();
             } else {
                 const offline = localStorage.getItem('trading-tracker-offline-mode');
-                if (offline === 'true') { loadLocalData(); showMainApp(); }
+                if (offline === 'true') { loadLocalData(); cleanupOldIntradayTrades(); showMainApp(); }
                 else { showAuthScreen(); }
             }
             db.auth.onAuthStateChange(async (event, session) => {
@@ -2287,6 +2316,11 @@
                 const { data: positions } = await db.from('positions').select('*').eq('user_id', currentUser.id).eq('is_active', true);
                 if (positions) data.positions = positions.map(p => ({ id: p.id, instrumentId: p.instrument_symbol?.toLowerCase(), size: parseFloat(p.size), avgPrice: parseFloat(p.avg_price), currentPrice: parseFloat(p.current_price)||parseFloat(p.avg_price), direction: p.direction, active: p.is_active, openDate: p.open_date }));
                 
+                // Load intraday closed trades (only today's)
+                const today = getLocalDateString(new Date());
+                const { data: closedTrades } = await db.from('intraday_closed_trades').select('*').eq('user_id', currentUser.id).eq('date', today);
+                if (closedTrades) data.intradayClosedTrades = closedTrades.map(t => ({ id: t.id, instrumentId: t.instrument_id, pl: parseFloat(t.pl)||0, note: t.note||'', date: t.date, closedAt: t.closed_at }));
+                
                 saveLocalData();
             } catch (e) { console.error('Load error:', e); loadLocalData(); showToast('Cloud-Daten nicht geladen', 'warning'); }
         }
@@ -2365,6 +2399,27 @@
             } catch (e) { console.error('Buffer sync error:', e); }
         }
         
+        async function syncClosedTrade(trade, action = 'upsert') {
+            if (!currentUser || !isOnline) return;
+            try {
+                if (action === 'delete') {
+                    await db.from('intraday_closed_trades').delete().eq('id', trade.id);
+                } else {
+                    const tradeData = {
+                        id: trade.id,
+                        user_id: currentUser.id,
+                        instrument_id: trade.instrumentId || null,
+                        pl: trade.pl,
+                        note: trade.note || '',
+                        date: trade.date,
+                        closed_at: trade.closedAt
+                    };
+                    await db.from('intraday_closed_trades').delete().eq('id', trade.id);
+                    await db.from('intraday_closed_trades').insert(tradeData);
+                }
+            } catch (e) { console.error('Closed trade sync error:', e); }
+        }
+        
         async function syncBufferHistory(entry) {
             if (!currentUser || !isOnline) return;
             try {
@@ -2415,6 +2470,51 @@
         function getMaxDailyLoss() { return getBalance() * (data.settings.maxDailyLossPercent / 100); }
         function calculatePL(pos) { const inst = data.instruments[pos.instrumentId]; if (!inst || !inst.plFactor) return 0; const diff = pos.direction === 'long' ? pos.currentPrice - pos.avgPrice : pos.avgPrice - pos.currentPrice; return diff * pos.size * inst.plFactor; }
         function calculateStopLimit(pos) { const inst = data.instruments[pos.instrumentId]; if (!inst || !inst.plFactor) return null; const plPerUnit = pos.size * inst.plFactor; const risk = getRiskPerTrade(); const target = getDailyTarget(); const rr = data.settings.rrRatio; const stopD = risk / plPerUnit; const tpDRR = stopD * rr; const tpDT = target / plPerUnit; const isLong = pos.direction === 'long'; return { stopPrice: isLong ? pos.avgPrice - stopD : pos.avgPrice + stopD, tpPriceRR: isLong ? pos.avgPrice + tpDRR : pos.avgPrice - tpDRR, tpPriceTarget: isLong ? pos.avgPrice + tpDT : pos.avgPrice - tpDT, potentialLoss: risk, potentialProfitRR: risk * rr, potentialProfitTarget: target }; }
+        
+        // Intraday Closed Trades
+        function getIntradayPL() {
+            const today = getLocalDateString(new Date());
+            if (!data.intradayClosedTrades) data.intradayClosedTrades = [];
+            return data.intradayClosedTrades.filter(t => t.date === today).reduce((sum, t) => sum + (t.pl || 0), 0);
+        }
+        function getTodayClosedTrades() {
+            const today = getLocalDateString(new Date());
+            if (!data.intradayClosedTrades) data.intradayClosedTrades = [];
+            return data.intradayClosedTrades.filter(t => t.date === today);
+        }
+        async function addClosedTrade(instrumentId, pl, note = '') {
+            if (!data.intradayClosedTrades) data.intradayClosedTrades = [];
+            const trade = { id: 'ct_' + Date.now(), instrumentId, pl: parseFloat(pl) || 0, note, date: getLocalDateString(new Date()), closedAt: new Date().toISOString() };
+            data.intradayClosedTrades.push(trade);
+            saveData();
+            await syncClosedTrade(trade);
+            render();
+            showToast(t('closedTradeAdded'));
+        }
+        async function removeClosedTrade(id) {
+            if (!data.intradayClosedTrades) return;
+            const trade = data.intradayClosedTrades.find(t => t.id === id);
+            data.intradayClosedTrades = data.intradayClosedTrades.filter(t => t.id !== id);
+            saveData();
+            if (trade) await syncClosedTrade(trade, 'delete');
+            render();
+            showToast(t('closedTradeRemoved'));
+        }
+        async function cleanupOldIntradayTrades() {
+            if (!data.intradayClosedTrades) return;
+            const today = getLocalDateString(new Date());
+            const oldTrades = data.intradayClosedTrades.filter(t => t.date !== today);
+            const before = data.intradayClosedTrades.length;
+            data.intradayClosedTrades = data.intradayClosedTrades.filter(t => t.date === today);
+            if (data.intradayClosedTrades.length !== before) {
+                saveData();
+                // Delete old trades from Supabase
+                for (const trade of oldTrades) {
+                    await syncClosedTrade(trade, 'delete');
+                }
+            }
+        }
+        
         function getWeekNumber(d) { const dt = new Date(d); dt.setHours(0,0,0,0); dt.setDate(dt.getDate() + 4 - (dt.getDay()||7)); const ys = new Date(dt.getFullYear(),0,1); return Math.ceil((((dt-ys)/86400000)+1)/7); }
         function getLocalDateString(date) { const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0'); return `${y}-${m}-${d}`; }
         function getWeekDates(d) { 
@@ -2434,9 +2534,13 @@
         }
         function getWeeklyData() { 
             const today = new Date(); 
+            const todayStr = getLocalDateString(today);
             const dates = getWeekDates(today); 
             const logs = data.dailyLogs.filter(l => dates.includes(l.date)); 
-            const realized = logs.reduce((s, l) => s + (l.realizedPL||0), 0); 
+            const logsRealized = logs.reduce((s, l) => s + (l.realizedPL||0), 0);
+            // Add intraday PL if today is in current week
+            const intradayPL = dates.includes(todayStr) ? getIntradayPL() : 0;
+            const realized = logsRealized + intradayPL;
             const target = getWeeklyTarget(); 
             return { weekNumber: getWeekNumber(today), dates, logs, target, realized, variance: realized - target, progressPercent: target > 0 ? (realized / target) * 100 : 0, status: realized >= target ? 'exceeded' : (realized >= target * 0.5 ? 'on_track' : 'behind') }; 
         }
@@ -2501,7 +2605,7 @@
         // ============================================================
         // RENDER
         // ============================================================
-        function render() { renderHeader(); renderDashboard(); renderPositions(); renderPerformance(); renderInstruments(); renderHistory(); renderSettings(); updateI18n(); updateLangButtons(); updateTooltips(); }
+        function render() { renderHeader(); renderDashboard(); renderPositions(); renderClosedTrades(); renderPerformance(); renderInstruments(); renderHistory(); renderSettings(); updateI18n(); updateLangButtons(); updateTooltips(); }
         
         function renderTabs() {
             document.querySelectorAll('.tabs .tab').forEach(tab => {
@@ -2547,7 +2651,8 @@
         function renderDashboard() {
             const balance = getBalance(); const target = getDailyTarget(); const weekData = getWeeklyData();
             const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
-            const todayPL = todayLog ? todayLog.realizedPL : 0; const totalPL = balance - data.settings.startCapital;
+            const intradayPL = getIntradayPL();
+            const todayPL = (todayLog ? todayLog.realizedPL : 0) + intradayPL; const totalPL = balance - data.settings.startCapital;
             document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
             updateTooltips();
             const recs = generateRecommendations();
@@ -3097,6 +3202,66 @@
             render(); 
             showToast(t('positionRemoved')); 
         }
+        
+        // Closed Trade Modal Functions
+        function openClosedTradeModal() {
+            const instruments = Object.values(data.instruments).filter(i => i.isCalibrated);
+            const options = instruments.length > 0 
+                ? instruments.map(inst => `<option value="${inst.id}">${inst.symbol}</option>`).join('')
+                : '<option value="">-- ' + t('instrument') + ' --</option>';
+            document.getElementById('ct-instrument').innerHTML = '<option value="">(' + t('instrument') + ')</option>' + options;
+            document.getElementById('ct-pl').value = '';
+            document.getElementById('ct-note').value = '';
+            openModal('closed-trade-modal');
+        }
+        function saveClosedTrade() {
+            const instrumentId = document.getElementById('ct-instrument').value;
+            const pl = parseFloat(document.getElementById('ct-pl').value);
+            const note = document.getElementById('ct-note').value.trim();
+            if (isNaN(pl) || pl === 0) { showToast('P/L eingeben', 'error'); return; }
+            addClosedTrade(instrumentId || null, pl, note);
+            closeModal('closed-trade-modal');
+        }
+        function renderClosedTrades() {
+            const trades = getTodayClosedTrades();
+            const totalPL = getIntradayPL();
+            const content = trades.length > 0 
+                ? `<div style="max-height:150px;overflow-y:auto;">${trades.map(t => {
+                    const inst = t.instrumentId ? data.instruments[t.instrumentId] : null;
+                    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            ${inst ? ic(inst.icon, 18, inst.color) : ''}
+                            <span style="font-size:0.85rem;">${inst?.symbol || t.note || 'Trade'}</span>
+                            ${t.note && inst ? `<span class="text-muted" style="font-size:0.75rem;">${t.note}</span>` : ''}
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span class="${t.pl >= 0 ? 'text-green' : 'text-red'} font-bold">${t.pl >= 0 ? '+' : ''}${fmt(t.pl)}</span>
+                            <button class="btn btn-sm btn-ghost" onclick="removeClosedTrade('${t.id}')" style="padding:2px 6px;font-size:0.7rem;">×</button>
+                        </div>
+                    </div>`;
+                }).join('')}</div>
+                <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;">
+                    <span class="text-muted">${t('intradayRealized')}:</span>
+                    <span class="${totalPL >= 0 ? 'text-green' : 'text-red'} font-bold">${totalPL >= 0 ? '+' : ''}${fmt(totalPL)}</span>
+                </div>`
+                : `<p class="text-muted" style="padding:10px 0;">${t('noClosedTrades')}</p>`;
+            document.getElementById('dashboard-closed-trades').innerHTML = content;
+            document.getElementById('positions-closed-trades').innerHTML = content;
+            
+            // Update entry tab hint
+            const entryHint = document.getElementById('entry-intraday-hint');
+            if (entryHint) {
+                entryHint.innerHTML = trades.length > 0 
+                    ? `<div class="card card-green mb-3" style="padding:10px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:0.85rem;">${ic('check',16,'#10b981')} ${trades.length} Trade${trades.length > 1 ? 's' : ''} ${t('closedToday').toLowerCase()}</span>
+                            <span class="${totalPL >= 0 ? 'text-green' : 'text-red'} font-bold">${totalPL >= 0 ? '+' : ''}${fmt(totalPL)}</span>
+                        </div>
+                    </div>`
+                    : '';
+            }
+        }
+        
         function openCalibrationModal(instrumentId) {
             const inst = data.instruments[instrumentId]; if (!inst) return;
             document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">${ic(inst.icon,48,inst.color)}<div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:`<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}</div><p class="text-muted mb-3" style="font-size:0.85rem;">${t('enterValues')}:</p><div class="grid grid-2"><div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">${t('saveFactor')}</button>`;
