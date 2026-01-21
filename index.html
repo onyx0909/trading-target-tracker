@@ -166,8 +166,8 @@
         .progress-fill.green{background:linear-gradient(90deg,var(--green),#34d399)}
         .progress-fill.blue{background:linear-gradient(90deg,var(--blue),#60a5fa)}
         .progress-fill.gold{background:linear-gradient(90deg,var(--gold),#fcd34d)}
-        .circle-progress{position:relative;width:120px;height:120px;margin:0 auto}
-        .circle-progress svg{transform:rotate(-90deg);width:120px;height:120px}
+        .circle-progress{position:relative;width:120px;height:120px;margin:0 auto;flex-shrink:0}
+        .circle-progress svg{transform:rotate(-90deg);width:100%;height:100%}
         .circle-progress .bg{fill:none;stroke:var(--border);stroke-width:10}
         .circle-progress .progress{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 0.5s ease}
         .circle-progress .progress.green{stroke:var(--green)}
@@ -178,7 +178,7 @@
         .circle-value{font-size:1.4rem;font-weight:700;line-height:1.2}
         .circle-label{font-size:0.7rem;color:var(--muted)}
         .progress-grid{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center}
-        .progress-grid-compact{display:flex;flex-direction:column;align-items:center;gap:12px}
+        .progress-grid-compact{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
         .progress-details{display:flex;flex-direction:column;gap:8px}
         .progress-details-compact{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;width:100%;font-size:0.85rem}
         .progress-details-compact .detail-item{display:flex;flex-direction:column;text-align:center;padding:6px;background:var(--bg);border-radius:6px}
@@ -198,15 +198,15 @@
         .mini-chart-bar.neutral{background:var(--border)}
         .mini-chart-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:0.65rem;color:var(--muted);white-space:nowrap}
         .mini-chart-value{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:0.7rem;font-weight:600;white-space:nowrap}
-        .equity-line{height:120px;position:relative;margin-top:20px}
-        .equity-line svg{width:100%;height:100%}
+        .equity-line{height:120px;position:relative;margin-top:20px;width:100%;overflow:hidden}
+        .equity-line svg{width:100%;height:100%;display:block}
         .equity-line .line{fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
         .equity-line .area{fill:url(#equityGradient);opacity:0.3}
         .equity-line .dot{fill:var(--green);stroke:var(--card);stroke-width:2}
         .equity-line .grid-line{stroke:var(--border);stroke-width:1;stroke-dasharray:4}
         .equity-labels{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);margin-top:8px}
-        .streak-container{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .streak-box{text-align:center;padding:16px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+        .streak-container{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+        .streak-box{text-align:center;padding:16px;background:var(--bg);border-radius:10px;border:1px solid var(--border);overflow:hidden}
         .streak-value{font-size:2rem;font-weight:700;line-height:1}
         .streak-label{font-size:0.75rem;color:var(--muted);margin-top:4px}
         .streak-fire{color:var(--orange)}
@@ -267,7 +267,116 @@
         .mb-2{margin-bottom:8px}
         .mb-3{margin-bottom:12px}
         .hidden{display:none!important}
-        @media(max-width:768px){.grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}.sl-tp-row{grid-template-columns:1fr}.header{grid-template-columns:1fr;gap:12px;text-align:center}.header-left{justify-content:center}.header-right{justify-content:center;flex-wrap:wrap}.header-center{order:-1}}
+        
+        /* ============================================================
+           RESPONSIVE DESIGN - Mobile First
+           ============================================================ */
+        
+        /* Tablets & Small Laptops (768px - 1024px) */
+        @media(max-width:1024px){
+            .grid-4{grid-template-columns:repeat(2,1fr)}
+            .container{padding:0 12px}
+        }
+        
+        /* Tablets Portrait (max 768px) */
+        @media(max-width:768px){
+            .grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}
+            .sl-tp-row{grid-template-columns:1fr}
+            .header{grid-template-columns:1fr;gap:12px;text-align:center}
+            .header-left{justify-content:center}
+            .header-right{justify-content:center;flex-wrap:wrap}
+            .header-center{order:-1}
+            .progress-grid-compact{grid-template-columns:1fr}
+            .progress-details-compact{grid-template-columns:repeat(2,1fr)}
+            .circle-progress svg{width:100px;height:100px}
+            .circle-center{font-size:0.9rem}
+            .stat-box{padding:12px}
+            .stat-value{font-size:1.3rem}
+            .card{padding:12px}
+            body{padding:12px;padding-bottom:90px}
+        }
+        
+        /* Mobile Landscape & Large Phones (max 640px) */
+        @media(max-width:640px){
+            .grid-4{grid-template-columns:1fr 1fr}
+            .grid-3{grid-template-columns:1fr}
+            .grid-2{grid-template-columns:1fr}
+            .tabs{gap:2px;font-size:0.7rem}
+            .tab{padding:8px 6px;min-width:auto}
+            .tab .i{display:none}
+            .header-balance{font-size:1.5rem}
+            .header-balance-sub{font-size:0.7rem}
+            .stat-value{font-size:1.1rem}
+            .stat-label{font-size:0.7rem}
+            .stat-sub{font-size:0.65rem}
+            .card-title{font-size:0.85rem}
+            .week-day{padding:6px 2px}
+            .week-day-name{font-size:0.6rem}
+            .week-day-value{font-size:0.75rem}
+            .circle-progress svg{width:80px;height:80px}
+            .circle-value{font-size:1rem}
+            .circle-label{font-size:0.6rem}
+            .detail-item{padding:4px 0}
+            .detail-label{font-size:0.7rem}
+            .detail-value{font-size:0.8rem}
+            table{font-size:0.75rem}
+            th,td{padding:6px 4px}
+            .btn{padding:10px 16px;font-size:0.85rem}
+            .btn-sm{padding:6px 10px;font-size:0.75rem}
+            .form-input{padding:10px;font-size:0.9rem}
+            .modal{padding:16px;margin:10px;max-height:85vh}
+            .modal-title{font-size:1rem}
+        }
+        
+        /* Small Phones (max 480px) */
+        @media(max-width:480px){
+            body{padding:8px;padding-bottom:85px}
+            .container{padding:0}
+            .header{padding:12px}
+            .header-logo{width:32px;height:32px}
+            .header-balance{font-size:1.3rem}
+            .tabs{margin-bottom:12px;padding:0 4px}
+            .tab{padding:6px 4px;font-size:0.65rem}
+            .card{padding:10px;border-radius:10px}
+            .card-title{font-size:0.8rem;margin-bottom:8px}
+            .stat-box{padding:10px}
+            .stat-value{font-size:1rem}
+            .grid-4,.grid-3,.grid-2{gap:8px}
+            .progress-grid-compact{gap:12px}
+            .circle-progress svg{width:70px;height:70px}
+            .circle-value{font-size:0.9rem}
+            .progress-details-compact{gap:4px}
+            .detail-item{padding:3px 0}
+            .week-grid{gap:4px}
+            .week-day{padding:4px 2px;border-radius:6px}
+            .rec-card{padding:10px}
+            .rec-title{font-size:0.85rem}
+            .rec-message{font-size:0.75rem}
+            table{font-size:0.7rem}
+            th,td{padding:4px 2px}
+            .btn-block{padding:12px}
+        }
+        
+        /* Very Small Phones (max 360px) */
+        @media(max-width:360px){
+            body{padding:6px;padding-bottom:80px}
+            .header-balance{font-size:1.1rem}
+            .tab{padding:5px 3px;font-size:0.6rem}
+            .stat-value{font-size:0.9rem}
+            .card{padding:8px}
+            .circle-progress svg{width:60px;height:60px}
+            .form-group label{font-size:0.8rem}
+        }
+        
+        /* Fix overflow issues */
+        .card{overflow:hidden}
+        .stat-box{overflow:hidden;word-break:break-word}
+        #mini-equity-chart,#full-equity-chart,#monthly-chart,#weekday-chart{overflow:hidden;width:100%}
+        #mini-equity-chart svg,#full-equity-chart svg{max-width:100%;height:auto}
+        table{width:100%;table-layout:auto}
+        .progress-details-compact{overflow:hidden}
+        .detail-value{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        
         /* TT Icon System */
         .i{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0}.i svg{width:100%;height:100%}.i-16{width:16px;height:16px}.i-18{width:18px;height:18px}.i-20{width:20px;height:20px}.i-24{width:24px;height:24px}.i-32{width:32px;height:32px}
     </style>
@@ -598,7 +707,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.1';
+        const VERSION = '4.3.2';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
