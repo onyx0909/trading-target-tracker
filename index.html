@@ -275,33 +275,33 @@
     <div id="auth-screen" class="auth-container hidden">
         <div class="auth-card">
             <div class="auth-logo"><img src="assets/icon-192.png" alt="Logo" style="width:80px;height:80px;" onerror="this.outerHTML='🎯'"></div>
-            <h1 class="auth-title">Trading Target Tracker</h1>
+            <h1 class="auth-title" data-i18n="appName">Trading Target Tracker</h1>
             <p class="auth-subtitle">Multi-Asset Portfolio & Risk Management</p>
             <div class="auth-tabs">
-                <button class="auth-tab active" onclick="showAuthTab('login')">Anmelden</button>
-                <button class="auth-tab" onclick="showAuthTab('register')">Registrieren</button>
+                <button class="auth-tab active" onclick="showAuthTab('login')" data-i18n="login">Anmelden</button>
+                <button class="auth-tab" onclick="showAuthTab('register')" data-i18n="register">Registrieren</button>
             </div>
             <div id="login-form">
-                <div class="form-group"><input type="email" id="login-email" class="form-input" placeholder="Email-Adresse"></div>
-                <div class="form-group"><input type="password" id="login-password" class="form-input" placeholder="Passwort"></div>
+                <div class="form-group"><input type="email" id="login-email" class="form-input" data-placeholder="emailPlaceholder" placeholder="Email-Adresse"></div>
+                <div class="form-group"><input type="password" id="login-password" class="form-input" data-placeholder="passwordPlaceholder" placeholder="Passwort"></div>
                 <div id="login-error" class="form-error hidden"></div>
-                <button class="btn btn-primary btn-block" onclick="loginWithEmail()" id="login-btn">Anmelden</button>
+                <button class="btn btn-primary btn-block" onclick="loginWithEmail()" id="login-btn" data-i18n="login">Anmelden</button>
             </div>
             <div id="register-form" class="hidden">
-                <div class="form-group"><input type="text" id="register-name" class="form-input" placeholder="Name"></div>
-                <div class="form-group"><input type="email" id="register-email" class="form-input" placeholder="Email-Adresse"></div>
-                <div class="form-group"><input type="password" id="register-password" class="form-input" placeholder="Passwort (min. 6 Zeichen)"></div>
+                <div class="form-group"><input type="text" id="register-name" class="form-input" data-placeholder="namePlaceholder" placeholder="Name"></div>
+                <div class="form-group"><input type="email" id="register-email" class="form-input" data-placeholder="emailPlaceholder" placeholder="Email-Adresse"></div>
+                <div class="form-group"><input type="password" id="register-password" class="form-input" data-placeholder="passwordMinPlaceholder" placeholder="Passwort (min. 6 Zeichen)"></div>
                 <div id="register-error" class="form-error hidden"></div>
-                <button class="btn btn-primary btn-block" onclick="registerWithEmail()" id="register-btn">Konto erstellen</button>
+                <button class="btn btn-primary btn-block" onclick="registerWithEmail()" id="register-btn" data-i18n="createAccount">Konto erstellen</button>
             </div>
-            <div class="auth-divider">oder</div>
+            <div class="auth-divider" data-i18n="or">oder</div>
             <button class="btn btn-google" onclick="loginWithGoogle()">
                 <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Mit Google anmelden
+                <span data-i18n="loginWithGoogle">Mit Google anmelden</span>
             </button>
             <div class="auth-footer">
-                <p>Oder <a href="#" onclick="continueOffline()">ohne Anmeldung fortfahren</a></p>
-                <p class="mt-2" style="font-size:0.7rem;">Daten werden lokal gespeichert (kein Cloud-Sync)</p>
+                <p><span data-i18n="or">Oder</span> <a href="#" onclick="continueOffline()" data-i18n="continueWithoutLogin">ohne Anmeldung fortfahren</a></p>
+                <p class="mt-2" style="font-size:0.7rem;" data-i18n="dataStoredLocally">Daten werden lokal gespeichert (kein Cloud-Sync)</p>
             </div>
         </div>
     </div>
@@ -323,11 +323,11 @@
                     <div class="header-balance" id="header-balance">€0,00</div>
                     <div class="header-balance-sub" id="header-balance-sub">+€0,00 gesamt</div>
                 </div>
-                <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-status-text">Offline</span></div>
-                <button class="theme-toggle" onclick="toggleTheme()" title="Design wechseln">☀️</button>
+                <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-status-text" data-i18n="offline">Offline</span></div>
+                <button class="theme-toggle" onclick="toggleTheme()" data-tooltip="" data-tip="themeToggle">☀️</button>
                 <div class="user-badge" onclick="openUserMenu()">
                     <div class="user-avatar" id="user-avatar">?</div>
-                    <span id="user-name">Gast</span>
+                    <span id="user-name" data-i18n="guest">Gast</span>
                 </div>
             </div>
         </div>
@@ -347,13 +347,13 @@
                 <div class="card-title"><span>📅</span> <span data-i18n="thisWeekKW">Diese Woche (KW</span> <span id="week-number">-</span>)</div>
                 <div class="week-grid" id="week-grid"></div>
                 <div class="progress-container">
-                    <div class="progress-header"><span>Wochenziel: <span id="week-target">€0</span></span><span id="week-progress-pct">0%</span></div>
+                    <div class="progress-header"><span><span data-i18n="weekTarget">Wochenziel</span>: <span id="week-target">€0</span></span><span id="week-progress-pct">0%</span></div>
                     <div class="progress-bar"><div class="progress-fill green" id="week-progress-fill" style="width:0%"></div></div>
                 </div>
             </div>
             <div class="grid grid-2">
                 <div class="card card-green">
-                    <div class="card-title"><span>🎯</span> Heutiger Fortschritt</div>
+                    <div class="card-title" data-tip="todayProgress" data-tooltip=""><span>🎯</span> <span data-i18n="todayProgress">Heutiger Fortschritt</span> <span class="help-icon">?</span></div>
                     <div id="today-progress-content"></div>
                 </div>
                 <div class="card card-purple">
@@ -364,8 +364,8 @@
             </div>
             <div class="card"><div class="card-title"><span>📍</span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
             <div class="grid grid-2">
-                <div class="card"><div class="card-title"><span>📈</span> Equity Curve (7 Tage)</div><div id="mini-equity-chart"></div></div>
-                <div class="card"><div class="card-title"><span>🔥</span> Streak & Statistiken</div><div id="streak-stats"></div></div>
+                <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span>📈</span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
+                <div class="card"><div class="card-title" data-tip="streak" data-tooltip=""><span>🔥</span> <span data-i18n="streakStats">Streak & Statistiken</span> <span class="help-icon">?</span></div><div id="streak-stats"></div></div>
             </div>
             <div class="card"><div class="card-title"><span>🏆</span> <span data-i18n="nextMilestones">Nächste Meilensteine</span></div><div class="grid grid-4" id="milestones"></div></div>
         </div>
@@ -408,17 +408,17 @@
             <div class="card"><div class="card-title"><span>🎯</span> <span data-i18n="projection">Ziel-Projektion</span></div><div id="projection-content"></div></div>
         </div>
         <div id="instruments" class="tab-content">
-            <div class="card"><div class="card-title"><span>🥇</span> Edelmetalle</div><div id="instruments-metals"></div></div>
-            <div class="card" style="opacity:0.6;"><div class="card-title"><span>📈</span> Aktien <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;">🔒 Kommt bald</p></div>
+            <div class="card"><div class="card-title"><span>🥇</span> <span data-i18n="metals">Edelmetalle</span></div><div id="instruments-metals"></div></div>
+            <div class="card" style="opacity:0.6;"><div class="card-title"><span>📈</span> <span data-i18n="stocks">Aktien</span> <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;">🔒 <span data-i18n="comingSoon">Kommt bald</span></p></div>
         </div>
         <div id="history" class="tab-content">
             <div class="card"><div class="card-title"><span>📅</span> <span data-i18n="tradingHistory">Trading Historie</span></div><div style="overflow-x:auto;"><table><thead><tr><th data-i18n="date">Datum</th><th style="text-align:right" data-i18n="start">Start</th><th style="text-align:right" data-i18n="end">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center" data-i18n="target">Ziel</th><th style="text-align:center" data-i18n="mood">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
         </div>
         <div id="settings" class="tab-content">
-            <div class="card card-blue" id="cloud-sync-card"><div class="card-title"><span>☁️</span> Cloud-Sync</div><div id="cloud-sync-content"></div></div>
-            <div class="card"><div class="card-title"><span>💰</span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip="">Startkapital (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip="">Aktueller Stand (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip="">Zielkapital (€) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip="">Tagesziel (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip="">Risiko/Trade (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip="">Max. Tagesverlust (%) <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip="">Risk:Reward <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>🏦</span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip="">Buffer aktiviert <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip="">Max. Buffer (Tage) <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
+            <div class="card card-blue" id="cloud-sync-card"><div class="card-title"><span>☁️</span> <span data-i18n="cloudSync">Cloud-Sync</span></div><div id="cloud-sync-content"></div></div>
+            <div class="card"><div class="card-title"><span>💰</span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip=""><span data-i18n="startCapital">Startkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip=""><span data-i18n="currentBalance">Aktueller Stand (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip=""><span data-i18n="targetCapital">Zielkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip=""><span data-i18n="dailyTarget">Tagesziel (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip=""><span data-i18n="riskPerTrade">Risiko/Trade (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip=""><span data-i18n="maxDailyLoss">Max. Tagesverlust (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip=""><span data-i18n="rrRatio">Risk:Reward</span> <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span>🏦</span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip=""><span data-i18n="bufferEnabled">Buffer aktiviert</span> <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip=""><span data-i18n="maxBufferDays">Max. Buffer (Tage)</span> <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
             <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()" data-i18n="saveSettings">💾 Einstellungen speichern</button>
             <div class="card"><div class="card-title"><span>💾</span> <span data-i18n="backupRestore">Backup & Restore</span></div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()" data-i18n="export">📤 Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;"><span data-i18n="import">📥 Importieren</span><input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
             <div class="card card-blue"><div class="card-title"><span>📄</span> <span data-i18n="pdfReport">PDF Bericht</span></div><p class="text-muted mb-2" style="font-size:0.85rem;" data-i18n="pdfDescription">Exportiere einen Performance-Bericht als PDF</p><button class="btn btn-primary btn-block" onclick="exportPDF()" data-i18n="createPdf">📄 PDF Bericht erstellen</button></div>
@@ -426,32 +426,32 @@
             <div class="card card-red"><div class="card-title"><span>⚠️</span> <span data-i18n="dangerZone">Gefahrenzone</span></div><button class="btn btn-danger" onclick="resetAllData()" data-i18n="deleteAll">🗑️ Alle Daten löschen</button></div>
         </div>
     </div>
-    <div class="modal-overlay" id="user-modal"><div class="modal" style="max-width:350px;"><div class="modal-header"><h3 class="modal-title">👤 Benutzer</h3><button class="modal-close" onclick="closeModal('user-modal')">&times;</button></div><div id="user-modal-content"></div></div></div>
-    <div class="modal-overlay" id="calibration-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title">🔧 Instrument kalibrieren</h3><button class="modal-close" onclick="closeModal('calibration-modal')">&times;</button></div><div id="calibration-content"></div></div></div>
-    <div class="modal-overlay" id="position-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title">📍 Position hinzufügen</h3><button class="modal-close" onclick="closeModal('position-modal')">&times;</button></div><div class="form-group"><label>Instrument</label><select id="pos-instrument" class="form-input"></select></div><div class="grid grid-2"><div class="form-group"><label>Position Size</label><input type="number" step="0.01" id="pos-size" class="form-input"></div><div class="form-group"><label>Richtung</label><select id="pos-direction" class="form-input"><option value="long">Long</option><option value="short">Short</option></select></div></div><div class="grid grid-2"><div class="form-group"><label>Avg. Einstiegspreis</label><input type="number" step="0.00001" id="pos-avg-price" class="form-input"></div><div class="form-group"><label>Aktueller Preis</label><input type="number" step="0.00001" id="pos-current-price" class="form-input"></div></div><button class="btn btn-success btn-block" onclick="savePosition()">💾 Position speichern</button></div></div>
+    <div class="modal-overlay" id="user-modal"><div class="modal" style="max-width:350px;"><div class="modal-header"><h3 class="modal-title">👤 <span data-i18n="user">Benutzer</span></h3><button class="modal-close" onclick="closeModal('user-modal')">&times;</button></div><div id="user-modal-content"></div></div></div>
+    <div class="modal-overlay" id="calibration-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title" data-i18n="calibrationTitle">🔧 Instrument kalibrieren</h3><button class="modal-close" onclick="closeModal('calibration-modal')">&times;</button></div><div id="calibration-content"></div></div></div>
+    <div class="modal-overlay" id="position-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title">📍 <span data-i18n="addPositionTitle">Position hinzufügen</span></h3><button class="modal-close" onclick="closeModal('position-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="pos-instrument" class="form-input"></select></div><div class="grid grid-2"><div class="form-group"><label data-tip="positionSize" data-tooltip="" data-i18n="size">Position Size</label><input type="number" step="0.01" id="pos-size" class="form-input"></div><div class="form-group"><label data-tip="direction" data-tooltip="" data-i18n="direction">Richtung</label><select id="pos-direction" class="form-input"><option value="long" data-i18n="long">Long</option><option value="short" data-i18n="short">Short</option></select></div></div><div class="grid grid-2"><div class="form-group"><label data-tip="avgPrice" data-tooltip="" data-i18n="avgPrice">Avg. Einstiegspreis</label><input type="number" step="0.00001" id="pos-avg-price" class="form-input"></div><div class="form-group"><label data-tip="currentPrice" data-tooltip="" data-i18n="currentPrice">Aktueller Preis</label><input type="number" step="0.00001" id="pos-current-price" class="form-input"></div></div><button class="btn btn-success btn-block" onclick="savePosition()" data-i18n="positionSave">💾 Position speichern</button></div></div>
     <div id="toast" class="toast"></div>
     
     <!-- Migration Modal -->
     <div class="modal-overlay" id="migration-modal">
         <div class="modal" style="max-width:420px;">
             <div class="modal-header">
-                <h3 class="modal-title">📦 Lokale Daten gefunden</h3>
+                <h3 class="modal-title" data-i18n="dataConflictTitle">📦 Lokale Daten gefunden</h3>
             </div>
             <div id="migration-content">
-                <p style="margin-bottom:12px;">Auf diesem Gerät gibt es <strong>lokale Daten</strong>:</p>
+                <p style="margin-bottom:12px;"><span data-i18n="dataConflictText">Auf diesem Gerät gibt es</span> <strong data-i18n="localData">lokale Daten</strong>:</p>
                 <div class="card card-dark mb-3" id="migration-summary"></div>
                 
                 <div class="card card-gold mb-3" style="padding:12px;">
-                    <p style="font-size:0.85rem; margin-bottom:8px;"><strong>⚠️ Was möchtest du tun?</strong></p>
+                    <p style="font-size:0.85rem; margin-bottom:8px;"><strong data-i18n="whatToDo">⚠️ Was möchtest du tun?</strong></p>
                     <p style="font-size:0.8rem; color:var(--muted); line-height:1.4;">
-                        • <strong>"Lokale hochladen"</strong> = Diese Daten in die Cloud speichern<br>
-                        • <strong>"Cloud laden"</strong> = Daten aus der Cloud holen (empfohlen wenn du auf einem anderen Gerät bereits Daten hast)
+                        • <strong data-i18n="uploadLocal">⬆️ Lokale hochladen</strong> = <span data-i18n="syncToCloud">Diese Daten in die Cloud speichern</span><br>
+                        • <strong data-i18n="loadCloud">⬇️ Cloud laden</strong> = <span data-i18n="loadCloudDesc">Daten aus der Cloud holen</span>
                     </p>
                 </div>
                 
                 <div class="grid grid-2" style="gap:12px;">
-                    <button class="btn btn-success btn-block" onclick="migrateLocalData()">⬆️ Lokale hochladen</button>
-                    <button class="btn btn-primary btn-block" onclick="skipMigration()">⬇️ Cloud laden</button>
+                    <button class="btn btn-success btn-block" onclick="migrateLocalData()" data-i18n="uploadLocal">⬆️ Lokale hochladen</button>
+                    <button class="btn btn-primary btn-block" onclick="skipMigration()" data-i18n="loadCloud">⬇️ Cloud laden</button>
                 </div>
             </div>
         </div>
@@ -461,38 +461,38 @@
     <div class="modal-overlay" id="onboarding-modal">
         <div class="modal" style="max-width:450px;">
             <div class="modal-header">
-                <h3 class="modal-title">🚀 Willkommen bei Trading Target Tracker!</h3>
+                <h3 class="modal-title">🚀 <span data-i18n="welcomeTitle">Willkommen bei Trading Target Tracker!</span></h3>
             </div>
             <div id="onboarding-content">
-                <p style="margin-bottom:16px; color:var(--muted);">Bitte gib deine Startparameter ein:</p>
+                <p style="margin-bottom:16px; color:var(--muted);" data-i18n="setupSubtitle">Bitte gib deine Startparameter ein:</p>
                 
                 <div class="form-group">
-                    <label>💰 Anfangskapital (€)</label>
+                    <label data-i18n="onboardStart">💰 Anfangskapital (€)</label>
                     <input type="number" id="onboard-start-capital" class="form-input highlight" placeholder="z.B. 10000" step="0.01">
                 </div>
                 
                 <div class="form-group">
-                    <label>🎯 Zielkapital (€)</label>
+                    <label data-i18n="onboardTarget">🎯 Zielkapital (€)</label>
                     <input type="number" id="onboard-target-capital" class="form-input highlight" placeholder="z.B. 1000000" step="0.01">
                 </div>
                 
                 <div class="form-group">
-                    <label>📅 Startdatum</label>
+                    <label data-i18n="startDate">📅 Startdatum</label>
                     <input type="date" id="onboard-start-date" class="form-input highlight">
                 </div>
                 
                 <div class="form-group">
-                    <label>📈 Tagesziel (%)</label>
+                    <label data-i18n="onboardDaily">📈 Tagesziel (%)</label>
                     <input type="number" id="onboard-daily-target" class="form-input" value="1.03" step="0.01">
-                    <small class="text-muted">Empfohlen: 1.0 - 1.5%</small>
+                    <small class="text-muted" data-i18n="onboardRecommended">Empfohlen: 1.0 - 1.5%</small>
                 </div>
                 
                 <div class="card card-dark mb-3" id="onboard-preview" style="display:none;">
-                    <div class="card-title"><span>📊</span> Berechnung</div>
+                    <div class="card-title"><span>📊</span> <span data-i18n="calculation">Berechnung</span></div>
                     <div id="onboard-calc"></div>
                 </div>
                 
-                <button class="btn btn-success btn-block" onclick="completeOnboarding()">✅ Starten</button>
+                <button class="btn btn-success btn-block" onclick="completeOnboarding()" data-i18n="startNow">✅ Starten</button>
             </div>
         </div>
     </div>
@@ -509,14 +509,14 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.0.0';
+        const VERSION = '4.0.2';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
         // ============================================================
         const LANG = {
             de: {
-                // General
+                // === GENERAL ===
                 appName: 'Trading Target Tracker',
                 currency: 'EUR',
                 loading: 'Laden...',
@@ -527,8 +527,13 @@
                 close: 'Schließen',
                 yes: 'Ja',
                 no: 'Nein',
+                or: 'oder',
+                of: 'von',
+                to: 'bis',
+                from: 'von',
+                total: 'Gesamt',
                 
-                // Tabs
+                // === TABS ===
                 tabDashboard: 'Dashboard',
                 tabPositions: 'Positionen',
                 tabEntry: 'Eintrag',
@@ -537,7 +542,7 @@
                 tabHistory: 'Historie',
                 tabSettings: 'Einstellungen',
                 
-                // Dashboard
+                // === DASHBOARD ===
                 balance: 'Kontostand',
                 todayPL: 'Heute P/L',
                 weekProgress: 'Woche',
@@ -545,6 +550,7 @@
                 todayProgress: 'Heutiger Fortschritt',
                 bufferReserve: 'Reserve / Buffer',
                 days: 'Tage',
+                day: 'Tag',
                 progress: 'Fortschritt',
                 targetToday: 'Tagesziel heute',
                 targetTomorrow: 'Tagesziel morgen',
@@ -553,12 +559,20 @@
                 remaining: 'Verbleibend',
                 weekTarget: 'Wochenziel',
                 weekRealized: 'Woche realisiert',
+                thisWeekKW: 'Diese Woche (KW',
+                capacity: 'Kapazität',
+                maximum: 'Maximum',
+                minimum: 'Minimum',
+                current: 'Aktuell',
+                equityCurve7: 'Equity Curve (7 Tage)',
+                streakStats: 'Streak & Statistiken',
                 
-                // Stats
+                // === STATS ===
                 currentStreak: 'Aktuelle Serie',
                 maxStreak: 'Beste Serie',
                 hitRate: 'Trefferquote',
                 targetHit: 'Ziel erreicht',
+                targetMissed: 'Ziel verfehlt',
                 bestDay: 'Bester Tag',
                 worstDay: 'Schlechtester Tag',
                 tradingDays: 'Handelstage',
@@ -566,8 +580,10 @@
                 lossDays: 'Verlust-Tage',
                 winRate: 'Erfolgsquote',
                 avgDailyPL: 'Ø Tages-P/L',
+                profitLoss: 'Gewinn/Verlust',
+                daysWithTarget: 'Tage mit Ziel',
                 
-                // Positions
+                // === POSITIONS ===
                 openPositions: 'Offene Positionen',
                 noPositions: 'Keine offenen Positionen',
                 addPosition: '+ Neue Position hinzufügen',
@@ -580,15 +596,15 @@
                 currentPrice: 'Aktueller Preis',
                 positionAdded: 'Position hinzugefügt',
                 positionRemoved: 'Position entfernt',
+                positionSave: '💾 Position speichern',
                 quickCopy: 'Quick Copy',
-                
-                // SL/TP
                 slTpCalculator: 'SL/TP Rechner',
                 stopLoss: 'Stop-Loss',
                 takeProfit: 'Take-Profit',
                 pips: 'Pips',
+                closePosition: 'Position schließen',
                 
-                // Entry
+                // === ENTRY ===
                 dailyEntry: 'Täglicher Eintrag',
                 date: 'Datum',
                 newBalance: 'Neuer Kontostand (€) *',
@@ -601,15 +617,19 @@
                 moodNeutral: '😐 Neutral',
                 moodBad: '😔 Schlecht',
                 notes: 'Notizen',
+                notesPlaceholder: 'z.B. Gold Breakout...',
+                balancePlaceholder: 'z.B. 15365.00',
                 saveEntry: '💾 Eintrag speichern',
                 entryRequired: 'Bitte Kontostand eingeben',
                 entryOverwrite: 'Eintrag überschreiben?',
                 entryDelete: 'Eintrag löschen?',
+                preview: 'Vorschau',
+                targetReachedYes: '✅ Ziel erreicht',
+                targetReachedNo: '⚠️ Unter Ziel',
                 
-                // Performance
+                // === PERFORMANCE ===
                 thisWeek: 'Diese Woche',
                 thisMonth: 'Dieser Monat',
-                total: 'Gesamt',
                 statistics: 'Statistiken',
                 projection: 'Ziel-Projektion',
                 equityCurve: 'Equity Curve (Gesamtverlauf)',
@@ -622,23 +642,27 @@
                 minData: 'Mindestens 2 Tage Daten benötigt',
                 noData: 'Noch keine Daten',
                 avgPerWeekday: 'Ø Gewinn/Verlust pro Wochentag (Anzahl Trades)',
+                plLast7Days: 'P/L letzte 7 Tage',
                 
-                // Instruments
+                // === INSTRUMENTS ===
                 metals: 'Edelmetalle',
                 stocks: 'Aktien',
                 comingSoon: 'Kommt bald',
                 calibrated: '✓ Kalibriert',
                 notCalibrated: '⚠️ Nicht kalibriert',
                 calibrate: 'Instrument kalibrieren',
+                calibrateFirst: 'Bitte erst Instrument kalibrieren',
+                calibrationTitle: '🔧 Instrument kalibrieren',
+                plFactor: 'P/L Faktor',
                 
-                // History
+                // === HISTORY ===
                 tradingHistory: 'Trading Historie',
                 start: 'Start',
                 end: 'Ende',
                 target: 'Ziel',
                 noEntries: 'Noch keine Einträge',
                 
-                // Settings
+                // === SETTINGS ===
                 capitalGoals: 'Kapital & Ziele',
                 startCapital: 'Startkapital (€)',
                 currentBalance: 'Aktueller Stand (€)',
@@ -654,121 +678,258 @@
                 saveSettings: '💾 Einstellungen speichern',
                 settingsSaved: 'Einstellungen gespeichert',
                 
-                // Backup
+                // === BACKUP ===
                 backupRestore: 'Backup & Restore',
                 export: '📤 Exportieren',
                 import: '📥 Importieren',
                 backupCreated: 'Backup erstellt',
                 imported: 'Importiert',
                 invalidFile: 'Ungültige Datei',
+                overwriteData: 'Alle Daten überschreiben?',
                 
-                // PDF
+                // === PDF ===
                 pdfReport: 'PDF Bericht',
                 pdfDescription: 'Exportiere einen Performance-Bericht als PDF',
                 createPdf: '📄 PDF Bericht erstellen',
                 pdfCreated: 'PDF erstellt',
                 
-                // Language
+                // === LANGUAGE ===
                 language: 'Sprache',
-                languageDE: '🇩🇪 Deutsch',
-                languageEN: '🇬🇧 English',
-                languageES: '🇪🇸 Español',
                 
-                // Danger Zone
+                // === DANGER ZONE ===
                 dangerZone: 'Gefahrenzone',
                 deleteAll: '🗑️ Alle Daten löschen',
                 deleteConfirm1: 'ALLE DATEN LÖSCHEN?',
                 deleteConfirm2: 'Wirklich sicher?',
                 deleted: 'Gelöscht',
                 
-                // Cloud
+                // === CLOUD/AUTH ===
                 cloudSync: 'Cloud-Sync',
                 cloudConnected: 'Cloud verbunden',
                 offline: 'Offline',
+                offlineMode: 'Offline-Modus',
                 login: 'Anmelden',
                 logout: '🚪 Abmelden',
+                loggedOut: 'Abgemeldet',
+                createAccount: 'Konto erstellen',
+                email: 'E-Mail',
+                password: 'Passwort',
+                emailPlaceholder: 'deine@email.com',
+                passwordPlaceholder: 'Passwort',
+                orContinueWith: 'Oder weiter mit',
+                continueOffline: 'Offline fortfahren',
+                confirmEmail: 'Bitte bestätige deine Email',
+                accountCreated: 'Konto erstellt!',
+                loginSuccess: 'Erfolgreich angemeldet!',
+                loginFailed: 'Anmeldung fehlgeschlagen',
+                loginSubtitle: 'Anmelden für Sync auf allen Geräten',
+                useCloud: 'Cloud verwenden',
+                useLocal: 'Lokal verwenden',
+                syncToCloud: 'Diese Daten in die Cloud speichern',
+                migrateToCloud: 'In Cloud migrieren',
+                localData: 'Lokale Daten',
+                cloudData: 'Cloud-Daten',
+                dataConflict: 'Datenkonflikt',
+                entries: 'Einträge',
                 
-                // Milestones
+                // === MILESTONES ===
                 nextMilestones: 'Nächste Meilensteine',
                 
-                // Recommendations
+                // === RECOMMENDATIONS ===
                 recommendations: 'Empfehlungen',
                 
-                // Weekdays
+                // === WEEKDAYS ===
                 mon: 'Mo', tue: 'Di', wed: 'Mi', thu: 'Do', fri: 'Fr', sat: 'Sa', sun: 'So',
+                monday: 'Montag', tuesday: 'Dienstag', wednesday: 'Mittwoch', thursday: 'Donnerstag', friday: 'Freitag',
                 
-                // Months
+                // === MONTHS ===
                 jan: 'Jan', feb: 'Feb', mar: 'Mär', apr: 'Apr', may: 'Mai', jun: 'Jun',
                 jul: 'Jul', aug: 'Aug', sep: 'Sep', oct: 'Okt', nov: 'Nov', dec: 'Dez',
                 
-                // Onboarding
+                // === ONBOARDING ===
                 welcome: 'Willkommen!',
                 setupAccount: 'Richte dein Trading-Konto ein',
+                setupSubtitle: 'Bitte gib deine Startparameter ein:',
                 onboardStart: '💰 Startkapital (€)',
                 onboardTarget: '🎯 Zielkapital (€)',
                 onboardDaily: '📈 Tagesziel (%)',
                 onboardRecommended: 'Empfohlen: 1.0 - 1.5%',
                 calculation: 'Berechnung',
                 startNow: '✅ Starten',
+                day1Target: 'Tagesziel (Tag 1):',
+                daysToGoal: 'Tage bis zum Ziel:',
                 
-                // Validation
+                // === VALIDATION ===
                 targetMustBeHigher: 'Zielkapital muss größer als Anfangskapital sein',
                 weekTargetReached: 'Wochenziel erreicht!',
+                pleaseEnterStartCapital: 'Bitte Anfangskapital eingeben',
+                pleaseEnterStartDate: 'Bitte Startdatum eingeben',
+                fillAllFields: 'Bitte alle Felder ausfüllen',
+                setupComplete: 'Setup abgeschlossen! 🚀',
+                migrationSuccess: 'Daten erfolgreich migriert! 🎉',
+                migrationError: 'Fehler bei Migration',
                 
-                // Additional UI texts
-                thisWeekKW: 'Diese Woche (KW',
-                noOpenPositions: 'Keine offenen Positionen',
-                enterBalance: 'z.B. 15365.00',
-                enterNotes: 'z.B. Gold Breakout...',
-                from: 'von',
-                to: 'bis',
-                preview: 'Vorschau',
-                targetReached: 'Ziel erreicht',
-                overTarget: 'über Ziel',
-                underTarget: 'unter Ziel',
-                localData: 'Lokale Daten',
-                cloudData: 'Cloud-Daten',
-                useCloud: 'Cloud verwenden',
-                useLocal: 'Lokal verwenden',
-                syncToCloud: 'Diese Daten in die Cloud speichern',
-                migrateToCloud: 'In Cloud migrieren',
-                offlineMode: 'Offline-Modus',
-                continueOffline: 'Offline fortfahren',
-                createAccount: 'Konto erstellen',
-                emailPlaceholder: 'deine@email.com',
-                passwordPlaceholder: '••••••••',
-                orContinueWith: 'Oder weiter mit',
-                confirmEmail: 'Bitte bestätige deine Email',
-                accountCreated: 'Konto erstellt!',
-                loginSuccess: 'Erfolgreich angemeldet!',
-                loginFailed: 'Login fehlgeschlagen',
-                phase: 'Phase',
-                locked: 'Gesperrt',
+                // === TOOLTIPS - DASHBOARD ===
+                tipBalance: 'Dein aktueller Kontostand inkl. aller offenen Positionen.',
+                tipTodayPL: 'Heutiger Gewinn oder Verlust aus geschlossenen und offenen Trades.',
+                tipWeekProgress: 'Prozent des wöchentlichen Gewinnziels bereits erreicht.',
+                tipReserve: 'Angesammelter Buffer aus Übergewinnen - dein Sicherheitspolster.',
+                tipTodayProgress: 'Zeigt wie viel vom heutigen Tagesziel bereits erreicht wurde.',
+                tipBuffer: 'Der Buffer sammelt Gewinne über dem Tagesziel als Reserve für Verlustphasen.',
+                tipEquityCurve: 'Visualisiert die Entwicklung deines Kontostands über die Zeit.',
+                tipStreak: 'Anzahl aufeinanderfolgender Tage, an denen das Tagesziel erreicht wurde.',
+                tipWeekGrid: 'Übersicht der täglichen P/L für die aktuelle Handelswoche.',
                 
-                // Tooltips
-                tipStartCapital: 'Dein anfängliches Trading-Kapital. Basis für alle Berechnungen.',
-                tipCurrentBalance: 'Aktueller Kontostand bei deinem Broker.',
-                tipTargetCapital: 'Dein finanzielles Ziel. Bei Erreichen ist die Challenge geschafft!',
-                tipDailyTarget: 'Tägliches Gewinnziel in Prozent. 1-1.5% ist realistisch für Daytrading.',
-                tipRiskPerTrade: 'Maximales Risiko pro Trade. 1-2% wird empfohlen.',
-                tipMaxDailyLoss: 'Stop-Trading wenn dieser Verlust erreicht wird.',
-                tipRRRatio: 'Verhältnis von Gewinn zu Risiko. 2:1 bedeutet doppelter Gewinn bei gleichem Risiko.',
-                tipBufferEnabled: 'Buffer sammelt Übergewinne als Reserve für schlechte Tage.',
-                tipMaxBufferDays: 'Maximale Anzahl Tage, die der Buffer abdecken kann.',
-                tipRealizedPL: 'Bereits geschlossene Trades - tatsächlicher Gewinn/Verlust.',
-                tipUnrealizedPL: 'Noch offene Positionen - kann sich noch ändern.',
-                tipMood: 'Deine Trading-Stimmung hilft bei der Analyse deiner Performance.',
+                // === TOOLTIPS - STATS ===
+                tipCurrentStreak: 'Aktuelle Serie von Tagen mit erreichtem Tagesziel.',
+                tipMaxStreak: 'Deine längste Serie von erfolgreichen Tagen.',
+                tipHitRate: 'Prozentsatz der Tage, an denen du dein Tagesziel erreicht hast.',
+                tipBestDay: 'Dein profitabelster Handelstag bisher.',
+                tipWorstDay: 'Dein verlustreichster Handelstag bisher.',
+                tipTradingDays: 'Gesamtzahl der Tage mit Trading-Aktivität.',
+                tipWinRate: 'Verhältnis von profitablen zu nicht-profitablen Tagen.',
+                tipAvgDailyPL: 'Durchschnittlicher täglicher Gewinn/Verlust über alle Handelstage.',
+                
+                // === TOOLTIPS - POSITIONS ===
                 tipPositionSize: 'Anzahl der Einheiten (Lots, Kontrakte, Unzen).',
                 tipAvgPrice: 'Durchschnittlicher Einstiegspreis deiner Position.',
-                tipCurrentPrice: 'Aktueller Marktpreis für P/L Berechnung.',
-                tipEquityCurve: 'Zeigt die Entwicklung deines Kontostands über Zeit.',
-                tipStreak: 'Aufeinanderfolgende Tage mit erreichtem Tagesziel.',
-                tipHitRate: 'Prozentsatz der Tage, an denen das Tagesziel erreicht wurde.',
-                tipWeekProgress: 'Fortschritt zum wöchentlichen Gewinnziel.',
-                tipBuffer: 'Angesammeltes Polster aus Übergewinnen für Verlustphasen.'
+                tipCurrentPrice: 'Aktueller Marktpreis für die P/L Berechnung.',
+                tipDirection: 'Long = Kauf (Gewinn bei steigenden Kursen), Short = Verkauf (Gewinn bei fallenden Kursen).',
+                tipSL: 'Stop-Loss Preis - automatischer Verkauf zur Verlustbegrenzung.',
+                tipTP: 'Take-Profit Preis - automatischer Verkauf zur Gewinnmitnahme.',
+                
+                // === TOOLTIPS - ENTRY ===
+                tipRealizedPL: 'Bereits geschlossene Trades - tatsächlicher Gewinn/Verlust des Tages.',
+                tipUnrealizedPL: 'Noch offene Positionen - kann sich bis Tagesende noch ändern.',
+                tipMood: 'Deine Trading-Stimmung hilft bei der späteren Analyse deiner Performance.',
+                tipNotes: 'Notiere wichtige Beobachtungen, Setups oder Learnings des Tages.',
+                tipNewBalance: 'Der exakte Kontostand bei deinem Broker am Ende des Handelstages.',
+                
+                // === TOOLTIPS - SETTINGS ===
+                tipStartCapital: 'Dein anfängliches Trading-Kapital. Basis für alle Berechnungen und Prozentangaben.',
+                tipCurrentBalance: 'Aktueller Kontostand bei deinem Broker.',
+                tipTargetCapital: 'Dein finanzielles Ziel. Bei Erreichen ist die Trading-Challenge geschafft!',
+                tipDailyTarget: 'Tägliches Gewinnziel in Prozent. 1-1.5% ist realistisch für Daytrading.',
+                tipRiskPerTrade: 'Maximales Risiko pro einzelnem Trade. 1-2% wird von Profis empfohlen.',
+                tipMaxDailyLoss: 'Stop-Trading Grenze - höre auf zu traden wenn dieser Verlust erreicht wird.',
+                tipRRRatio: 'Risk-Reward Verhältnis. 2:1 bedeutet doppelter Gewinn bei gleichem Risiko.',
+                tipBufferEnabled: 'Aktiviert das Buffer-System das Übergewinne als Reserve für schlechte Tage sammelt.',
+                tipMaxBufferDays: 'Maximale Anzahl Tage, die der Buffer als Reserve abdecken kann.',
+                
+                // === TOOLTIPS - PERFORMANCE ===
+                tipMonthlyChart: 'Zeigt den Gesamtgewinn/-verlust pro Monat als Balkendiagramm.',
+                tipWeekdayAnalysis: 'Analysiert an welchen Wochentagen du am besten/schlechtesten tradest.',
+                tipProjection: 'Berechnet wie lange du bei aktuellem Tempo bis zum Ziel brauchst.',
+                tipProgressBar: 'Visueller Fortschritt zum Erreichen deines Zielkapitals.',
+                
+                // === ADDITIONAL MISSING ===
+                register: 'Registrieren',
+                namePlaceholder: 'Name',
+                passwordMinPlaceholder: 'Passwort (min. 6 Zeichen)',
+                loginWithGoogle: 'Mit Google anmelden',
+                continueWithoutLogin: 'ohne Anmeldung fortfahren',
+                dataStoredLocally: 'Daten werden lokal gespeichert (kein Cloud-Sync)',
+                user: 'Benutzer',
+                addPositionTitle: 'Position hinzufügen',
+                calibrationTitle: '🔧 Instrument kalibrieren',
+                welcomeTitle: 'Willkommen bei Trading Target Tracker!',
+                startDate: '📅 Startdatum',
+                equityCurve7: 'Equity Curve (7 Tage)',
+                streakStats: 'Streak & Statistiken',
+                positionSave: '💾 Position speichern',
+                trades: 'Trades',
+                pl: 'P/L',
+                stillToReach: 'Noch zu erreichen',
+                atCurrentRate: 'Bei aktuellem Tempo',
+                tradingDaysRemaining: 'Handelstage verbleibend',
+                noActivePositions: 'Keine aktiven Positionen',
+                toTarget: 'vom Ziel',
+                
+                // === ADDITIONAL DYNAMIC TEXTS ===
+                reached: 'Erreicht',
+                surplus: 'Überschuss',
+                stillOpen: 'Noch offen',
+                tomorrow: 'Morgen',
+                dailyTargetLabel: 'Tagesziel',
+                profit: 'Gewinn',
+                loss: 'Verlust',
+                stillMissing: 'Noch fehlend',
+                vsTarget: 'vs. Ziel',
+                atSize: 'bei Größe',
+                avgPriceShort: 'Ø Preis',
+                perDollar: 'pro Dollar',
+                calcFactor: 'Berechneter Faktor',
+                enterValues: 'Werte eingeben',
+                enterNewPrice: 'Neuen Preis eingeben',
+                lastCalibration: 'Letzte Kalibrierung',
+                lastPrice: 'Letzter Preis',
+                saveFactor: 'Faktor speichern',
+                removePosition: 'Position entfernen',
+                removeHint: 'Klicken zum Entfernen',
+                noBufferActivity: 'Noch keine Buffer-Aktivität',
+                avgPerWeekday: 'Ø pro Wochentag',
+                loginError: 'Anmeldung fehlgeschlagen',
+                registerError: 'Registrierung fehlgeschlagen',
+                loggingIn: 'Anmelden...',
+                registering: 'Registrieren...',
+                guest: 'Gast',
+                totalLabel: 'gesamt',
+                themeToggle: 'Design wechseln',
+                dataConflictTitle: '📦 Lokale Daten gefunden',
+                dataConflictText: 'Auf diesem Gerät gibt es',
+                whatToDo: '⚠️ Was möchtest du tun?',
+                uploadLocal: '⬆️ Lokale hochladen',
+                loadCloud: '⬇️ Cloud laden',
+                phase: 'Phase',
+                lockedFeature: '🔒 Kommt bald',
+                loadCloudDesc: 'Daten aus der Cloud holen',
+                syncNow: 'Jetzt synchronisieren',
+                offlineModeDesc: 'Offline-Modus - Daten nur lokal gespeichert.',
+                enableCloudSync: 'Cloud-Sync aktivieren',
+                entrySaved: 'Eintrag gespeichert',
+                months: 'Mon.',
+                
+                // === MORE MISSING ===
+                reached: 'Erreicht!',
+                surplus: 'Überschuss',
+                stillOpen: 'Noch offen',
+                tomorrow: 'Morgen',
+                noBufferActivity: 'Keine Buffer-Aktivität',
+                stillMissing: 'noch',
+                new: 'Neu',
+                vsTarget: 'vs. Ziel',
+                avgWeekdayPL: 'Ø pro Wochentag',
+                weekdayCount: 'Anzahl Trades',
+                started: 'Gestartet',
+                currentValue: 'Aktuell',
+                plToday: 'P/L heute',
+                plTotal: 'P/L gesamt',
+                remove: 'Entfernen',
+                removePosition: 'Position entfernen?',
+                removeHint: 'Hinweis: Falls du diese Position geschlossen hast, stelle sicher dass der Gewinn/Verlust bereits im heutigen Tageseintrag erfasst wurde.',
+                calibrateFactor: 'Berechneter Faktor',
+                plPerDollar: 'P/L pro $1 Bewegung',
+                saveFactor: 'Faktor speichern',
+                enterValues: 'Werte aus IBKR Screenshot eingeben',
+                avgPriceShort: 'Average Price',
+                lastPrice: 'Current/Last Price',
+                calcFactor: 'Berechneter Faktor',
+                remainingTxt: 'Verbleibend',
+                approxMonths: 'Mon.',
+                targetLabel: 'Ziel',
+                lastCalibration: 'Letzte Kalibrierung',
+                atSize: 'Bei',
+                perDollar: 'pro $1',
+                units: 'Einheiten',
+                calibrated: '✓ Kalibriert',
+                notCalibrated: '⚠️ Nicht kalibriert',
+                plFactor: 'Faktor',
+                enterNewPrice: 'Neuer Preis:',
+                profit: 'Gewinn',
+                loss: 'Verlust'
             },
             en: {
-                // General
+                // === GENERAL ===
                 appName: 'Trading Target Tracker',
                 currency: 'EUR',
                 loading: 'Loading...',
@@ -779,8 +940,13 @@
                 close: 'Close',
                 yes: 'Yes',
                 no: 'No',
+                or: 'or',
+                of: 'of',
+                to: 'to',
+                from: 'from',
+                total: 'Total',
                 
-                // Tabs
+                // === TABS ===
                 tabDashboard: 'Dashboard',
                 tabPositions: 'Positions',
                 tabEntry: 'Entry',
@@ -789,7 +955,7 @@
                 tabHistory: 'History',
                 tabSettings: 'Settings',
                 
-                // Dashboard
+                // === DASHBOARD ===
                 balance: 'Balance',
                 todayPL: 'Today P/L',
                 weekProgress: 'Week',
@@ -797,6 +963,7 @@
                 todayProgress: 'Today\'s Progress',
                 bufferReserve: 'Reserve / Buffer',
                 days: 'Days',
+                day: 'Day',
                 progress: 'Progress',
                 targetToday: 'Today\'s Target',
                 targetTomorrow: 'Tomorrow\'s Target',
@@ -805,12 +972,20 @@
                 remaining: 'Remaining',
                 weekTarget: 'Week Target',
                 weekRealized: 'Week Realized',
+                thisWeekKW: 'This Week (CW',
+                capacity: 'Capacity',
+                maximum: 'Maximum',
+                minimum: 'Minimum',
+                current: 'Current',
+                equityCurve7: 'Equity Curve (7 Days)',
+                streakStats: 'Streak & Statistics',
                 
-                // Stats
+                // === STATS ===
                 currentStreak: 'Current Streak',
                 maxStreak: 'Best Streak',
                 hitRate: 'Hit Rate',
                 targetHit: 'Target Hit',
+                targetMissed: 'Target Missed',
                 bestDay: 'Best Day',
                 worstDay: 'Worst Day',
                 tradingDays: 'Trading Days',
@@ -818,8 +993,10 @@
                 lossDays: 'Loss Days',
                 winRate: 'Win Rate',
                 avgDailyPL: 'Avg. Daily P/L',
+                profitLoss: 'Profit/Loss',
+                daysWithTarget: 'Days with Target',
                 
-                // Positions
+                // === POSITIONS ===
                 openPositions: 'Open Positions',
                 noPositions: 'No open positions',
                 addPosition: '+ Add New Position',
@@ -832,15 +1009,15 @@
                 currentPrice: 'Current Price',
                 positionAdded: 'Position added',
                 positionRemoved: 'Position removed',
+                positionSave: '💾 Save Position',
                 quickCopy: 'Quick Copy',
-                
-                // SL/TP
                 slTpCalculator: 'SL/TP Calculator',
                 stopLoss: 'Stop-Loss',
                 takeProfit: 'Take-Profit',
                 pips: 'Pips',
+                closePosition: 'Close Position',
                 
-                // Entry
+                // === ENTRY ===
                 dailyEntry: 'Daily Entry',
                 date: 'Date',
                 newBalance: 'New Balance (€) *',
@@ -853,15 +1030,19 @@
                 moodNeutral: '😐 Neutral',
                 moodBad: '😔 Bad',
                 notes: 'Notes',
+                notesPlaceholder: 'e.g. Gold breakout...',
+                balancePlaceholder: 'e.g. 15365.00',
                 saveEntry: '💾 Save Entry',
                 entryRequired: 'Please enter balance',
                 entryOverwrite: 'Overwrite entry?',
                 entryDelete: 'Delete entry?',
+                preview: 'Preview',
+                targetReachedYes: '✅ Target reached',
+                targetReachedNo: '⚠️ Under target',
                 
-                // Performance
+                // === PERFORMANCE ===
                 thisWeek: 'This Week',
                 thisMonth: 'This Month',
-                total: 'Total',
                 statistics: 'Statistics',
                 projection: 'Target Projection',
                 equityCurve: 'Equity Curve (Full History)',
@@ -874,23 +1055,27 @@
                 minData: 'Minimum 2 days of data required',
                 noData: 'No data yet',
                 avgPerWeekday: 'Avg. profit/loss per weekday (number of trades)',
+                plLast7Days: 'P/L Last 7 Days',
                 
-                // Instruments
+                // === INSTRUMENTS ===
                 metals: 'Precious Metals',
                 stocks: 'Stocks',
                 comingSoon: 'Coming soon',
                 calibrated: '✓ Calibrated',
                 notCalibrated: '⚠️ Not calibrated',
                 calibrate: 'Calibrate Instrument',
+                calibrateFirst: 'Please calibrate instrument first',
+                calibrationTitle: '🔧 Calibrate Instrument',
+                plFactor: 'P/L Factor',
                 
-                // History
+                // === HISTORY ===
                 tradingHistory: 'Trading History',
                 start: 'Start',
                 end: 'End',
                 target: 'Target',
                 noEntries: 'No entries yet',
                 
-                // Settings
+                // === SETTINGS ===
                 capitalGoals: 'Capital & Goals',
                 startCapital: 'Start Capital (€)',
                 currentBalance: 'Current Balance (€)',
@@ -901,126 +1086,263 @@
                 maxDailyLoss: 'Max. Daily Loss (%)',
                 rrRatio: 'Risk:Reward',
                 bufferSystem: 'Buffer System',
-                bufferEnabled: 'Buffer enabled',
+                bufferEnabled: 'Buffer Enabled',
                 maxBufferDays: 'Max. Buffer (Days)',
                 saveSettings: '💾 Save Settings',
                 settingsSaved: 'Settings saved',
                 
-                // Backup
+                // === BACKUP ===
                 backupRestore: 'Backup & Restore',
                 export: '📤 Export',
                 import: '📥 Import',
                 backupCreated: 'Backup created',
                 imported: 'Imported',
                 invalidFile: 'Invalid file',
+                overwriteData: 'Overwrite all data?',
                 
-                // PDF
+                // === PDF ===
                 pdfReport: 'PDF Report',
                 pdfDescription: 'Export a performance report as PDF',
                 createPdf: '📄 Create PDF Report',
                 pdfCreated: 'PDF created',
                 
-                // Language
+                // === LANGUAGE ===
                 language: 'Language',
-                languageDE: '🇩🇪 Deutsch',
-                languageEN: '🇬🇧 English',
-                languageES: '🇪🇸 Español',
                 
-                // Danger Zone
+                // === DANGER ZONE ===
                 dangerZone: 'Danger Zone',
                 deleteAll: '🗑️ Delete All Data',
                 deleteConfirm1: 'DELETE ALL DATA?',
                 deleteConfirm2: 'Are you sure?',
                 deleted: 'Deleted',
                 
-                // Cloud
+                // === CLOUD/AUTH ===
                 cloudSync: 'Cloud Sync',
                 cloudConnected: 'Cloud connected',
                 offline: 'Offline',
+                offlineMode: 'Offline Mode',
                 login: 'Login',
                 logout: '🚪 Logout',
+                loggedOut: 'Logged out',
+                createAccount: 'Create Account',
+                email: 'Email',
+                password: 'Password',
+                emailPlaceholder: 'your@email.com',
+                passwordPlaceholder: 'Password',
+                orContinueWith: 'Or continue with',
+                continueOffline: 'Continue Offline',
+                confirmEmail: 'Please confirm your email',
+                accountCreated: 'Account created!',
+                loginSuccess: 'Successfully logged in!',
+                loginFailed: 'Login failed',
+                loginSubtitle: 'Login to sync across all devices',
+                useCloud: 'Use Cloud',
+                useLocal: 'Use Local',
+                syncToCloud: 'Sync this data to cloud',
+                migrateToCloud: 'Migrate to Cloud',
+                localData: 'Local Data',
+                cloudData: 'Cloud Data',
+                dataConflict: 'Data Conflict',
+                entries: 'Entries',
                 
-                // Milestones
+                // === MILESTONES ===
                 nextMilestones: 'Next Milestones',
                 
-                // Recommendations
+                // === RECOMMENDATIONS ===
                 recommendations: 'Recommendations',
                 
-                // Weekdays
+                // === WEEKDAYS ===
                 mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat', sun: 'Sun',
+                monday: 'Monday', tuesday: 'Tuesday', wednesday: 'Wednesday', thursday: 'Thursday', friday: 'Friday',
                 
-                // Months
+                // === MONTHS ===
                 jan: 'Jan', feb: 'Feb', mar: 'Mar', apr: 'Apr', may: 'May', jun: 'Jun',
                 jul: 'Jul', aug: 'Aug', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Dec',
                 
-                // Onboarding
+                // === ONBOARDING ===
                 welcome: 'Welcome!',
                 setupAccount: 'Set up your trading account',
+                setupSubtitle: 'Please enter your start parameters:',
                 onboardStart: '💰 Start Capital (€)',
                 onboardTarget: '🎯 Target Capital (€)',
                 onboardDaily: '📈 Daily Target (%)',
                 onboardRecommended: 'Recommended: 1.0 - 1.5%',
                 calculation: 'Calculation',
                 startNow: '✅ Start',
+                day1Target: 'Daily Target (Day 1):',
+                daysToGoal: 'Days to goal:',
                 
-                // Validation
+                // === VALIDATION ===
                 targetMustBeHigher: 'Target capital must be higher than start capital',
                 weekTargetReached: 'Weekly target reached!',
+                pleaseEnterStartCapital: 'Please enter start capital',
+                pleaseEnterStartDate: 'Please enter start date',
+                fillAllFields: 'Please fill all fields',
+                setupComplete: 'Setup complete! 🚀',
+                migrationSuccess: 'Data migrated successfully! 🎉',
+                migrationError: 'Migration error',
                 
-                // Additional UI texts
-                thisWeekKW: 'This Week (CW',
-                noOpenPositions: 'No open positions',
-                enterBalance: 'e.g. 15365.00',
-                enterNotes: 'e.g. Gold breakout...',
-                from: 'from',
-                to: 'to',
-                preview: 'Preview',
-                targetReached: 'Target reached',
-                overTarget: 'over target',
-                underTarget: 'under target',
-                localData: 'Local Data',
-                cloudData: 'Cloud Data',
-                useCloud: 'Use Cloud',
-                useLocal: 'Use Local',
-                syncToCloud: 'Sync this data to cloud',
-                migrateToCloud: 'Migrate to Cloud',
-                offlineMode: 'Offline Mode',
-                continueOffline: 'Continue Offline',
-                createAccount: 'Create Account',
-                emailPlaceholder: 'your@email.com',
-                passwordPlaceholder: '••••••••',
-                orContinueWith: 'Or continue with',
-                confirmEmail: 'Please confirm your email',
-                accountCreated: 'Account created!',
-                loginSuccess: 'Successfully logged in!',
-                loginFailed: 'Login failed',
-                phase: 'Phase',
-                locked: 'Locked',
+                // === TOOLTIPS - DASHBOARD ===
+                tipBalance: 'Your current account balance including all open positions.',
+                tipTodayPL: 'Today\'s profit or loss from closed and open trades.',
+                tipWeekProgress: 'Percentage of weekly profit target already achieved.',
+                tipReserve: 'Accumulated buffer from excess profits - your safety cushion.',
+                tipTodayProgress: 'Shows how much of today\'s daily target has been achieved.',
+                tipBuffer: 'The buffer collects profits above the daily target as reserve for loss phases.',
+                tipEquityCurve: 'Visualizes the development of your account balance over time.',
+                tipStreak: 'Number of consecutive days where daily target was achieved.',
+                tipWeekGrid: 'Overview of daily P/L for the current trading week.',
                 
-                // Tooltips
-                tipStartCapital: 'Your initial trading capital. Basis for all calculations.',
-                tipCurrentBalance: 'Current account balance at your broker.',
-                tipTargetCapital: 'Your financial goal. Challenge completed when reached!',
-                tipDailyTarget: 'Daily profit target in percent. 1-1.5% is realistic for day trading.',
-                tipRiskPerTrade: 'Maximum risk per trade. 1-2% is recommended.',
-                tipMaxDailyLoss: 'Stop trading when this loss is reached.',
-                tipRRRatio: 'Reward to risk ratio. 2:1 means double profit for same risk.',
-                tipBufferEnabled: 'Buffer collects excess profits as reserve for bad days.',
-                tipMaxBufferDays: 'Maximum number of days the buffer can cover.',
-                tipRealizedPL: 'Already closed trades - actual profit/loss.',
-                tipUnrealizedPL: 'Still open positions - can still change.',
-                tipMood: 'Your trading mood helps analyze your performance.',
+                // === TOOLTIPS - STATS ===
+                tipCurrentStreak: 'Current series of days with achieved daily target.',
+                tipMaxStreak: 'Your longest series of successful days.',
+                tipHitRate: 'Percentage of days where you hit your daily target.',
+                tipBestDay: 'Your most profitable trading day so far.',
+                tipWorstDay: 'Your biggest loss trading day so far.',
+                tipTradingDays: 'Total number of days with trading activity.',
+                tipWinRate: 'Ratio of profitable to non-profitable days.',
+                tipAvgDailyPL: 'Average daily profit/loss across all trading days.',
+                
+                // === TOOLTIPS - POSITIONS ===
                 tipPositionSize: 'Number of units (lots, contracts, ounces).',
                 tipAvgPrice: 'Average entry price of your position.',
                 tipCurrentPrice: 'Current market price for P/L calculation.',
-                tipEquityCurve: 'Shows the development of your account balance over time.',
-                tipStreak: 'Consecutive days with daily target achieved.',
-                tipHitRate: 'Percentage of days where daily target was reached.',
-                tipWeekProgress: 'Progress towards weekly profit target.',
-                tipBuffer: 'Accumulated cushion from excess profits for loss phases.'
+                tipDirection: 'Long = Buy (profit on rising prices), Short = Sell (profit on falling prices).',
+                tipSL: 'Stop-Loss price - automatic sell to limit losses.',
+                tipTP: 'Take-Profit price - automatic sell to secure profits.',
+                
+                // === TOOLTIPS - ENTRY ===
+                tipRealizedPL: 'Already closed trades - actual profit/loss of the day.',
+                tipUnrealizedPL: 'Still open positions - can still change until end of day.',
+                tipMood: 'Your trading mood helps analyze your performance later.',
+                tipNotes: 'Note important observations, setups or learnings of the day.',
+                tipNewBalance: 'The exact account balance at your broker at end of trading day.',
+                
+                // === TOOLTIPS - SETTINGS ===
+                tipStartCapital: 'Your initial trading capital. Basis for all calculations and percentages.',
+                tipCurrentBalance: 'Current account balance at your broker.',
+                tipTargetCapital: 'Your financial goal. Trading challenge completed when reached!',
+                tipDailyTarget: 'Daily profit target in percent. 1-1.5% is realistic for day trading.',
+                tipRiskPerTrade: 'Maximum risk per single trade. 1-2% is recommended by professionals.',
+                tipMaxDailyLoss: 'Stop-trading limit - stop trading when this loss is reached.',
+                tipRRRatio: 'Risk-Reward ratio. 2:1 means double profit for same risk.',
+                tipBufferEnabled: 'Enables buffer system that collects excess profits as reserve for bad days.',
+                tipMaxBufferDays: 'Maximum number of days the buffer can cover as reserve.',
+                
+                // === TOOLTIPS - PERFORMANCE ===
+                tipMonthlyChart: 'Shows total profit/loss per month as bar chart.',
+                tipWeekdayAnalysis: 'Analyzes on which weekdays you trade best/worst.',
+                tipProjection: 'Calculates how long until you reach your goal at current pace.',
+                tipProgressBar: 'Visual progress towards reaching your target capital.',
+                
+                // === ADDITIONAL MISSING ===
+                register: 'Register',
+                namePlaceholder: 'Name',
+                passwordMinPlaceholder: 'Password (min. 6 characters)',
+                loginWithGoogle: 'Sign in with Google',
+                continueWithoutLogin: 'continue without login',
+                dataStoredLocally: 'Data stored locally (no cloud sync)',
+                user: 'User',
+                addPositionTitle: 'Add Position',
+                calibrationTitle: '🔧 Calibrate Instrument',
+                welcomeTitle: 'Welcome to Trading Target Tracker!',
+                startDate: '📅 Start Date',
+                equityCurve7: 'Equity Curve (7 Days)',
+                streakStats: 'Streak & Statistics',
+                positionSave: '💾 Save Position',
+                trades: 'Trades',
+                pl: 'P/L',
+                stillToReach: 'Still to reach',
+                atCurrentRate: 'At current rate',
+                tradingDaysRemaining: 'Trading days remaining',
+                noActivePositions: 'No active positions',
+                toTarget: 'of target',
+                
+                // === ADDITIONAL DYNAMIC TEXTS ===
+                reached: 'Reached',
+                surplus: 'Surplus',
+                stillOpen: 'Still open',
+                tomorrow: 'Tomorrow',
+                dailyTargetLabel: 'Daily Target',
+                profit: 'Profit',
+                loss: 'Loss',
+                stillMissing: 'Still missing',
+                vsTarget: 'vs. Target',
+                atSize: 'at size',
+                avgPriceShort: 'Avg. Price',
+                perDollar: 'per dollar',
+                calcFactor: 'Calculated Factor',
+                enterValues: 'Enter values',
+                enterNewPrice: 'Enter new price',
+                lastCalibration: 'Last Calibration',
+                lastPrice: 'Last Price',
+                saveFactor: 'Save Factor',
+                removePosition: 'Remove Position',
+                removeHint: 'Click to remove',
+                noBufferActivity: 'No buffer activity yet',
+                avgPerWeekday: 'Avg. per weekday',
+                loginError: 'Login failed',
+                registerError: 'Registration failed',
+                loggingIn: 'Logging in...',
+                registering: 'Registering...',
+                guest: 'Guest',
+                totalLabel: 'total',
+                themeToggle: 'Toggle theme',
+                dataConflictTitle: '📦 Local Data Found',
+                dataConflictText: 'This device has',
+                whatToDo: '⚠️ What would you like to do?',
+                uploadLocal: '⬆️ Upload Local',
+                loadCloud: '⬇️ Load Cloud',
+                phase: 'Phase',
+                lockedFeature: '🔒 Coming soon',
+                loadCloudDesc: 'Load data from cloud',
+                syncNow: 'Sync now',
+                offlineModeDesc: 'Offline mode - data stored locally only.',
+                enableCloudSync: 'Enable Cloud Sync',
+                entrySaved: 'Entry saved',
+                months: 'Mon.',
+                
+                // === MORE MISSING ===
+                reached: 'Reached!',
+                surplus: 'Surplus',
+                stillOpen: 'Still open',
+                tomorrow: 'Tomorrow',
+                noBufferActivity: 'No buffer activity',
+                stillMissing: 'still',
+                new: 'New',
+                vsTarget: 'vs. Target',
+                avgWeekdayPL: 'Avg. per weekday',
+                weekdayCount: 'Number of trades',
+                started: 'Started',
+                currentValue: 'Current',
+                plToday: 'P/L today',
+                plTotal: 'P/L total',
+                remove: 'Remove',
+                removePosition: 'Remove position?',
+                removeHint: 'Note: If you closed this position, make sure the profit/loss is already recorded in today\'s daily entry.',
+                calibrateFactor: 'Calculated factor',
+                plPerDollar: 'P/L per $1 movement',
+                saveFactor: 'Save Factor',
+                enterValues: 'Enter values from IBKR screenshot',
+                avgPriceShort: 'Average Price',
+                lastPrice: 'Current/Last Price',
+                calcFactor: 'Calculated Factor',
+                remainingTxt: 'Remaining',
+                approxMonths: 'months',
+                targetLabel: 'Target',
+                lastCalibration: 'Last calibration',
+                atSize: 'At',
+                perDollar: 'per $1',
+                units: 'units',
+                calibrated: '✓ Calibrated',
+                notCalibrated: '⚠️ Not calibrated',
+                plFactor: 'Factor',
+                enterNewPrice: 'New price:',
+                profit: 'Profit',
+                loss: 'Loss'
             },
             es: {
-                // General
+                // === GENERAL ===
                 appName: 'Trading Target Tracker',
                 currency: 'EUR',
                 loading: 'Cargando...',
@@ -1031,8 +1353,13 @@
                 close: 'Cerrar',
                 yes: 'Sí',
                 no: 'No',
+                or: 'o',
+                of: 'de',
+                to: 'hasta',
+                from: 'desde',
+                total: 'Total',
                 
-                // Tabs
+                // === TABS ===
                 tabDashboard: 'Panel',
                 tabPositions: 'Posiciones',
                 tabEntry: 'Entrada',
@@ -1041,7 +1368,7 @@
                 tabHistory: 'Historial',
                 tabSettings: 'Ajustes',
                 
-                // Dashboard
+                // === DASHBOARD ===
                 balance: 'Saldo',
                 todayPL: 'Hoy P/L',
                 weekProgress: 'Semana',
@@ -1049,100 +1376,119 @@
                 todayProgress: 'Progreso de Hoy',
                 bufferReserve: 'Reserva / Buffer',
                 days: 'Días',
+                day: 'Día',
                 progress: 'Progreso',
-                targetToday: 'Objetivo de hoy',
-                targetTomorrow: 'Objetivo de mañana',
+                targetToday: 'Objetivo de Hoy',
+                targetTomorrow: 'Objetivo de Mañana',
                 realized: 'Realizado',
-                unrealized: 'No realizado',
+                unrealized: 'No Realizado',
                 remaining: 'Restante',
-                weekTarget: 'Objetivo semanal',
-                weekRealized: 'Semana realizada',
+                weekTarget: 'Objetivo Semanal',
+                weekRealized: 'Semana Realizada',
+                thisWeekKW: 'Esta Semana (Sem',
+                capacity: 'Capacidad',
+                maximum: 'Máximo',
+                minimum: 'Mínimo',
+                current: 'Actual',
+                equityCurve7: 'Curva de Capital (7 Días)',
+                streakStats: 'Racha y Estadísticas',
                 
-                // Stats
-                currentStreak: 'Racha actual',
-                maxStreak: 'Mejor racha',
-                hitRate: 'Tasa de éxito',
-                targetHit: 'Objetivo alcanzado',
-                bestDay: 'Mejor día',
-                worstDay: 'Peor día',
-                tradingDays: 'Días de trading',
-                profitDays: 'Días con ganancia',
-                lossDays: 'Días con pérdida',
-                winRate: 'Tasa de éxito',
-                avgDailyPL: 'P/L diario prom.',
+                // === STATS ===
+                currentStreak: 'Racha Actual',
+                maxStreak: 'Mejor Racha',
+                hitRate: 'Tasa de Éxito',
+                targetHit: 'Objetivo Alcanzado',
+                targetMissed: 'Objetivo Fallado',
+                bestDay: 'Mejor Día',
+                worstDay: 'Peor Día',
+                tradingDays: 'Días de Trading',
+                profitDays: 'Días con Ganancia',
+                lossDays: 'Días con Pérdida',
+                winRate: 'Tasa de Éxito',
+                avgDailyPL: 'P/L Diario Prom.',
+                profitLoss: 'Ganancia/Pérdida',
+                daysWithTarget: 'Días con Objetivo',
                 
-                // Positions
-                openPositions: 'Posiciones abiertas',
+                // === POSITIONS ===
+                openPositions: 'Posiciones Abiertas',
                 noPositions: 'Sin posiciones abiertas',
-                addPosition: '+ Añadir posición',
+                addPosition: '+ Añadir Posición',
                 instrument: 'Instrumento',
                 direction: 'Dirección',
                 long: 'Largo',
                 short: 'Corto',
                 size: 'Tamaño',
-                avgPrice: 'Precio promedio',
-                currentPrice: 'Precio actual',
+                avgPrice: 'Precio Promedio',
+                currentPrice: 'Precio Actual',
                 positionAdded: 'Posición añadida',
                 positionRemoved: 'Posición eliminada',
+                positionSave: '💾 Guardar Posición',
                 quickCopy: 'Copia Rápida',
-                
-                // SL/TP
                 slTpCalculator: 'Calculadora SL/TP',
                 stopLoss: 'Stop-Loss',
                 takeProfit: 'Take-Profit',
                 pips: 'Pips',
+                closePosition: 'Cerrar Posición',
                 
-                // Entry
+                // === ENTRY ===
                 dailyEntry: 'Entrada Diaria',
                 date: 'Fecha',
                 newBalance: 'Nuevo Saldo (€) *',
                 realizedPL: 'P/L Realizado (€)',
                 unrealizedPL: 'P/L No Realizado (€)',
                 numTrades: 'Número de Trades',
-                mood: 'Estado de ánimo',
+                mood: 'Estado de Ánimo',
                 moodGreat: '🚀 Excelente',
                 moodGood: '😊 Bueno',
                 moodNeutral: '😐 Neutral',
                 moodBad: '😔 Malo',
                 notes: 'Notas',
+                notesPlaceholder: 'ej. Ruptura del oro...',
+                balancePlaceholder: 'ej. 15365.00',
                 saveEntry: '💾 Guardar Entrada',
                 entryRequired: 'Por favor ingrese el saldo',
                 entryOverwrite: '¿Sobrescribir entrada?',
                 entryDelete: '¿Eliminar entrada?',
+                preview: 'Vista Previa',
+                targetReachedYes: '✅ Objetivo alcanzado',
+                targetReachedNo: '⚠️ Bajo objetivo',
                 
-                // Performance
+                // === PERFORMANCE ===
                 thisWeek: 'Esta Semana',
                 thisMonth: 'Este Mes',
-                total: 'Total',
                 statistics: 'Estadísticas',
                 projection: 'Proyección de Objetivo',
                 equityCurve: 'Curva de Capital (Completa)',
                 monthlyOverview: 'Resumen Mensual',
                 weekdayAnalysis: 'Análisis por Día',
-                remainingDays: 'Días de trading',
-                remainingMonths: 'Meses aprox.',
-                remainingYears: 'Años aprox.',
-                progressToTarget: 'Progreso al objetivo',
+                remainingDays: 'Días de Trading',
+                remainingMonths: 'Meses Aprox.',
+                remainingYears: 'Años Aprox.',
+                progressToTarget: 'Progreso al Objetivo',
                 minData: 'Mínimo 2 días de datos requeridos',
                 noData: 'Sin datos aún',
-                avgPerWeekday: 'Promedio ganancia/pérdida por día (número de trades)',
+                avgPerWeekday: 'Prom. ganancia/pérdida por día (número de trades)',
+                plLast7Days: 'P/L Últimos 7 Días',
                 
-                // Instruments
+                // === INSTRUMENTS ===
                 metals: 'Metales Preciosos',
                 stocks: 'Acciones',
                 comingSoon: 'Próximamente',
                 calibrated: '✓ Calibrado',
                 notCalibrated: '⚠️ No calibrado',
                 calibrate: 'Calibrar Instrumento',
+                calibrateFirst: 'Por favor calibre el instrumento primero',
+                calibrationTitle: '🔧 Calibrar Instrumento',
+                plFactor: 'Factor P/L',
                 
-                // History
+                // === HISTORY ===
                 tradingHistory: 'Historial de Trading',
                 start: 'Inicio',
                 end: 'Fin',
                 target: 'Objetivo',
                 noEntries: 'Sin entradas aún',
                 
-                // Settings
+                // === SETTINGS ===
                 capitalGoals: 'Capital y Objetivos',
                 startCapital: 'Capital Inicial (€)',
                 currentBalance: 'Saldo Actual (€)',
@@ -1153,127 +1499,280 @@
                 maxDailyLoss: 'Pérdida Máx. Diaria (%)',
                 rrRatio: 'Riesgo:Beneficio',
                 bufferSystem: 'Sistema de Buffer',
-                bufferEnabled: 'Buffer activado',
+                bufferEnabled: 'Buffer Activado',
                 maxBufferDays: 'Máx. Buffer (Días)',
                 saveSettings: '💾 Guardar Ajustes',
                 settingsSaved: 'Ajustes guardados',
                 
-                // Backup
+                // === BACKUP ===
                 backupRestore: 'Respaldo y Restaurar',
                 export: '📤 Exportar',
                 import: '📥 Importar',
                 backupCreated: 'Respaldo creado',
                 imported: 'Importado',
                 invalidFile: 'Archivo inválido',
+                overwriteData: '¿Sobrescribir todos los datos?',
                 
-                // PDF
+                // === PDF ===
                 pdfReport: 'Informe PDF',
                 pdfDescription: 'Exportar un informe de rendimiento como PDF',
                 createPdf: '📄 Crear Informe PDF',
                 pdfCreated: 'PDF creado',
                 
-                // Language
+                // === LANGUAGE ===
                 language: 'Idioma',
-                languageDE: '🇩🇪 Deutsch',
-                languageEN: '🇬🇧 English',
-                languageES: '🇪🇸 Español',
                 
-                // Danger Zone
+                // === DANGER ZONE ===
                 dangerZone: 'Zona de Peligro',
                 deleteAll: '🗑️ Eliminar Todos los Datos',
                 deleteConfirm1: '¿ELIMINAR TODOS LOS DATOS?',
                 deleteConfirm2: '¿Está seguro?',
                 deleted: 'Eliminado',
                 
-                // Cloud
+                // === CLOUD/AUTH ===
                 cloudSync: 'Sincronización Cloud',
                 cloudConnected: 'Cloud conectado',
                 offline: 'Sin conexión',
-                login: 'Iniciar sesión',
-                logout: '🚪 Cerrar sesión',
+                offlineMode: 'Modo Sin Conexión',
+                login: 'Iniciar Sesión',
+                logout: '🚪 Cerrar Sesión',
+                loggedOut: 'Sesión cerrada',
+                createAccount: 'Crear Cuenta',
+                email: 'Correo',
+                password: 'Contraseña',
+                emailPlaceholder: 'tu@email.com',
+                passwordPlaceholder: 'Contraseña',
+                orContinueWith: 'O continuar con',
+                continueOffline: 'Continuar Sin Conexión',
+                confirmEmail: 'Por favor confirma tu email',
+                accountCreated: '¡Cuenta creada!',
+                loginSuccess: '¡Sesión iniciada!',
+                loginFailed: 'Error de inicio de sesión',
+                loginSubtitle: 'Inicia sesión para sincronizar en todos los dispositivos',
+                useCloud: 'Usar Nube',
+                useLocal: 'Usar Local',
+                syncToCloud: 'Sincronizar datos a la nube',
+                migrateToCloud: 'Migrar a la Nube',
+                localData: 'Datos Locales',
+                cloudData: 'Datos en la Nube',
+                dataConflict: 'Conflicto de Datos',
+                entries: 'Entradas',
                 
-                // Milestones
+                // === MILESTONES ===
                 nextMilestones: 'Próximos Hitos',
                 
-                // Recommendations
+                // === RECOMMENDATIONS ===
                 recommendations: 'Recomendaciones',
                 
-                // Weekdays
+                // === WEEKDAYS ===
                 mon: 'Lun', tue: 'Mar', wed: 'Mié', thu: 'Jue', fri: 'Vie', sat: 'Sáb', sun: 'Dom',
+                monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles', thursday: 'Jueves', friday: 'Viernes',
                 
-                // Months
+                // === MONTHS ===
                 jan: 'Ene', feb: 'Feb', mar: 'Mar', apr: 'Abr', may: 'May', jun: 'Jun',
                 jul: 'Jul', aug: 'Ago', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Dic',
                 
-                // Onboarding
+                // === ONBOARDING ===
                 welcome: '¡Bienvenido!',
                 setupAccount: 'Configura tu cuenta de trading',
+                setupSubtitle: 'Por favor ingresa tus parámetros iniciales:',
                 onboardStart: '💰 Capital Inicial (€)',
                 onboardTarget: '🎯 Capital Objetivo (€)',
                 onboardDaily: '📈 Objetivo Diario (%)',
                 onboardRecommended: 'Recomendado: 1.0 - 1.5%',
                 calculation: 'Cálculo',
                 startNow: '✅ Comenzar',
+                day1Target: 'Objetivo Diario (Día 1):',
+                daysToGoal: 'Días hasta la meta:',
                 
-                // Validation
+                // === VALIDATION ===
                 targetMustBeHigher: 'El capital objetivo debe ser mayor que el inicial',
                 weekTargetReached: '¡Objetivo semanal alcanzado!',
+                pleaseEnterStartCapital: 'Por favor ingrese el capital inicial',
+                pleaseEnterStartDate: 'Por favor ingrese la fecha de inicio',
+                fillAllFields: 'Por favor complete todos los campos',
+                setupComplete: '¡Configuración completa! 🚀',
+                migrationSuccess: '¡Datos migrados exitosamente! 🎉',
+                migrationError: 'Error de migración',
                 
-                // Additional UI texts
-                thisWeekKW: 'Esta Semana (Sem',
-                noOpenPositions: 'Sin posiciones abiertas',
-                enterBalance: 'ej. 15365.00',
-                enterNotes: 'ej. Ruptura del oro...',
-                from: 'desde',
-                to: 'hasta',
-                preview: 'Vista previa',
-                targetReached: 'Objetivo alcanzado',
-                overTarget: 'sobre objetivo',
-                underTarget: 'bajo objetivo',
-                localData: 'Datos Locales',
-                cloudData: 'Datos en la Nube',
-                useCloud: 'Usar Nube',
-                useLocal: 'Usar Local',
-                syncToCloud: 'Sincronizar datos a la nube',
-                migrateToCloud: 'Migrar a la Nube',
-                offlineMode: 'Modo Sin Conexión',
-                continueOffline: 'Continuar Sin Conexión',
-                createAccount: 'Crear Cuenta',
-                emailPlaceholder: 'tu@email.com',
-                passwordPlaceholder: '••••••••',
-                orContinueWith: 'O continuar con',
-                confirmEmail: 'Por favor confirma tu email',
-                accountCreated: '¡Cuenta creada!',
-                loginSuccess: '¡Sesión iniciada!',
-                loginFailed: 'Error de inicio de sesión',
-                phase: 'Fase',
-                locked: 'Bloqueado',
+                // === TOOLTIPS - DASHBOARD ===
+                tipBalance: 'Tu saldo actual incluyendo todas las posiciones abiertas.',
+                tipTodayPL: 'Ganancia o pérdida de hoy de trades cerrados y abiertos.',
+                tipWeekProgress: 'Porcentaje del objetivo semanal ya alcanzado.',
+                tipReserve: 'Buffer acumulado de ganancias extra - tu colchón de seguridad.',
+                tipTodayProgress: 'Muestra cuánto del objetivo diario se ha alcanzado.',
+                tipBuffer: 'El buffer acumula ganancias sobre el objetivo como reserva para días de pérdida.',
+                tipEquityCurve: 'Visualiza la evolución de tu saldo a lo largo del tiempo.',
+                tipStreak: 'Número de días consecutivos donde se alcanzó el objetivo diario.',
+                tipWeekGrid: 'Resumen del P/L diario para la semana de trading actual.',
                 
-                // Tooltips
+                // === TOOLTIPS - STATS ===
+                tipCurrentStreak: 'Serie actual de días con objetivo diario alcanzado.',
+                tipMaxStreak: 'Tu serie más larga de días exitosos.',
+                tipHitRate: 'Porcentaje de días donde alcanzaste tu objetivo diario.',
+                tipBestDay: 'Tu día de trading más rentable hasta ahora.',
+                tipWorstDay: 'Tu día de mayor pérdida hasta ahora.',
+                tipTradingDays: 'Número total de días con actividad de trading.',
+                tipWinRate: 'Relación de días rentables a no rentables.',
+                tipAvgDailyPL: 'Ganancia/pérdida diaria promedio en todos los días.',
+                
+                // === TOOLTIPS - POSITIONS ===
+                tipPositionSize: 'Número de unidades (lotes, contratos, onzas).',
+                tipAvgPrice: 'Precio promedio de entrada de tu posición.',
+                tipCurrentPrice: 'Precio actual del mercado para cálculo de P/L.',
+                tipDirection: 'Largo = Compra (ganancia en subidas), Corto = Venta (ganancia en bajadas).',
+                tipSL: 'Precio Stop-Loss - venta automática para limitar pérdidas.',
+                tipTP: 'Precio Take-Profit - venta automática para asegurar ganancias.',
+                
+                // === TOOLTIPS - ENTRY ===
+                tipRealizedPL: 'Trades ya cerrados - ganancia/pérdida real del día.',
+                tipUnrealizedPL: 'Posiciones aún abiertas - pueden cambiar hasta fin del día.',
+                tipMood: 'Tu estado de ánimo ayuda a analizar tu rendimiento después.',
+                tipNotes: 'Anota observaciones importantes, setups o aprendizajes del día.',
+                tipNewBalance: 'El saldo exacto en tu broker al final del día de trading.',
+                
+                // === TOOLTIPS - SETTINGS ===
                 tipStartCapital: 'Tu capital inicial de trading. Base para todos los cálculos.',
                 tipCurrentBalance: 'Saldo actual de la cuenta en tu broker.',
                 tipTargetCapital: '¡Tu meta financiera. Desafío completado al alcanzarlo!',
                 tipDailyTarget: 'Objetivo de ganancia diaria en porcentaje. 1-1.5% es realista.',
-                tipRiskPerTrade: 'Riesgo máximo por operación. Se recomienda 1-2%.',
-                tipMaxDailyLoss: 'Dejar de operar cuando se alcance esta pérdida.',
-                tipRRRatio: 'Relación beneficio/riesgo. 2:1 significa el doble de ganancia.',
-                tipBufferEnabled: 'El buffer acumula ganancias extra como reserva.',
-                tipMaxBufferDays: 'Número máximo de días que el buffer puede cubrir.',
-                tipRealizedPL: 'Operaciones ya cerradas - ganancia/pérdida real.',
-                tipUnrealizedPL: 'Posiciones aún abiertas - pueden cambiar.',
-                tipMood: 'Tu estado de ánimo ayuda a analizar tu rendimiento.',
-                tipPositionSize: 'Número de unidades (lotes, contratos, onzas).',
-                tipAvgPrice: 'Precio promedio de entrada de tu posición.',
-                tipCurrentPrice: 'Precio actual del mercado para cálculo de P/L.',
-                tipEquityCurve: 'Muestra la evolución de tu saldo a lo largo del tiempo.',
-                tipStreak: 'Días consecutivos con objetivo diario alcanzado.',
-                tipHitRate: 'Porcentaje de días donde se alcanzó el objetivo.',
-                tipWeekProgress: 'Progreso hacia el objetivo de ganancias semanal.',
-                tipBuffer: 'Colchón acumulado de ganancias extra para fases de pérdidas.'
+                tipRiskPerTrade: 'Riesgo máximo por operación. 1-2% es recomendado por profesionales.',
+                tipMaxDailyLoss: 'Límite de stop-trading - deja de operar al alcanzar esta pérdida.',
+                tipRRRatio: 'Relación Riesgo-Beneficio. 2:1 significa el doble de ganancia.',
+                tipBufferEnabled: 'Activa el sistema de buffer que acumula ganancias extra como reserva.',
+                tipMaxBufferDays: 'Número máximo de días que el buffer puede cubrir como reserva.',
+                
+                // === TOOLTIPS - PERFORMANCE ===
+                tipMonthlyChart: 'Muestra la ganancia/pérdida total por mes como gráfico de barras.',
+                tipWeekdayAnalysis: 'Analiza en qué días de la semana tradeas mejor/peor.',
+                tipProjection: 'Calcula cuánto tiempo hasta alcanzar tu meta al ritmo actual.',
+                tipProgressBar: 'Progreso visual hacia alcanzar tu capital objetivo.',
+                
+                // === ADDITIONAL MISSING ===
+                register: 'Registrarse',
+                namePlaceholder: 'Nombre',
+                passwordMinPlaceholder: 'Contraseña (mín. 6 caracteres)',
+                loginWithGoogle: 'Iniciar con Google',
+                continueWithoutLogin: 'continuar sin iniciar sesión',
+                dataStoredLocally: 'Datos guardados localmente (sin sincronización)',
+                user: 'Usuario',
+                addPositionTitle: 'Añadir Posición',
+                calibrationTitle: '🔧 Calibrar Instrumento',
+                welcomeTitle: '¡Bienvenido a Trading Target Tracker!',
+                startDate: '📅 Fecha de Inicio',
+                equityCurve7: 'Curva de Capital (7 Días)',
+                streakStats: 'Racha y Estadísticas',
+                positionSave: '💾 Guardar Posición',
+                trades: 'Trades',
+                pl: 'P/L',
+                stillToReach: 'Aún por alcanzar',
+                atCurrentRate: 'Al ritmo actual',
+                tradingDaysRemaining: 'Días de trading restantes',
+                noActivePositions: 'Sin posiciones activas',
+                toTarget: 'del objetivo',
+                
+                // === ADDITIONAL DYNAMIC TEXTS ===
+                reached: 'Alcanzado',
+                surplus: 'Excedente',
+                stillOpen: 'Aún abierto',
+                tomorrow: 'Mañana',
+                dailyTargetLabel: 'Objetivo Diario',
+                profit: 'Ganancia',
+                loss: 'Pérdida',
+                stillMissing: 'Aún faltante',
+                vsTarget: 'vs. Objetivo',
+                atSize: 'en tamaño',
+                avgPriceShort: 'Precio Prom.',
+                perDollar: 'por dólar',
+                calcFactor: 'Factor Calculado',
+                enterValues: 'Ingresar valores',
+                enterNewPrice: 'Ingresar nuevo precio',
+                lastCalibration: 'Última Calibración',
+                lastPrice: 'Último Precio',
+                saveFactor: 'Guardar Factor',
+                removePosition: 'Eliminar Posición',
+                removeHint: 'Clic para eliminar',
+                noBufferActivity: 'Sin actividad de buffer aún',
+                avgPerWeekday: 'Prom. por día',
+                loginError: 'Error de inicio de sesión',
+                registerError: 'Error de registro',
+                loggingIn: 'Iniciando sesión...',
+                registering: 'Registrando...',
+                guest: 'Invitado',
+                totalLabel: 'total',
+                themeToggle: 'Cambiar tema',
+                dataConflictTitle: '📦 Datos Locales Encontrados',
+                dataConflictText: 'Este dispositivo tiene',
+                whatToDo: '⚠️ ¿Qué deseas hacer?',
+                uploadLocal: '⬆️ Subir Locales',
+                loadCloud: '⬇️ Cargar Nube',
+                phase: 'Fase',
+                lockedFeature: '🔒 Próximamente',
+                loadCloudDesc: 'Cargar datos de la nube',
+                syncNow: 'Sincronizar ahora',
+                offlineModeDesc: 'Modo sin conexión - datos guardados localmente.',
+                enableCloudSync: 'Activar sincronización',
+                entrySaved: 'Entrada guardada',
+                months: 'Meses',
+                
+                // === MORE MISSING ===
+                reached: '¡Alcanzado!',
+                surplus: 'Excedente',
+                stillOpen: 'Aún abierto',
+                tomorrow: 'Mañana',
+                noBufferActivity: 'Sin actividad de buffer',
+                stillMissing: 'faltan',
+                new: 'Nuevo',
+                vsTarget: 'vs. Objetivo',
+                avgWeekdayPL: 'Prom. por día',
+                weekdayCount: 'Número de trades',
+                started: 'Iniciado',
+                currentValue: 'Actual',
+                plToday: 'P/L hoy',
+                plTotal: 'P/L total',
+                remove: 'Eliminar',
+                removePosition: '¿Eliminar posición?',
+                removeHint: 'Nota: Si cerraste esta posición, asegúrate de que la ganancia/pérdida ya esté registrada en la entrada diaria de hoy.',
+                calibrateFactor: 'Factor calculado',
+                plPerDollar: 'P/L por movimiento de $1',
+                saveFactor: 'Guardar Factor',
+                enterValues: 'Ingresa valores del screenshot de IBKR',
+                avgPriceShort: 'Precio Promedio',
+                lastPrice: 'Precio Actual/Último',
+                calcFactor: 'Factor Calculado',
+                remainingTxt: 'Restante',
+                approxMonths: 'meses',
+                targetLabel: 'Objetivo',
+                lastCalibration: 'Última calibración',
+                atSize: 'Con',
+                perDollar: 'por $1',
+                units: 'unidades',
+                calibrated: '✓ Calibrado',
+                notCalibrated: '⚠️ No calibrado',
+                plFactor: 'Factor',
+                enterNewPrice: 'Nuevo precio:',
+                profit: 'Ganancia',
+                loss: 'Pérdida'
             }
         };
         
         let currentLang = localStorage.getItem('trading-tracker-lang') || 'de';
+        function t(key) { return LANG[currentLang]?.[key] || LANG.de[key] || key; }
+        function tt(key) { return t('tip' + key.charAt(0).toUpperCase() + key.slice(1)); }
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('trading-tracker-lang', lang);
+            render();
+            renderTabs();
+            updateTooltips();
+        }
+        
+        function updateTooltips() {
+            document.querySelectorAll('[data-tip]').forEach(el => {
+                const key = el.getAttribute('data-tip');
+                el.setAttribute('data-tooltip', tt(key));
+            });
+        }
         function t(key) { return LANG[currentLang]?.[key] || LANG.de[key] || key; }
         function tt(key) { return t('tip' + key.charAt(0).toUpperCase() + key.slice(1)); }
         function setLanguage(lang) {
@@ -1925,7 +2424,18 @@
         }
         
         function updateI18n() {
+            // Text-Elemente
             document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (key && t(key) !== key) el.textContent = t(key);
+            });
+            // Placeholder-Texte
+            document.querySelectorAll('[data-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-placeholder');
+                if (key && t(key) !== key) el.placeholder = t(key);
+            });
+            // Select Options
+            document.querySelectorAll('select option[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (key && t(key) !== key) el.textContent = t(key);
             });
@@ -1936,17 +2446,23 @@
             const activeBtn = document.getElementById('lang-' + currentLang);
             if (activeBtn) activeBtn.classList.add('active');
         }
+        
+        function getLocale() {
+            return currentLang === 'de' ? 'de-DE' : currentLang === 'es' ? 'es-ES' : 'en-US';
+        }
+        
         function renderHeader() { 
-            document.getElementById('header-date').textContent = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); 
+            document.getElementById('header-date').textContent = new Date().toLocaleDateString(getLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); 
             document.getElementById('header-balance').textContent = fmt(getBalance()); 
             const totalPL = getBalance() - data.settings.startCapital;
-            document.getElementById('header-balance-sub').textContent = (totalPL >= 0 ? '+' : '') + fmt(totalPL) + ' gesamt';
+            document.getElementById('header-balance-sub').textContent = (totalPL >= 0 ? '+' : '') + fmt(totalPL) + ' ' + t('total').toLowerCase();
         }
         function renderDashboard() {
             const balance = getBalance(); const target = getDailyTarget(); const weekData = getWeeklyData();
             const todayLog = data.dailyLogs.find(l => l.date === new Date().toISOString().split('T')[0]);
             const todayPL = todayLog ? todayLog.realizedPL : 0; const totalPL = balance - data.settings.startCapital;
-            document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box"><div class="stat-label">${t('balance')}</div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box"><div class="stat-label">${t('todayPL')}</div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box"><div class="stat-label">${t('thisWeek')}</div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box"><div class="stat-label">${t('reserve')}</div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
+            document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
+            updateTooltips();
             const recs = generateRecommendations();
             document.getElementById('recommendations-container').innerHTML = recs.length > 0 ? `<div class="card"><div class="card-title"><span>💡</span> ${t('recommendations')}</div>${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${r.icon}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : '';
             document.getElementById('week-number').textContent = weekData.weekNumber;
@@ -1984,7 +2500,7 @@
                             <span class="detail-value text-green">${fmt(data.buffer.currentBuffer)}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Maximum</span>
+                            <span class="detail-label">${t('maximum')}</span>
                             <span class="detail-value">${fmt(maxBuf)}</span>
                         </div>
                         <div class="detail-item" style="grid-column: span 2;">
@@ -1996,11 +2512,11 @@
             `;
             
             const bufHist = data.buffer.history.slice(-3).reverse();
-            document.getElementById('buffer-history').innerHTML = bufHist.length > 0 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'➕':'➖'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') : '<span class="text-muted">Keine Buffer-Aktivität</span>';
+            document.getElementById('buffer-history').innerHTML = bufHist.length > 0 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'➕':'➖'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') : '<span class="text-muted">' + t('noBufferActivity') + '</span>';
             const activePos = data.positions.filter(p => p.active); const totalUnr = activePos.reduce((s, p) => s + calculatePL(p), 0);
-            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${inst?.icon||'📊'} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">Unrealisiert: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">Keine offenen Positionen</p>';
+            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${inst?.icon||'📊'} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
             const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
-            document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">noch ${fmt(m-balance)}</div></div>`).join('');
+            document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">${t('stillMissing')} ${fmt(m-balance)}</div></div>`).join('');
             
             // Heutiger Fortschritt mit Kreisdiagramm
             const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 100) : 0;
@@ -2024,24 +2540,24 @@
                         </svg>
                         <div class="circle-center">
                             <div class="circle-value ${todayPL >= target ? 'text-green' : ''}">${fmtPct(todayProgressPct)}</div>
-                            <div class="circle-label">${todayPL >= target ? '✅ Erreicht!' : 'Fortschritt'}</div>
+                            <div class="circle-label">${todayPL >= target ? '✅ ' + t('reached') : t('progress')}</div>
                         </div>
                     </div>
                     <div class="progress-details-compact">
                         <div class="detail-item">
-                            <span class="detail-label">Tagesziel</span>
+                            <span class="detail-label">${t('dailyTarget')}</span>
                             <span class="detail-value">${fmt(target)}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Realisiert</span>
+                            <span class="detail-label">${t('realized')}</span>
                             <span class="detail-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">${todayPL >= target ? 'Überschuss' : 'Noch offen'}</span>
+                            <span class="detail-label">${todayPL >= target ? t('surplus') : t('stillOpen')}</span>
                             <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">📅 Morgen</span>
+                            <span class="detail-label">📅 ${t('tomorrow')}</span>
                             <span class="detail-value text-blue">${fmt(tomorrowTarget)}</span>
                         </div>
                     </div>
@@ -2058,7 +2574,7 @@
         function renderMiniEquityChart() {
             const last7 = [...data.dailyLogs].sort((a, b) => a.date.localeCompare(b.date)).slice(-7);
             if (last7.length === 0) {
-                document.getElementById('mini-equity-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">Noch keine Daten</p>';
+                document.getElementById('mini-equity-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
                 return;
             }
             
@@ -2128,8 +2644,8 @@
                     `).join('')}
                 </svg>
                 <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.8rem;">
-                    <span><span class="text-muted">Start:</span> <strong>${fmt(values[0])}</strong></span>
-                    <span><span class="text-muted">Aktuell:</span> <strong class="text-green">${fmt(values[values.length-1])}</strong></span>
+                    <span><span class="text-muted">${t('start')}:</span> <strong>${fmt(values[0])}</strong></span>
+                    <span><span class="text-muted">${t('current')}:</span> <strong class="text-green">${fmt(values[values.length-1])}</strong></span>
                     <span class="${values[values.length-1] >= values[0] ? 'text-green' : 'text-red'}">
                         ${values[values.length-1] >= values[0] ? '↑' : '↓'} ${fmt(Math.abs(values[values.length-1] - values[0]))}
                     </span>
@@ -2175,30 +2691,30 @@
                 <div class="streak-container">
                     <div class="streak-box">
                         <div class="streak-value streak-fire">${currentStreak} 🔥</div>
-                        <div class="streak-label">Aktueller Streak</div>
+                        <div class="streak-label">${t('currentStreak')}</div>
                     </div>
                     <div class="streak-box">
                         <div class="streak-value">${maxStreak}</div>
-                        <div class="streak-label">Bester Streak</div>
+                        <div class="streak-label">${t('maxStreak')}</div>
                     </div>
                     <div class="streak-box">
                         <div class="streak-value text-green">${fmtPct(hitRate)}</div>
-                        <div class="streak-label">Ziel-Trefferquote</div>
+                        <div class="streak-label">${t('hitRate')}</div>
                     </div>
                     <div class="streak-box">
                         <div class="streak-value">${targetHitDays}/${totalDays}</div>
-                        <div class="streak-label">Tage mit Ziel</div>
+                        <div class="streak-label">${t('daysWithTarget')}</div>
                     </div>
                 </div>
                 ${bestDay ? `
                 <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;">
                     <div class="streak-box" style="padding:10px;">
                         <div class="text-green font-bold">+${fmt(bestDay.realizedPL)}</div>
-                        <div class="streak-label">Bester Tag (${formatDate(bestDay.date)})</div>
+                        <div class="streak-label">${t('bestDay')} (${formatDate(bestDay.date)})</div>
                     </div>
                     <div class="streak-box" style="padding:10px;">
                         <div class="text-red font-bold">${fmt(worstDay?.realizedPL || 0)}</div>
-                        <div class="streak-label">Schlechtester (${worstDay ? formatDate(worstDay.date) : '-'})</div>
+                        <div class="streak-label">${t('worstDay')} (${worstDay ? formatDate(worstDay.date) : '-'})</div>
                     </div>
                 </div>
                 ` : ''}
@@ -2206,10 +2722,10 @@
         }
         function renderPositions() {
             const target = getDailyTarget(); const risk = getRiskPerTrade();
-            document.getElementById('position-stats').innerHTML = `<div class="card stat-box"><div class="stat-label">Tagesziel</div><div class="stat-value text-green">${fmt(target)}</div></div><div class="card stat-box"><div class="stat-label">Risiko/Trade</div><div class="stat-value text-orange">${fmt(risk)}</div></div><div class="card stat-box"><div class="stat-label">Max. Tagesverl.</div><div class="stat-value text-red">${fmt(getMaxDailyLoss())}</div></div><div class="card stat-box"><div class="stat-label">R:R Ratio</div><div class="stat-value">1:${data.settings.rrRatio}</div></div>`;
-            document.getElementById('positions-list').innerHTML = data.positions.length > 0 ? data.positions.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); const sltp = calculateStopLimit(pos); return `<div class="card position-card" style="border-left-color:${inst?.color||'#fff'};"><div class="position-header"><div class="position-info"><span class="position-icon">${inst?.icon||'📊'}</span><div><div class="position-symbol">${inst?.symbol||pos.instrumentId}</div><div class="position-name">${inst?.name||''} | ${pos.size} × ${pos.direction.toUpperCase()}</div></div></div><div class="position-pl"><div class="position-pl-value ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div><div style="font-size:0.8rem;color:var(--muted);">@ ${fmtPrice(pos.currentPrice, inst)}</div></div></div><div class="grid grid-4" style="font-size:0.85rem;margin-bottom:12px;"><div><span class="text-muted">Avg:</span> ${fmtPrice(pos.avgPrice, inst)}</div><div><span class="text-muted">Current:</span> ${fmtPrice(pos.currentPrice, inst)}</div><div><span class="text-muted">P/L/$1:</span> ${inst?.plFactor?fmt(pos.size*inst.plFactor):'N/A'}</div><div style="text-align:right;"><button class="btn btn-sm btn-ghost" onclick="updatePositionPrice('${pos.id}')">📝</button><button class="btn btn-sm btn-danger" onclick="removePosition('${pos.id}')">✕</button></div></div>${sltp?`<div class="sl-tp-row"><div class="sl-tp-box stop"><div class="sl-tp-label">🛑 STOP</div><div class="sl-tp-value">${fmtPrice(sltp.stopPrice, inst)}</div><div class="sl-tp-dist">-${fmt(sltp.potentialLoss)}</div></div><div class="sl-tp-box tp"><div class="sl-tp-label">✅ TP R:R</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceRR, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitRR)}</div></div><div class="sl-tp-box target"><div class="sl-tp-label">🎯 TP Ziel</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceTarget, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitTarget)}</div></div></div>`:'<div class="card card-dark text-center" style="padding:10px;"><span class="text-orange">⚠️ Nicht kalibriert</span></div>'}</div>`; }).join('') : '<p class="text-muted text-center" style="padding:20px;">Keine Positionen</p>';
+            document.getElementById('position-stats').innerHTML = `<div class="card stat-box"><div class="stat-label">${t('dailyTarget')}</div><div class="stat-value text-green">${fmt(target)}</div></div><div class="card stat-box"><div class="stat-label">${t('riskPerTrade')}</div><div class="stat-value text-orange">${fmt(risk)}</div></div><div class="card stat-box"><div class="stat-label">${t('maxDailyLoss')}</div><div class="stat-value text-red">${fmt(getMaxDailyLoss())}</div></div><div class="card stat-box"><div class="stat-label">${t('rrRatio')}</div><div class="stat-value">1:${data.settings.rrRatio}</div></div>`;
+            document.getElementById('positions-list').innerHTML = data.positions.length > 0 ? data.positions.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); const sltp = calculateStopLimit(pos); return `<div class="card position-card" style="border-left-color:${inst?.color||'#fff'};"><div class="position-header"><div class="position-info"><span class="position-icon">${inst?.icon||'📊'}</span><div><div class="position-symbol">${inst?.symbol||pos.instrumentId}</div><div class="position-name">${inst?.name||''} | ${pos.size} × ${pos.direction.toUpperCase()}</div></div></div><div class="position-pl"><div class="position-pl-value ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div><div style="font-size:0.8rem;color:var(--muted);">@ ${fmtPrice(pos.currentPrice, inst)}</div></div></div><div class="grid grid-4" style="font-size:0.85rem;margin-bottom:12px;"><div><span class="text-muted">Avg:</span> ${fmtPrice(pos.avgPrice, inst)}</div><div><span class="text-muted">${t('current')}:</span> ${fmtPrice(pos.currentPrice, inst)}</div><div><span class="text-muted">P/L/$1:</span> ${inst?.plFactor?fmt(pos.size*inst.plFactor):'N/A'}</div><div style="text-align:right;"><button class="btn btn-sm btn-ghost" onclick="updatePositionPrice('${pos.id}')">📝</button><button class="btn btn-sm btn-danger" onclick="removePosition('${pos.id}')">✕</button></div></div>${sltp?`<div class="sl-tp-row"><div class="sl-tp-box stop"><div class="sl-tp-label">🛑 ${t('stopLoss')}</div><div class="sl-tp-value">${fmtPrice(sltp.stopPrice, inst)}</div><div class="sl-tp-dist">-${fmt(sltp.potentialLoss)}</div></div><div class="sl-tp-box tp"><div class="sl-tp-label">✅ TP R:R</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceRR, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitRR)}</div></div><div class="sl-tp-box target"><div class="sl-tp-label">🎯 TP ${t('target')}</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceTarget, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitTarget)}</div></div></div>`:'<div class="card card-dark text-center" style="padding:10px;"><span class="text-orange">' + t('notCalibrated') + '</span></div>'}</div>`; }).join('') : '<p class="text-muted text-center" style="padding:20px;">' + t('noPositions') + '</p>';
             const activePos = data.positions.filter(p => p.active);
-            document.getElementById('quick-copy-list').innerHTML = activePos.length > 0 ? activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const sltp = calculateStopLimit(pos); if (!sltp) return ''; return `<div class="card card-dark"><div class="font-bold text-gold mb-2">${inst?.icon} ${inst?.symbol} (${pos.size})</div><table style="width:100%;font-size:0.85rem;"><tr><td class="text-muted">Avg:</td><td class="text-right">${fmtPrice(pos.avgPrice, inst)}</td></tr><tr><td class="text-red">Stop:</td><td class="text-right font-bold">${fmtPrice(sltp.stopPrice, inst)}</td></tr><tr><td class="text-green">TP:</td><td class="text-right font-bold">${fmtPrice(sltp.tpPriceRR, inst)}</td></tr></table></div>`; }).join('') : '<p class="text-muted">Keine aktiven Positionen</p>';
+            document.getElementById('quick-copy-list').innerHTML = activePos.length > 0 ? activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const sltp = calculateStopLimit(pos); if (!sltp) return ''; return `<div class="card card-dark"><div class="font-bold text-gold mb-2">${inst?.icon} ${inst?.symbol} (${pos.size})</div><table style="width:100%;font-size:0.85rem;"><tr><td class="text-muted">Avg:</td><td class="text-right">${fmtPrice(pos.avgPrice, inst)}</td></tr><tr><td class="text-red">${t('stopLoss')}:</td><td class="text-right font-bold">${fmtPrice(sltp.stopPrice, inst)}</td></tr><tr><td class="text-green">TP:</td><td class="text-right font-bold">${fmtPrice(sltp.tpPriceRR, inst)}</td></tr></table></div>`; }).join('') : '<p class="text-muted">' + t('noActivePositions') + '</p>';
         }
         function renderPerformance() {
             const weekData = getWeeklyData(); const balance = getBalance(); const start = data.settings.startCapital; const total = balance - start;
@@ -2245,16 +2761,16 @@
             
             document.getElementById('projection-content').innerHTML = `
                 <div class="grid grid-2 mb-2">
-                    <div class="stat-box"><div class="stat-label">Heutiges Tagesziel</div><div class="stat-value text-green">${fmt(todayTarget)}</div></div>
-                    <div class="stat-box"><div class="stat-label">Noch zu erreichen</div><div class="stat-value">${fmt(remaining)}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('targetToday')}</div><div class="stat-value text-green">${fmt(todayTarget)}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('stillToReach')}</div><div class="stat-value">${fmt(remaining)}</div></div>
                 </div>
                 <div class="grid grid-3">
-                    <div class="stat-box"><div class="stat-label">Handelstage</div><div class="stat-value">${daysToTarget}</div></div>
-                    <div class="stat-box"><div class="stat-label">Ca. Monate</div><div class="stat-value">${monthsToTarget}</div></div>
-                    <div class="stat-box"><div class="stat-label">Ca. Jahre</div><div class="stat-value">${yearsToTarget}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('remainingDays')}</div><div class="stat-value">${daysToTarget}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('remainingMonths')}</div><div class="stat-value">${monthsToTarget}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('remainingYears')}</div><div class="stat-value">${yearsToTarget}</div></div>
                 </div>
                 <div class="progress-container mt-3">
-                    <div class="progress-header"><span>Fortschritt zum Ziel (${fmt(targetCap)})</span><span>${fmtPct((balance/targetCap)*100)}</span></div>
+                    <div class="progress-header"><span>${t('progressToTarget')} (${fmt(targetCap)})</span><span>${fmtPct((balance/targetCap)*100)}</span></div>
                     <div class="progress-bar"><div class="progress-fill blue" style="width:${Math.min((balance/targetCap)*100,100)}%"></div></div>
                 </div>`;
         }
@@ -2262,7 +2778,7 @@
         function renderFullEquityChart() {
             const logs = [...data.dailyLogs].sort((a, b) => a.date.localeCompare(b.date));
             if (logs.length < 2) {
-                document.getElementById('full-equity-chart').innerHTML = '<p class="text-muted text-center" style="padding:30px;">Mindestens 2 Tage Daten benötigt</p>';
+                document.getElementById('full-equity-chart').innerHTML = '<p class="text-muted text-center" style="padding:30px;">' + t('minData') + '</p>';
                 return;
             }
             
@@ -2315,8 +2831,8 @@
                     <circle cx="${points[points.length-1].x}" cy="${points[points.length-1].y}" r="6" fill="var(--green)" stroke="var(--card)" stroke-width="2"/>
                 </svg>
                 <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:8px;">
-                    <span><span class="text-blue">●</span> Start: ${fmt(values[0])} <span class="text-muted">(${formatDate(logs[0].date)})</span></span>
-                    <span><span class="text-green">●</span> Aktuell: ${fmt(values[values.length-1])} <span class="text-muted">(${formatDate(logs[logs.length-1].date)})</span></span>
+                    <span><span class="text-blue">●</span> ${t('start')}: ${fmt(values[0])} <span class="text-muted">(${formatDate(logs[0].date)})</span></span>
+                    <span><span class="text-green">●</span> ${t('current')}: ${fmt(values[values.length-1])} <span class="text-muted">(${formatDate(logs[logs.length-1].date)})</span></span>
                 </div>
             `;
         }
@@ -2333,7 +2849,7 @@
             
             const months = Object.keys(monthlyData).sort().slice(-6);
             if (months.length === 0) {
-                document.getElementById('monthly-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">Noch keine Daten</p>';
+                document.getElementById('monthly-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
                 return;
             }
             
@@ -2392,7 +2908,7 @@
             const tradingDays = avgData.slice(1, 6);
             
             if (tradingDays.every(d => d.count === 0)) {
-                document.getElementById('weekday-chart').innerHTML = '<p class="text-muted text-center" style="padding:20px;">Noch keine Daten</p>';
+                document.getElementById('weekday-chart').innerHTML = ''<p class="text-muted text-center" style="padding:20px;">' + t('noData') + '</p>'';
                 return;
             }
             
@@ -2418,16 +2934,16 @@
                     }).join('')}
                 </div>
                 <div style="text-align:center;margin-top:12px;font-size:0.75rem;color:var(--muted);">
-                    Ø Gewinn/Verlust pro Wochentag (Anzahl Trades)
+                    ${t('avgPerWeekday')}
                 </div>
             `;
         }
         function renderInstruments() {
-            document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${inst.icon}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?'✓ Kalibriert':'⚠️ Nicht kalibriert'}</div></div></div>`; }).join('');
+            document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${inst.icon}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?t('calibrated'):t('notCalibrated')}</div></div></div>`; }).join('');
         }
         function renderHistory() {
             const sorted = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date));
-            document.getElementById('history-table').innerHTML = sorted.length > 0 ? sorted.map(log => `<tr><td>${formatDate(log.date)}</td><td class="text-right">${fmt(log.startingBalance)}</td><td class="text-right">${fmt(log.endingBalance)}</td><td class="text-right ${log.realizedPL>=0?'text-green':'text-red'} font-bold">${log.realizedPL>=0?'+':''}${fmt(log.realizedPL)}</td><td class="text-center">${log.targetHit?'✅':'⚠️'}</td><td class="text-center">${getMoodEmoji(log.mood)}</td><td class="text-center"><button class="btn btn-sm btn-danger" onclick="deleteLog('${log.id}')">🗑️</button></td></tr>`).join('') : '<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">Noch keine Einträge</td></tr>';
+            document.getElementById('history-table').innerHTML = sorted.length > 0 ? sorted.map(log => `<tr><td>${formatDate(log.date)}</td><td class="text-right">${fmt(log.startingBalance)}</td><td class="text-right">${fmt(log.endingBalance)}</td><td class="text-right ${log.realizedPL>=0?'text-green':'text-red'} font-bold">${log.realizedPL>=0?'+':''}${fmt(log.realizedPL)}</td><td class="text-center">${log.targetHit?'✅':'⚠️'}</td><td class="text-center">${getMoodEmoji(log.mood)}</td><td class="text-center"><button class="btn btn-sm btn-danger" onclick="deleteLog('${log.id}')">🗑️</button></td></tr>`).join('') : '<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">' + t('noEntries') + '</td></tr>';
         }
         function renderSettings() {
             document.getElementById('set-start-capital').value = data.settings.startCapital;
@@ -2439,7 +2955,7 @@
             document.getElementById('set-rr-ratio').value = data.settings.rrRatio;
             document.getElementById('set-buffer-enabled').value = data.buffer.settings.enabled.toString();
             document.getElementById('set-buffer-max-days').value = data.buffer.settings.maxBufferDays;
-            document.getElementById('cloud-sync-content').innerHTML = currentUser ? `<div style="display:flex;align-items:center;gap:12px;"><div class="sync-dot ${isOnline?'online':'offline'}" style="width:12px;height:12px;"></div><div><div class="font-bold">${currentUser.email}</div><div class="text-muted" style="font-size:0.8rem;">${isOnline?'Verbunden':'Offline'}</div></div></div><button class="btn btn-ghost btn-sm mt-3" onclick="syncToCloud()">🔄 Jetzt synchronisieren</button>` : `<div class="text-muted mb-2">Offline-Modus - Daten nur lokal gespeichert.</div><button class="btn btn-primary btn-sm" onclick="showAuthScreen()">☁️ Cloud-Sync aktivieren</button>`;
+            document.getElementById('cloud-sync-content').innerHTML = currentUser ? `<div style="display:flex;align-items:center;gap:12px;"><div class="sync-dot ${isOnline?'online':'offline'}" style="width:12px;height:12px;"></div><div><div class="font-bold">${currentUser.email}</div><div class="text-muted" style="font-size:0.8rem;">${isOnline?t('cloudConnected'):t('offline')}</div></div></div><button class="btn btn-ghost btn-sm mt-3" onclick="syncToCloud()">🔄 ${t('syncNow')}</button>` : `<div class="text-muted mb-2">${t('offlineModeDesc')}</div><button class="btn btn-primary btn-sm" onclick="showAuthScreen()">☁️ ${t('enableCloudSync')}</button>`;
         }
 
         // ============================================================
@@ -2447,22 +2963,22 @@
         // ============================================================
         function saveSettings() { data.settings.startCapital = parseFloat(document.getElementById('set-start-capital').value)||0; data.settings.currentBalance = parseFloat(document.getElementById('set-current-balance').value)||0; data.settings.targetCapital = parseFloat(document.getElementById('set-target-capital').value)||0; data.settings.dailyTargetPercent = parseFloat(document.getElementById('set-daily-target').value)||1; data.settings.riskPerTradePercent = parseFloat(document.getElementById('set-risk-per-trade').value)||2; data.settings.maxDailyLossPercent = parseFloat(document.getElementById('set-max-daily-loss').value)||3; data.settings.rrRatio = parseFloat(document.getElementById('set-rr-ratio').value)||2; data.buffer.settings.enabled = document.getElementById('set-buffer-enabled').value === 'true'; data.buffer.settings.maxBufferDays = parseInt(document.getElementById('set-buffer-max-days').value)||10; saveData(); render(); showToast(t('settingsSaved')); }
         async function saveEntry() {
-            const balanceInput = document.getElementById('entry-balance').value; if (!balanceInput) { showToast('Bitte Kontostand eingeben', 'error'); return; }
+            const balanceInput = document.getElementById('entry-balance').value; if (!balanceInput) { showToast(t('entryRequired'), 'error'); return; }
             const newBalance = parseFloat(balanceInput); const prevBalance = getBalance(); const realizedPL = newBalance - prevBalance; const dailyTarget = getDailyTarget();
             const variance = realizedPL - dailyTarget; const variancePercent = dailyTarget > 0 ? (variance / dailyTarget) * 100 : 0; const daysEquivalent = dailyTarget > 0 ? realizedPL / dailyTarget : 0; const entryDate = document.getElementById('entry-date').value;
             const newLog = { id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(), date: entryDate, startingBalance: prevBalance, endingBalance: newBalance, realizedPL, unrealizedPL: parseFloat(document.getElementById('entry-unrealized').value)||0, dailyTarget, variance, variancePercent, daysEquivalent, targetHit: realizedPL >= dailyTarget, tradesCount: parseInt(document.getElementById('entry-trades').value)||0, mood: document.getElementById('entry-mood').value, notes: document.getElementById('entry-notes').value };
             const existingIndex = data.dailyLogs.findIndex(l => l.date === newLog.date);
-            if (existingIndex >= 0) { if (!confirm('Eintrag überschreiben?')) return; data.dailyLogs[existingIndex] = newLog; }
+            if (existingIndex >= 0) { if (!confirm(t('entryOverwrite'))) return; data.dailyLogs[existingIndex] = newLog; }
             else data.dailyLogs.push(newLog);
             processBuffer(realizedPL); data.settings.currentBalance = newBalance;
             saveData(); await syncDailyLog(newLog);
             document.getElementById('entry-balance').value = ''; document.getElementById('entry-realized').value = ''; document.getElementById('entry-unrealized').value = ''; document.getElementById('entry-trades').value = ''; document.getElementById('entry-notes').value = ''; document.getElementById('entry-mood').value = 'neutral'; document.getElementById('entry-preview').classList.add('hidden');
-            render(); showToast(`Eintrag gespeichert: ${realizedPL>=0?'+':''}${fmt(realizedPL)}`);
+            render(); showToast(t('entrySaved') + ': ' + (realizedPL>=0?'+':'') + fmt(realizedPL));
         }
-        async function deleteLog(id) { if (!confirm('Eintrag löschen?')) return; data.dailyLogs = data.dailyLogs.filter(l => l.id !== id); saveData(); if (currentUser && isOnline) try { await db.from('daily_logs').delete().eq('id', id); } catch(e){} render(); showToast(t('deleted')); }
+        async function deleteLog(id) { if (!confirm(t('entryDelete'))) return; data.dailyLogs = data.dailyLogs.filter(l => l.id !== id); saveData(); if (currentUser && isOnline) try { await db.from('daily_logs').delete().eq('id', id); } catch(e){} render(); showToast(t('deleted')); }
         function openAddPositionModal() {
             const calibrated = Object.values(data.instruments).filter(i => i.isCalibrated);
-            if (calibrated.length === 0) { showToast('Bitte erst Instrument kalibrieren', 'warning'); return; }
+            if (calibrated.length === 0) { showToast(t('calibrateFirst'), 'warning'); return; }
             document.getElementById('pos-instrument').innerHTML = calibrated.map(inst => `<option value="${inst.id}">${inst.icon} ${inst.symbol} - ${inst.name}</option>`).join('');
             document.getElementById('pos-size').value = ''; document.getElementById('pos-avg-price').value = ''; document.getElementById('pos-current-price').value = ''; document.getElementById('pos-direction').value = 'long';
             openModal('position-modal');
@@ -2474,15 +2990,15 @@
             data.positions.push(newPos); saveData(); await syncPosition(newPos);
             render(); closeModal('position-modal'); showToast(t('positionAdded'));
         }
-        function updatePositionPrice(id) { const newPrice = prompt('Neuer Preis:'); if (newPrice === null) return; const pos = data.positions.find(p => p.id === id); if (pos) { pos.currentPrice = parseFloat(newPrice); saveData(); syncPosition(pos); render(); } }
+        function updatePositionPrice(id) { const newPrice = prompt(t('enterNewPrice')); if (newPrice === null) return; const pos = data.positions.find(p => p.id === id); if (pos) { pos.currentPrice = parseFloat(newPrice); saveData(); syncPosition(pos); render(); } }
         async function removePosition(id) { 
             const pos = data.positions.find(p => p.id === id);
             if (!pos) return;
             const inst = data.instruments[pos.instrumentId];
             const pl = calculatePL(pos);
-            const plText = pl >= 0 ? `+${fmt(pl)} Gewinn` : `${fmt(pl)} Verlust`;
+            const plText = pl >= 0 ? `+${fmt(pl)} ${t('profit')}` : `${fmt(pl)} ${t('loss')}`;
             
-            const confirmed = confirm(`Position ${inst?.symbol || pos.instrumentId} entfernen?\n\nUnrealisierter P/L: ${plText}\n\n⚠️ Hinweis: Falls du diese Position geschlossen hast, stelle sicher dass der Gewinn/Verlust bereits im heutigen Tageseintrag (Kontostand) erfasst wurde.`);
+            const confirmed = confirm(`${t('removePosition')}\n${inst?.symbol || pos.instrumentId}\n\n${t('unrealized')} P/L: ${plText}\n\n⚠️ ${t('removeHint')}`);
             if (!confirmed) return;
             
             data.positions = data.positions.filter(p => p.id !== id); 
@@ -2493,7 +3009,7 @@
         }
         function openCalibrationModal(instrumentId) {
             const inst = data.instruments[instrumentId]; if (!inst) return;
-            document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><span style="font-size:2.5rem;">${inst.icon}</span><div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ Faktor: ${fmtNum(inst.plFactor,4)} | Letzte: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:'<div class="text-orange" style="font-size:0.85rem;">⚠️ Noch nicht kalibriert</div>'}</div><p class="text-muted mb-3" style="font-size:0.85rem;">Werte aus IBKR Screenshot eingeben:</p><div class="grid grid-2"><div class="form-group"><label>Position Size</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>Average Price</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>Current/Last Price</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>Unrealisierter P/L (€)</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">Berechneter Faktor:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">💾 Faktor speichern</button>`;
+            document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><span style="font-size:2.5rem;">${inst.icon}</span><div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:`<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}</div><p class="text-muted mb-3" style="font-size:0.85rem;">${t('enterValues')}:</p><div class="grid grid-2"><div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">💾 ${t('saveFactor')}</button>`;
             ['cal-size','cal-avg','cal-last','cal-pl'].forEach(id => document.getElementById(id)?.addEventListener('input', () => updateCalibrationPreview(instrumentId)));
             openModal('calibration-modal'); updateCalibrationPreview(instrumentId);
         }
@@ -2502,8 +3018,8 @@
             const diff = last - avg; let factor = 0;
             if (Math.abs(diff) > 0.00001 && size > 0) factor = Math.abs(pl / (diff * size));
             const inst = data.instruments[instrumentId]; const plPerDollar = factor * (inst?.standardSize || size);
-            document.getElementById('cal-result').textContent = factor > 0 ? fmtNum(factor, 4) + ' EUR/Einheit/$1' : '---';
-            document.getElementById('cal-pl-per-dollar').textContent = factor > 0 ? `Bei ${inst?.standardSize||size} Einheiten: ${fmt(plPerDollar)} pro $1` : '';
+            document.getElementById('cal-result').textContent = factor > 0 ? fmtNum(factor, 4) + ' EUR/Unit/$1' : '---';
+            document.getElementById('cal-pl-per-dollar').textContent = factor > 0 ? `${t('atSize')} ${inst?.standardSize||size}: ${fmt(plPerDollar)} ${t('perDollar')}` : '';
         }
         async function saveCalibration(instrumentId) {
             const size = parseFloat(document.getElementById('cal-size').value)||0; const avgPrice = parseFloat(document.getElementById('cal-avg').value)||0; const lastPrice = parseFloat(document.getElementById('cal-last').value)||0; const unrealizedPL = parseFloat(document.getElementById('cal-pl').value)||0;
@@ -2676,7 +3192,7 @@
                 doc.setTextColor(...colors.dark);
                 doc.setFontSize(14);
                 doc.setFont('helvetica', 'bold');
-                doc.text('P/L LETZTE TAGE', 20, y);
+                doc.text(t('plLast7Days').toUpperCase(), 20, y);
                 y += 8;
                 
                 const barChartX = 30;
@@ -2731,7 +3247,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('STATISTIKEN', 20, y);
+            doc.text(t('statistics').toUpperCase(), 20, y);
             y += 10;
             
             const profit = data.dailyLogs.filter(l => l.realizedPL > 0).length;
@@ -2741,12 +3257,12 @@
             const targetHits = data.dailyLogs.filter(l => l.targetHit).length;
             
             const stats = [
-                ['Handelstage', data.dailyLogs.length.toString()],
-                ['Gewinn-Tage', profit.toString()],
-                ['Verlust-Tage', loss.toString()],
-                ['Erfolgsquote', fmtPct(winRate)],
-                ['Avg. Tages-P/L', fmtPDF(avgPL)],
-                ['Ziel erreicht', targetHits + '/' + data.dailyLogs.length]
+                [t('tradingDays'), data.dailyLogs.length.toString()],
+                [t('profitDays'), profit.toString()],
+                [t('lossDays'), loss.toString()],
+                [t('winRate'), fmtPct(winRate)],
+                [t('avgDailyPL'), fmtPDF(avgPL)],
+                [t('targetHit'), targetHits + '/' + data.dailyLogs.length]
             ];
             
             doc.setFontSize(10);
@@ -2770,7 +3286,7 @@
             doc.setTextColor(...colors.dark);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text('ZIEL-PROJEKTION', 20, y);
+            doc.text(t('projection').toUpperCase(), 20, y);
             y += 10;
             
             const targetCap = data.settings.targetCapital;
@@ -2781,9 +3297,9 @@
             doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(...colors.gray);
-            doc.text('Zielkapital: ' + fmtPDF(targetCap), 20, y);
-            doc.text('Tagesziel: ' + fmtPct(data.settings.dailyTargetPercent), 80, y);
-            doc.text('Verbleibend: ca. ' + daysToTarget + ' Tage (' + (daysToTarget / 21).toFixed(1) + ' Mon.)', 125, y);
+            doc.text(t('targetCapital') + ': ' + fmtPDF(targetCap), 20, y);
+            doc.text(t('dailyTarget') + ': ' + fmtPct(data.settings.dailyTargetPercent), 80, y);
+            doc.text(t('remaining') + ': ~' + daysToTarget + ' ' + t('days') + ' (' + (daysToTarget / 21).toFixed(1) + ' ' + t('months') + ')', 125, y);
             y += 8;
             
             // Progress Bar
@@ -2816,9 +3332,9 @@
                 doc.setFontSize(7);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(...colors.gray);
-                doc.text('Datum', 25, y + 5);
+                doc.text(t('date'), 25, y + 5);
                 doc.text('Kontostand', 55, y + 5);
-                doc.text('P/L', 105, y + 5);
+                doc.text(t('pl'), 105, y + 5);
                 doc.text('Ziel', 145, y + 5);
                 doc.text('Stimmung', 165, y + 5);
                 y += 9;
@@ -2928,7 +3444,7 @@
         document.getElementById('entry-balance')?.addEventListener('input', function() {
             const newBalance = parseFloat(this.value); const preview = document.getElementById('entry-preview');
             if (newBalance) { const prevBalance = getBalance(); const pl = newBalance - prevBalance; const target = getDailyTarget(); const variance = pl - target; const variancePct = (variance / target) * 100;
-            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title"><span>👁️</span> Vorschau</div><div class="grid grid-4 text-center"><div><div class="stat-label">Aktuell</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">Neu</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">P/L</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">vs. Ziel</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?'<span class="text-green font-bold">✅ Tagesziel erreicht!</span>':`<span class="text-orange">⚠️ Ziel: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
+            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title"><span>👁️</span> ${t('preview')}</div><div class="grid grid-4 text-center"><div><div class="stat-label">${t('current')}</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">${t('new')}</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">${t('pl')}</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">${t('vsTarget')}</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?'<span class="text-green font-bold">✅ '+t('targetReachedYes')+'</span>':`<span class="text-orange">⚠️ ${t('target')}: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
         });
         document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); }); });
 
