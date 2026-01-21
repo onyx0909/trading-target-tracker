@@ -2665,15 +2665,16 @@
                 return;
             }
             
-            const values = last7.map(l => l.endingBalance);
+            // Start with first day's starting balance, then ending balances
+            const values = [last7[0].startingBalance, ...last7.map(l => l.endingBalance)];
             const min = Math.min(...values) * 0.998;
             const max = Math.max(...values) * 1.002;
             const range = max - min || 1;
             
-            const labels = last7.map(l => {
+            const labels = ['', ...last7.map(l => {
                 const d = new Date(l.date + 'T12:00:00');
                 return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
-            });
+            })];
             
             // SVG Dimensionen
             const width = 300;
@@ -2869,7 +2870,9 @@
                 return;
             }
             
-            const values = logs.map(l => l.endingBalance);
+            // Start with first day's starting balance, then ending balances
+            const values = [logs[0].startingBalance, ...logs.map(l => l.endingBalance)];
+            const dates = ['Start', ...logs.map(l => l.date)];
             const min = Math.min(...values) * 0.995;
             const max = Math.max(...values) * 1.005;
             const range = max - min || 1;
@@ -2883,7 +2886,7 @@
             const points = values.map((v, i) => {
                 const x = padding.left + (i / (values.length - 1)) * chartWidth;
                 const y = padding.top + chartHeight - ((v - min) / range) * chartHeight;
-                return { x, y, value: v, date: logs[i].date };
+                return { x, y, value: v, date: dates[i] };
             });
             
             const linePath = points.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x},${p.y}`).join(' ');
