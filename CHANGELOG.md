@@ -1,87 +1,93 @@
 # Changelog
 
-## [3.5.0] - 2026-01-20 - Kreisdiagramme & UX Verbesserungen
+## [4.1.0] - 2026-01-21
 
-### ✨ Neue Features
+### ✨ Neues Branding: TargetTrader
 
-**Kreisdiagramme auf Dashboard**
-- Heutiger Fortschritt als Kreisdiagramm
-- Buffer/Reserve als Kreisdiagramm
-- Farbliche Abstufung je nach Fortschritt
-- Übersichtlichere Darstellung
+- **Neues Logo**: Military Scope + Candlesticks (6 Kerzen mit Wicks)
+- **Neuer Name**: "TargetTrader" statt "Trading Target Tracker"
+- **Neue Accent-Farbe**: #00d4aa (Mint) für Dark Mode, #059669 für Light Mode
+- **Inline SVG Logo**: Lädt sofort, passt sich an Dark/Light Mode an
+- **Neue PWA Icons**: Alle Größen von 48px bis 512px
+- **Neues Favicon**: Multi-Size ICO + PNG Varianten
+- **Aktualisiertes Manifest**: TargetTrader Branding, theme_color #00d4aa
 
-**Tagesziel Morgen**
-- Zeigt das voraussichtliche Tagesziel für morgen
-- Berechnet basierend auf aktuellem Kontostand + heutigem Ziel
+### 🎨 Design-Änderungen
 
-**Position löschen - Hinweis**
-- Zeigt P/L der Position beim Löschen
-- Warnt, dass Gewinn/Verlust im Tageseintrag erfasst sein sollte
+- Header: "Target" (weiß) + "Trader" (accent color)
+- Tagline: "Hit your daily targets"
+- Auth Screen mit neuem Logo
+- PDF Export Footer aktualisiert
 
----
+## [4.0.3] - 2026-01-20
 
-## [3.4.0] - 2026-01-19 - Exponentielle Projektion
+### Behoben
+- Timezone-Fix mit getLocalDateString()
+- User Badge Fix nach Login
+- Debug Logs entfernt
 
-### 🔧 Kritischer Fix
+## [4.0.2] - 2026-01-20
 
-**Ziel-Projektion korrigiert**
-- Vorher: Lineare Berechnung (falsch)
-- Jetzt: Exponentielle Berechnung mit Zinseszins-Effekt
-- Formel: `Tage = log(Ziel/Aktuell) / log(1+Rate)`
+### Hinzugefügt
+- Systematische i18n Completion (240+ Keys × 3 Sprachen)
+- Dashboard Stat Box Tooltips
+- Migration Modal Übersetzung
 
----
+### Behoben
+- Kritischer Fix: Doppelte Funktionsdefinitionen
 
-## [3.3.5] - 2026-01-19 - Phase 2 Complete: Cloud-Sync
+## [4.0.1] - 2026-01-20
 
-### 🎉 Cloud-Sync ist komplett!
+### Hinzugefügt
+- Erweiterte Tooltips für Settings und Entry Forms
+- LANG Objekt auf 200+ Keys erweitert
 
-Vollständige Synchronisation zwischen allen Geräten (Desktop, iPad, Mobile).
+## [4.0.0] - 2026-01-20
 
-#### ✨ Features
+### Hinzugefügt
+- Internationalisierung (DE/EN/ES)
+- Tooltip-System
+- Sprachauswahl in Settings
 
-**Onboarding**
-- Setup-Dialog bei Erstregistrierung
-- Anfangskapital, Zielkapital, Startdatum eingeben
+## [3.9.2] - 2026-01-20
 
-**Branding**
-- Neues Logo (Military Scope + Candlesticks)
-- Icons in allen Größen (16px - 512px)
+### Hinzugefügt
+- PDF Export mit jsPDF
+- Equity Curve Chart im PDF
+- P/L Bar Chart im PDF
 
-**Cloud-Sync (komplett)**
-- Profile/Settings synchronisiert
-- Instrumente & Kalibrierungen synchronisiert
-- Positionen synchronisiert  
-- Tageseinträge synchronisiert
-- Buffer & Buffer History synchronisiert
+### Behoben
+- EUR Spacing Fix
+- Emoji/Unicode Ersetzungen
 
-#### ⚠️ Bekannte Probleme
+## [3.8.0] - 2026-01-20
 
-- Einige Browser-Erweiterungen können Sync blockieren
-- **Lösung:** Inkognito-Modus verwenden
+### Hinzugefügt
+- Extended Performance Charts
+- Full Equity Curve
+- Monthly Performance Bars
+- Weekday Analysis
 
----
+## [3.7.0] - 2026-01-20
 
-## [3.0.0] - 2026-01-18 - Phase 1
+### Hinzugefügt
+- Dashboard Charts
+- Mini Equity Curve (7 Tage)
+- Streak Statistics
 
-### 🚀 Major Release
-- Multi-Asset System mit Instrument-Bibliothek
-- Buffer/Reserve-System
-- Wochen-Tracking mit Fortschrittsanzeige
-- Smart Recommendations
-- Performance-Varianz Tracking
-- Export/Import JSON
+## [3.6.0] - 2026-01-20
 
----
+### Geändert
+- Komplettes Header Redesign
+- Dark/Light Mode Toggle
 
-## Roadmap
+## [3.5.0] - 2026-01-19
 
-### Phase 3 - UX Polish ✅ Abgeschlossen
-- [x] Kreisdiagramme
-- [x] Tagesziel-Fortschritt auf Dashboard
-- [x] Position-Löschen Hinweis
-- [x] Tagesziel morgen Anzeige
+### Hinzugefügt
+- Circular Progress Charts
+- Tomorrow's Target Display
+- Side-by-Side Layout
 
-### Phase 4 - i18n (Internationalisierung)
-- [ ] Deutsch (DE) ✓ Basis
-- [ ] Englisch (EN)
-- [ ] Spanisch (ES)
+### Behoben
+- Exponential Projection Fix
+- Buffer System Korrektur
