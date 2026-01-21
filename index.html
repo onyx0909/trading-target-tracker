@@ -113,8 +113,8 @@
         
         /* Tooltip System */
         [data-tooltip]{position:relative;cursor:help}
-        [data-tooltip]::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:8px 12px;border-radius:8px;font-size:0.75rem;white-space:nowrap;max-width:250px;white-space:normal;text-align:center;opacity:0;visibility:hidden;transition:all 0.2s;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.3);pointer-events:none}
-        [data-tooltip]::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--dark);opacity:0;visibility:hidden;transition:all 0.2s;z-index:1000}
+        [data-tooltip]::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:8px 12px;border-radius:8px;font-size:0.75rem;white-space:nowrap;max-width:250px;white-space:normal;text-align:center;opacity:0;visibility:hidden;transition:all 0.2s;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3);pointer-events:none}
+        [data-tooltip]::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--dark);opacity:0;visibility:hidden;transition:all 0.2s;z-index:9999}
         [data-tooltip]:hover::after,[data-tooltip]:hover::before{opacity:1;visibility:visible}
         [data-tooltip].tooltip-right::after{left:auto;right:0;transform:none}
         [data-tooltip].tooltip-left::after{left:0;right:auto;transform:none}
@@ -254,6 +254,7 @@
         .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
         .text-green{color:var(--green)}
+        .text-accent{color:var(--accent)}
         .text-red{color:var(--red)}
         .text-gold{color:var(--gold)}
         .text-purple{color:var(--purple)}
@@ -372,7 +373,7 @@
         }
         
         /* Fix overflow issues */
-        .card{overflow:hidden}
+        .card{overflow:visible}
         .stat-box{overflow:hidden;word-break:break-word}
         #mini-equity-chart,#full-equity-chart,#monthly-chart,#weekday-chart{overflow:hidden;width:100%}
         #mini-equity-chart svg,#full-equity-chart svg{max-width:100%;height:auto}
@@ -710,7 +711,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.2';
+        const VERSION = '4.3.3';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -2852,7 +2853,7 @@
                     </div>
                     <div class="progress-details-compact">
                         <div class="detail-item">
-                            <span class="detail-label">${t('dailyTarget')}</span>
+                            <span class="detail-label">${t('targetToday')}</span>
                             <span class="detail-value">${fmt(target)}</span>
                         </div>
                         <div class="detail-item">
@@ -2866,6 +2867,10 @@
                         <div class="detail-item">
                             <span class="detail-label">${todayPL >= target ? t('surplus') : t('stillOpen')}</span>
                             <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
+                        </div>
+                        <div class="detail-item" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+                            <span class="detail-label">${t('targetTomorrow')}</span>
+                            <span class="detail-value text-accent">${fmt(tomorrowTarget)}</span>
                         </div>
                     </div>
                 </div>

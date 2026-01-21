@@ -1,179 +1,134 @@
-# 🎯 TargetTrader
+# TargetTrader 🎯
 
-**Professional Trading Target Tracker with Cloud Sync**
+**Dynamic Trading Target Tracker with Compound Growth**
 
-A sleek, military-inspired web application to track your daily trading targets, manage positions, and monitor your progress towards financial goals.
+A professional Progressive Web App (PWA) for traders who want to track their daily profit targets using percentage-based compound growth instead of fixed amounts.
 
-![Version](https://img.shields.io/badge/version-4.3.0-blue)
+![Version](https://img.shields.io/badge/version-4.3.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Platform](https://img.shields.io/badge/platform-Web%20%7C%20PWA-orange)
+![PWA](https://img.shields.io/badge/PWA-ready-purple)
 
----
+## 🚀 Live Demo
+
+**[https://onyx0909.github.io/trading-target-tracker/](https://onyx0909.github.io/trading-target-tracker/)**
 
 ## ✨ Features
 
-### 📊 Dashboard
-- **Real-time P/L tracking** - See your daily, weekly, and total performance at a glance
-- **Dynamic daily targets** - Compound growth based on your balance (default 1.03%)
-- **Visual progress indicators** - Circular progress charts for daily goals
-- **Streak tracking** - Monitor consecutive profitable days
-- **Mini equity curve** - 7-day performance visualization
+### Core Features
+- **Dynamic Daily Targets** - Automatically calculated based on account balance (default: 0.5%)
+- **Realized vs. Unrealized P/L** - Separate tracking for closed trades and open positions
+- **Intraday Closed Trades** - Quick entry for trades closed within the day
+- **Buffer System** - Automatically stores surplus profits as reserve for losing days
+- **Tomorrow's Target Preview** - See what your target will be tomorrow
 
-### 💼 Position Management
-- **Open positions tracking** - Monitor all active trades with live P/L
-- **Intraday closed trades** - Log trades as you close them (NEW in v4.3.0!)
-- **SL/TP calculator** - Automatic stop-loss and take-profit levels based on risk settings
-- **Quick copy** - Instant access to instrument symbols
+### Trading Tools
+- **Position Manager** - Track open positions with real-time P/L
+- **Instrument Calibration** - Automatic P/L factor calculation for XAUUSD, XAGUSD, and more
+- **SL/TP Calculator** - Quick stop-loss and take-profit calculation
 
-### 📈 Instruments
-- **Multi-instrument support** - Gold (XAUUSD), Silver (XAGUSD), indices, forex, crypto
-- **Broker calibration** - Calculate exact P/L factors for your specific broker
-- **Custom instruments** - Add any tradeable asset
+### Analytics
+- **Equity Curve** - Visual representation of your trading progress
+- **Weekday Analysis** - Identify your best and worst trading days
+- **Streak Tracking** - Monitor winning and losing streaks
+- **Goal Projection** - Estimate time to reach your target capital
 
-### 🏦 Smart Buffer System
-- **Automatic surplus allocation** - Excess profits go to reserve
-- **Loss protection** - Buffer covers losing days automatically
-- **Configurable limits** - Set maximum buffer days
+### Technical
+- **Cloud Sync** - Sync data across all devices via Supabase
+- **Offline Support** - Full PWA functionality, works without internet
+- **Multi-language** - German, English, Spanish (DE/EN/ES)
+- **Dark/Light Mode** - Eye-friendly themes
+- **Responsive Design** - Optimized for desktop, tablet, and mobile
 
-### ☁️ Cloud Sync (Supabase)
-- **Multi-device support** - Access from desktop, tablet, or phone
-- **Real-time sync** - Changes sync instantly across devices
-- **Offline mode** - Works without internet, syncs when back online
-- **Secure authentication** - Email/password login
+## 📱 Screenshots
 
-### 🌍 Internationalization
-- **German** (Deutsch)
-- **English**
-- **Spanish** (Español)
+### Dashboard
+The main dashboard shows your daily progress with a circular progress indicator, today's target, realized/unrealized P/L, and tomorrow's target preview.
 
----
+### Buffer System
+Automatic profit reserve that helps you stay on track during losing days.
 
-## 🚀 Quick Start
+## 🛠️ Installation
 
-### Option 1: GitHub Pages (Recommended)
-Visit: **https://onyx0909.github.io/trading-target-tracker/**
+### Option 1: Use Online (Recommended)
+Visit [https://onyx0909.github.io/trading-target-tracker/](https://onyx0909.github.io/trading-target-tracker/) and install as PWA.
 
-### Option 2: Local Installation
+### Option 2: Self-Host
+1. Clone this repository
+2. Serve `index.html` via any web server
+3. For cloud sync, configure your own Supabase project
+
 ```bash
 git clone https://github.com/onyx0909/trading-target-tracker.git
 cd trading-target-tracker
-# Open index.html in your browser
+# Serve with any static file server
+python -m http.server 8000
 ```
 
-### Option 3: Self-Hosted with Cloud Sync
-1. Clone the repository
-2. Set up a [Supabase](https://supabase.com) project
-3. Run the SQL migrations (see `/docs/supabase-setup.md`)
-4. Update the Supabase credentials in `index.html`
-5. Deploy to your preferred hosting
+## ⚙️ Configuration
 
----
+### Daily Target
+Default: **0.5%** per day (adjustable in Settings)
 
-## 📱 PWA Support
+| Daily Target | Weekly | Monthly | Yearly |
+|--------------|--------|---------|--------|
+| 0.5% | ~2.5% | ~11.6% | ~3.5× |
+| 1.0% | ~5.1% | ~24.5% | ~12× |
+| 1.5% | ~7.7% | ~39.0% | ~40× |
 
-TargetTrader is a Progressive Web App! Install it on your device:
+### Buffer System
+- Collects profits above daily target
+- Automatically covers losses on red days
+- Configurable maximum buffer size (default: 10 days)
 
-- **iOS**: Safari → Share → Add to Home Screen
-- **Android**: Chrome → Menu → Install App
-- **Desktop**: Chrome → Address bar → Install icon
+## 🔧 Tech Stack
 
----
+- **Frontend**: Vanilla HTML/CSS/JavaScript (single-file architecture)
+- **Backend**: Supabase (Auth + PostgreSQL)
+- **Hosting**: GitHub Pages
+- **PWA**: Service Worker for offline support
+- **Charts**: Custom SVG-based visualizations
 
-## 🛠️ Configuration
+## 📊 Data Storage
 
-### Initial Setup (Onboarding)
-1. Set your **starting capital**
-2. Set your **target capital** (goal)
-3. Configure **daily target %** (default: 1.03%)
-4. Set **risk per trade %** (default: 2%)
-5. Configure **R:R ratio** (default: 2:1)
+### Local Storage
+All data is stored locally in your browser. Export/Import available for backup.
 
-### Instrument Calibration
-For accurate P/L calculations, calibrate each instrument:
-1. Go to **Instruments** tab
-2. Click **Calibrate** on an instrument
-3. Enter position details from your broker
-4. The app calculates your exact P/L factor
+### Cloud Sync (Optional)
+- Requires Supabase account
+- Google OAuth or Email/Password authentication
+- End-to-end encrypted sync
 
----
+## 🌐 Supported Instruments
 
-## 📋 Version History
+Pre-configured instruments:
+- XAUUSD (Gold)
+- XAGUSD (Silver)
+- Custom instruments via calibration
 
-### v4.3.0 - Intraday Closed Trades (Latest)
-- Track closed trades during the day before broker statement
-- Real-time P/L updates across all views
-- Full Supabase cloud sync for intraday trades
+## 📝 Changelog
 
-### v4.2.0 - Custom Icon System
-- 25+ custom SVG icons (no emojis)
-- Military scope design language
-- Improved SL/TP styling
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
-### v4.1.0 - TargetTrader Branding
-- New logo and app identity
-- Updated favicon and manifest
-
-### v4.0.0 - Cloud Sync
-- Supabase integration
-- Multi-device support
-- User authentication
-
-[Full changelog →](CHANGELOG.md)
-
----
-
-## 🗄️ Database Schema (Supabase)
-
-```
-profiles          - User settings & preferences
-instruments       - Trading instruments configuration
-positions         - Open positions
-daily_logs        - Daily trading entries
-intraday_closed_trades - Same-day closed trades (v4.3.0+)
-```
-
-See `supabase-migration-v4.3.0.sql` for the latest schema.
-
----
-
-## 🎨 Design Philosophy
-
-TargetTrader uses a **military tactical scope** design language:
-- Dark theme optimized for extended screen time
-- High-contrast accent colors (gold, green, red)
-- Minimal, functional UI
-- Custom SVG iconography
-- No emoji dependencies
-
----
-
-## 🔒 Privacy & Security
-
-- **No tracking** - Zero analytics or telemetry
-- **Local-first** - Works entirely offline
-- **Your data** - Cloud sync is optional, data stays in your Supabase
-- **Row-level security** - Each user can only access their own data
-
----
+### v4.3.3 (Current)
+- Fixed: Tooltips now display correctly above form fields
+- Fixed: Card overflow issue resolved
+- Added: Tomorrow's target preview in daily progress
+- Added: text-accent CSS class
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
----
-
 ## 📄 License
 
-MIT License - feel free to use this for your own trading journey!
+MIT License - see [LICENSE](LICENSE) file.
+
+## 🙏 Acknowledgments
+
+- Custom SVG icon set (Military Scope design)
+- Supabase for backend infrastructure
+- All beta testers and contributors
 
 ---
 
-## ⚠️ Disclaimer
-
-This application is for tracking purposes only. It does not provide financial advice. Trading involves substantial risk of loss. Past performance is not indicative of future results. Always trade responsibly.
-
----
-
-<p align="center">
-  <strong>Built with ❤️ for traders who take their targets seriously</strong>
-</p>
+**Made with ❤️ for traders who want to compound their way to success.**
