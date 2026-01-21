@@ -286,8 +286,9 @@
             .header-left{justify-content:center}
             .header-right{justify-content:center;flex-wrap:wrap}
             .header-center{order:-1}
-            .progress-grid-compact{grid-template-columns:1fr}
-            .progress-details-compact{grid-template-columns:repeat(2,1fr)}
+            .progress-grid-compact{display:flex;flex-direction:column;align-items:center;gap:16px}
+            .progress-details-compact{grid-template-columns:repeat(2,1fr);width:100%}
+            .circle-progress{width:100px;height:100px}
             .circle-progress svg{width:100px;height:100px}
             .circle-center{font-size:0.9rem}
             .stat-box{padding:12px}
@@ -313,6 +314,7 @@
             .week-day{padding:6px 2px}
             .week-day-name{font-size:0.6rem}
             .week-day-value{font-size:0.75rem}
+            .circle-progress{width:80px;height:80px}
             .circle-progress svg{width:80px;height:80px}
             .circle-value{font-size:1rem}
             .circle-label{font-size:0.6rem}
@@ -343,6 +345,7 @@
             .stat-value{font-size:1rem}
             .grid-4,.grid-3,.grid-2{gap:8px}
             .progress-grid-compact{gap:12px}
+            .circle-progress{width:70px;height:70px}
             .circle-progress svg{width:70px;height:70px}
             .circle-value{font-size:0.9rem}
             .progress-details-compact{gap:4px}
