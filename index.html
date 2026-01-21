@@ -268,6 +268,8 @@
         .mb-3{margin-bottom:12px}
         .hidden{display:none!important}
         @media(max-width:768px){.grid-4,.grid-3{grid-template-columns:repeat(2,1fr)}.sl-tp-row{grid-template-columns:1fr}.header{grid-template-columns:1fr;gap:12px;text-align:center}.header-left{justify-content:center}.header-right{justify-content:center;flex-wrap:wrap}.header-center{order:-1}}
+        /* TT Icon System */
+        .i{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0}.i svg{width:100%;height:100%}.i-16{width:16px;height:16px}.i-18{width:18px;height:18px}.i-20{width:20px;height:20px}.i-24{width:24px;height:24px}.i-32{width:32px;height:32px}
     </style>
 </head>
 <body>
@@ -364,7 +366,7 @@
                     <div class="header-balance-sub" id="header-balance-sub">+€0,00 gesamt</div>
                 </div>
                 <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-status-text" data-i18n="offline">Offline</span></div>
-                <button class="theme-toggle" onclick="toggleTheme()" data-tooltip="" data-tip="themeToggle">☀️</button>
+                <button class="theme-toggle" onclick="toggleTheme()" data-tooltip="" data-tip="themeToggle" id="theme-btn"><span class="i i-20"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="26" x2="16" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="16" x2="6" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="26" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6.1" y1="6.1" x2="8.9" y2="8.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="23.1" y1="23.1" x2="25.9" y2="25.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="6.1" y1="25.9" x2="8.9" y2="23.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="23.1" y1="8.9" x2="25.9" y2="6.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></button>
                 <div class="user-badge" onclick="openUserMenu()">
                     <div class="user-avatar" id="user-avatar">?</div>
                     <span id="user-name">Gast</span>
@@ -372,19 +374,19 @@
             </div>
         </div>
         <div class="tabs" id="main-tabs">
-            <button class="tab active" data-tab="dashboard"><span>📊</span> <span data-i18n="tabDashboard">Dashboard</span></button>
-            <button class="tab" data-tab="positions"><span>📍</span> <span data-i18n="tabPositions">Positionen</span></button>
-            <button class="tab" data-tab="entry"><span>📝</span> <span data-i18n="tabEntry">Eintrag</span></button>
-            <button class="tab" data-tab="performance"><span>📈</span> <span data-i18n="tabPerformance">Performance</span></button>
-            <button class="tab" data-tab="instruments"><span>🎸</span> <span data-i18n="tabInstruments">Instrumente</span></button>
-            <button class="tab" data-tab="history"><span>📅</span> <span data-i18n="tabHistory">Historie</span></button>
-            <button class="tab" data-tab="settings"><span>⚙️</span> <span data-i18n="tabSettings">Settings</span></button>
+            <button class="tab active" data-tab="dashboard"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="18" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="23.5" cy="23.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><circle cx="23.5" cy="23.5" r="2" fill="currentColor"/></svg></span> <span data-i18n="tabDashboard">Dashboard</span></button>
+            <button class="tab" data-tab="positions"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="tabPositions">Positionen</span></button>
+            <button class="tab" data-tab="entry"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="22" r="1" fill="currentColor"/></svg></span> <span data-i18n="tabEntry">Eintrag</span></button>
+            <button class="tab" data-tab="performance"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="tabPerformance">Performance</span></button>
+            <button class="tab" data-tab="instruments"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="8" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="20" y="4" width="8" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="4" x2="8" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="24" x2="8" y2="28" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="1" x2="24" y2="4" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="28" x2="24" y2="31" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="1.5" opacity="0.5"/></svg></span> <span data-i18n="tabInstruments">Instrumente</span></button>
+            <button class="tab" data-tab="history"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="16 8 16 16 22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 8L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span> <span data-i18n="tabHistory">Historie</span></button>
+            <button class="tab" data-tab="settings"><span class="i i-18"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/><path d="M16 3V7M16 25V29M3 16H7M25 16H29" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6.8 6.8L9.6 9.6M22.4 22.4L25.2 25.2M6.8 25.2L9.6 22.4M22.4 9.6L25.2 6.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span> <span data-i18n="tabSettings">Settings</span></button>
         </div>
         <div id="dashboard" class="tab-content active">
             <div class="grid grid-4" id="dashboard-stats"></div>
             <div id="recommendations-container"></div>
             <div class="card card-blue">
-                <div class="card-title"><span>📅</span> <span data-i18n="thisWeekKW">Diese Woche (KW</span> <span id="week-number">-</span>)</div>
+                <div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="3" x2="10" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="22" y1="3" x2="22" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="20" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="20" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="thisWeekKW">Diese Woche (KW</span> <span id="week-number">-</span>)</div>
                 <div class="week-grid" id="week-grid"></div>
                 <div class="progress-container">
                     <div class="progress-header"><span><span data-i18n="weekTarget">Wochenziel</span>: <span id="week-target">€0</span></span><span id="week-progress-pct">0%</span></div>
@@ -393,31 +395,31 @@
             </div>
             <div class="grid grid-2">
                 <div class="card card-green">
-                    <div class="card-title" data-tip="todayProgress" data-tooltip=""><span>🎯</span> <span data-i18n="todayProgress">Heutiger Fortschritt</span> <span class="help-icon">?</span></div>
+                    <div class="card-title" data-tip="todayProgress" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="16" cy="16" r="2" fill="currentColor"/><line x1="16" y1="1" x2="16" y2="6" stroke="currentColor" stroke-width="2"/><line x1="16" y1="26" x2="16" y2="31" stroke="currentColor" stroke-width="2"/><line x1="1" y1="16" x2="6" y2="16" stroke="currentColor" stroke-width="2"/><line x1="26" y1="16" x2="31" y2="16" stroke="currentColor" stroke-width="2"/></svg></span> <span data-i18n="todayProgress">Heutiger Fortschritt</span> <span class="help-icon">?</span></div>
                     <div id="today-progress-content"></div>
                 </div>
                 <div class="card card-purple">
-                    <div class="card-title"><span>🏦</span> <span data-i18n="bufferReserve">Reserve / Buffer</span></div>
+                    <div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="bufferReserve">Reserve / Buffer</span></div>
                     <div id="buffer-content"></div>
                     <div id="buffer-history" class="mt-2" style="font-size:0.8rem;color:var(--muted);"></div>
                 </div>
             </div>
-            <div class="card"><div class="card-title"><span>📍</span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
             <div class="grid grid-2">
-                <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span>📈</span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
-                <div class="card"><div class="card-title" data-tip="streak" data-tooltip=""><span>🔥</span> <span data-i18n="streakStats">Streak & Statistiken</span> <span class="help-icon">?</span></div><div id="streak-stats"></div></div>
+                <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
+                <div class="card"><div class="card-title" data-tip="streak" data-tooltip=""><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2C16 2 20 8 20 14C20 18 18 20 16 22C14 20 12 18 12 14C12 8 16 2 16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 22C16 22 18 24 18 27C18 29 17 30 16 30S14 29 14 27C14 24 16 22 16 22Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="14" r="2" fill="currentColor"/></svg></span> <span data-i18n="streakStats">Streak & Statistiken</span> <span class="help-icon">?</span></div><div id="streak-stats"></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>🏆</span> <span data-i18n="nextMilestones">Nächste Meilensteine</span></div><div class="grid grid-4" id="milestones"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M10 4H22V12C22 17.52 17.52 22 12 22H10V4Z" stroke="currentColor" stroke-width="1.5"/><path d="M22 6H26C27.1 6 28 6.9 28 8V10C28 12.21 26.21 14 24 14H22" stroke="currentColor" stroke-width="1.5"/><path d="M10 6H6C4.9 6 4 6.9 4 8V10C4 12.21 5.79 14 8 14H10" stroke="currentColor" stroke-width="1.5"/><path d="M12 22V26H20V22" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="28" x2="24" y2="28" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="nextMilestones">Nächste Meilensteine</span></div><div class="grid grid-4" id="milestones"></div></div>
         </div>
         <div id="positions" class="tab-content">
             <div class="grid grid-4" id="position-stats"></div>
             <div id="positions-list"></div>
             <button class="btn btn-add" onclick="openAddPositionModal()" data-i18n="addPosition">+ Neue Position hinzufügen</button>
-            <div class="card card-gold mt-3"><div class="card-title"><span>📋</span> <span data-i18n="quickCopy">Quick Copy</span></div><div class="grid grid-2" id="quick-copy-list"></div></div>
+            <div class="card card-gold mt-3"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="10" y="10" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M22 10V6C22 4.9 21.1 4 20 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H10" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="quickCopy">Quick Copy</span></div><div class="grid grid-2" id="quick-copy-list"></div></div>
         </div>
         <div id="entry" class="tab-content">
             <div class="card">
-                <div class="card-title"><span>📝</span> <span data-i18n="dailyEntry">Täglicher Eintrag</span></div>
+                <div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="22" r="1" fill="currentColor"/></svg></span> <span data-i18n="dailyEntry">Täglicher Eintrag</span></div>
                 <div class="grid grid-2">
                     <div class="form-group"><label data-i18n="date">Datum</label><input type="date" id="entry-date" class="form-input"></div>
                     <div class="form-group"><label data-i18n="newBalance">Neuer Kontostand (€) *</label><input type="number" step="0.01" id="entry-balance" class="form-input" placeholder="z.B. 15365.00"></div>
@@ -427,10 +429,10 @@
                     <div class="form-group"><label data-tip="unrealizedPL" data-tooltip=""><span data-i18n="unrealizedPL">Unrealisierter P/L (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="entry-unrealized" class="form-input" placeholder="0.00"></div>
                     <div class="form-group"><label data-i18n="numTrades">Anzahl Trades</label><input type="number" id="entry-trades" class="form-input" placeholder="0"></div>
                 </div>
-                <div class="form-group"><label data-tip="mood" data-tooltip=""><span data-i18n="mood">Stimmung</span> <span class="help-icon">?</span></label><select id="entry-mood" class="form-input"><option value="great" data-i18n="moodGreat">🚀 Hervorragend</option><option value="good" data-i18n="moodGood">😊 Gut</option><option value="neutral" selected data-i18n="moodNeutral">😐 Neutral</option><option value="bad" data-i18n="moodBad">😔 Schlecht</option></select></div>
+                <div class="form-group"><label data-tip="mood" data-tooltip=""><span data-i18n="mood">Stimmung</span> <span class="help-icon">?</span></label><select id="entry-mood" class="form-input"><option value="great" data-i18n="moodGreat">Hervorragend</option><option value="good" data-i18n="moodGood">Gut</option><option value="neutral" selected data-i18n="moodNeutral">Neutral</option><option value="bad" data-i18n="moodBad">Schlecht</option></select></div>
                 <div class="form-group"><label data-i18n="notes">Notizen</label><textarea id="entry-notes" class="form-input" rows="2" placeholder="z.B. Gold Breakout..."></textarea></div>
                 <div id="entry-preview" class="card card-dark hidden"></div>
-                <button class="btn btn-success btn-block mt-2" onclick="saveEntry()" data-i18n="saveEntry">💾 Eintrag speichern</button>
+                <button class="btn btn-success btn-block mt-2" onclick="saveEntry()" data-i18n="saveEntry">Eintrag speichern</button>
             </div>
         </div>
         <div id="performance" class="tab-content">
@@ -439,36 +441,36 @@
                 <div class="card card-blue"><div class="stat-box"><div class="stat-label" data-i18n="thisMonth">Dieser Monat</div><div class="stat-value" id="perf-month">€0</div><div class="stat-sub" id="perf-month-pct">0%</div></div></div>
                 <div class="card card-gold"><div class="stat-box"><div class="stat-label" data-i18n="total">Gesamt</div><div class="stat-value" id="perf-total">€0</div><div class="stat-sub" id="perf-total-pct">0%</div></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>📈</span> <span data-i18n="equityCurve">Equity Curve (Gesamtverlauf)</span></div><div id="full-equity-chart"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="equityCurve">Equity Curve (Gesamtverlauf)</span></div><div id="full-equity-chart"></div></div>
             <div class="grid grid-2">
-                <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="monthlyOverview">Monatsübersicht</span></div><div id="monthly-chart"></div></div>
-                <div class="card"><div class="card-title"><span>📅</span> <span data-i18n="weekdayAnalysis">Wochentags-Analyse</span></div><div id="weekday-chart"></div></div>
+                <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg></span> <span data-i18n="monthlyOverview">Monatsübersicht</span></div><div id="monthly-chart"></div></div>
+                <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="3" x2="10" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="22" y1="3" x2="22" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="20" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="20" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="weekdayAnalysis">Wochentags-Analyse</span></div><div id="weekday-chart"></div></div>
             </div>
-            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="statistics">Statistiken</span></div><div class="grid grid-4" id="performance-stats"></div></div>
-            <div class="card"><div class="card-title"><span>🎯</span> <span data-i18n="projection">Ziel-Projektion</span></div><div id="projection-content"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg></span> <span data-i18n="statistics">Statistiken</span></div><div class="grid grid-4" id="performance-stats"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L12 20L18 24L24 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16L28 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/><circle cx="28" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="10" r="1" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="projection">Ziel-Projektion</span></div><div id="projection-content"></div></div>
         </div>
         <div id="instruments" class="tab-content">
-            <div class="card"><div class="card-title"><span>🥇</span> <span data-i18n="metals">Edelmetalle</span></div><div id="instruments-metals"></div></div>
-            <div class="card" style="opacity:0.6;"><div class="card-title"><span>📈</span> <span data-i18n="stocks">Aktien</span> <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;">🔒 <span data-i18n="comingSoon">Kommt bald</span></p></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="17" r="2" fill="currentColor"/><line x1="16" y1="10" x2="16" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="21" x2="16" y2="24" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="metals">Edelmetalle</span></div><div id="instruments-metals"></div></div>
+            <div class="card" style="opacity:0.6;"><div class="card-title"><span class="i i-20" style="color:var(--muted)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="stocks">Aktien</span> <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;"><span class="i i-16"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="14" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 14V10C10 6.69 12.69 4 16 4S22 6.69 22 10V14" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/></svg></span> <span data-i18n="comingSoon">Kommt bald</span></p></div>
         </div>
         <div id="history" class="tab-content">
-            <div class="card"><div class="card-title"><span>📅</span> <span data-i18n="tradingHistory">Trading Historie</span></div><div style="overflow-x:auto;"><table><thead><tr><th data-i18n="date">Datum</th><th style="text-align:right" data-i18n="start">Start</th><th style="text-align:right" data-i18n="end">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center" data-i18n="target">Ziel</th><th style="text-align:center" data-i18n="mood">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="16 8 16 16 22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 8L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span> <span data-i18n="tradingHistory">Trading Historie</span></div><div style="overflow-x:auto;"><table><thead><tr><th data-i18n="date">Datum</th><th style="text-align:right" data-i18n="start">Start</th><th style="text-align:right" data-i18n="end">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center" data-i18n="target">Ziel</th><th style="text-align:center" data-i18n="mood">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
         </div>
         <div id="settings" class="tab-content">
-            <div class="card card-blue" id="cloud-sync-card"><div class="card-title"><span>☁️</span> <span data-i18n="cloudSync">Cloud-Sync</span></div><div id="cloud-sync-content"></div></div>
-            <div class="card"><div class="card-title"><span>💰</span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip=""><span data-i18n="startCapital">Startkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip=""><span data-i18n="currentBalance">Aktueller Stand (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip=""><span data-i18n="targetCapital">Zielkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>📊</span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip=""><span data-i18n="dailyTarget">Tagesziel (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip=""><span data-i18n="riskPerTrade">Risiko/Trade (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip=""><span data-i18n="maxDailyLoss">Max. Tagesverlust (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip=""><span data-i18n="rrRatio">Risk:Reward</span> <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title"><span>🏦</span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip=""><span data-i18n="bufferEnabled">Buffer aktiviert</span> <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip=""><span data-i18n="maxBufferDays">Max. Buffer (Tage)</span> <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
-            <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()" data-i18n="saveSettings">💾 Einstellungen speichern</button>
-            <div class="card"><div class="card-title"><span>💾</span> <span data-i18n="backupRestore">Backup & Restore</span></div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()" data-i18n="export">📤 Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;"><span data-i18n="import">📥 Importieren</span><input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
+            <div class="card card-blue" id="cloud-sync-card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M8 24C4.69 24 2 21.31 2 18C2 15.2 3.9 12.9 6.5 12.2C7.2 8.7 10.3 6 14 6C17.1 6 19.8 7.9 21 10.5H22C25.9 10.5 29 13.6 29 17.5C29 21.1 26.3 24 22.8 24H8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="17" r="1" fill="currentColor"/></svg></span> <span data-i18n="cloudSync">Cloud-Sync</span></div><div id="cloud-sync-content"></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="6" x2="16" y2="8" stroke="currentColor" stroke-width="2"/><line x1="16" y1="24" x2="16" y2="26" stroke="currentColor" stroke-width="2"/><path d="M12 12H18C19.66 12 21 13.34 21 15S19.66 18 18 18H12V12Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 18H19C20.66 18 22 19.34 22 21S20.66 24 19 24H12V18Z" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="10" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip=""><span data-i18n="startCapital">Startkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip=""><span data-i18n="currentBalance">Aktueller Stand (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip=""><span data-i18n="targetCapital">Zielkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg></span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip=""><span data-i18n="dailyTarget">Tagesziel (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip=""><span data-i18n="riskPerTrade">Risiko/Trade (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip=""><span data-i18n="maxDailyLoss">Max. Tagesverlust (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip=""><span data-i18n="rrRatio">Risk:Reward</span> <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip=""><span data-i18n="bufferEnabled">Buffer aktiviert</span> <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip=""><span data-i18n="maxBufferDays">Max. Buffer (Tage)</span> <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
+            <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()" data-i18n="saveSettings">Einstellungen speichern</button>
+            <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 4V12H24V4" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="16" width="12" height="8" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="20" r="2" fill="currentColor"/></svg></span> <span data-i18n="backupRestore">Backup & Restore</span></div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()" data-i18n="export">Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;"><span data-i18n="import">Importieren</span><input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
             <div class="card card-blue"><div class="card-title"><span>📄</span> <span data-i18n="pdfReport">PDF Bericht</span></div><p class="text-muted mb-2" style="font-size:0.85rem;" data-i18n="pdfDescription">Exportiere einen Performance-Bericht als PDF</p><button class="btn btn-primary btn-block" onclick="exportPDF()" data-i18n="createPdf">📄 PDF Bericht erstellen</button></div>
             <div class="card"><div class="card-title"><span>🌍</span> <span data-i18n="language">Sprache</span></div><div class="grid grid-3"><button class="btn lang-btn" onclick="setLanguage('de')" id="lang-de">🇩🇪 Deutsch</button><button class="btn lang-btn" onclick="setLanguage('en')" id="lang-en">🇬🇧 English</button><button class="btn lang-btn" onclick="setLanguage('es')" id="lang-es">🇪🇸 Español</button></div></div>
-            <div class="card card-red"><div class="card-title"><span>⚠️</span> <span data-i18n="dangerZone">Gefahrenzone</span></div><button class="btn btn-danger" onclick="resetAllData()" data-i18n="deleteAll">🗑️ Alle Daten löschen</button></div>
+            <div class="card card-red"><div class="card-title"><span class="i i-20" style="color:#ef4444"><svg viewBox="0 0 32 32" fill="none"><path d="M16 4L30 28H2L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="16" y1="12" x2="16" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="23" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="dangerZone">Gefahrenzone</span></div><button class="btn btn-danger" onclick="resetAllData()" data-i18n="deleteAll">Alle Daten löschen</button></div>
         </div>
     </div>
     <div class="modal-overlay" id="user-modal"><div class="modal" style="max-width:350px;"><div class="modal-header"><h3 class="modal-title">👤 <span data-i18n="user">Benutzer</span></h3><button class="modal-close" onclick="closeModal('user-modal')">&times;</button></div><div id="user-modal-content"></div></div></div>
     <div class="modal-overlay" id="calibration-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title" data-i18n="calibrationTitle">🔧 Instrument kalibrieren</h3><button class="modal-close" onclick="closeModal('calibration-modal')">&times;</button></div><div id="calibration-content"></div></div></div>
-    <div class="modal-overlay" id="position-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title">📍 <span data-i18n="addPositionTitle">Position hinzufügen</span></h3><button class="modal-close" onclick="closeModal('position-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="pos-instrument" class="form-input"></select></div><div class="grid grid-2"><div class="form-group"><label data-tip="positionSize" data-tooltip="" data-i18n="size">Position Size</label><input type="number" step="0.01" id="pos-size" class="form-input"></div><div class="form-group"><label data-tip="direction" data-tooltip="" data-i18n="direction">Richtung</label><select id="pos-direction" class="form-input"><option value="long" data-i18n="long">Long</option><option value="short" data-i18n="short">Short</option></select></div></div><div class="grid grid-2"><div class="form-group"><label data-tip="avgPrice" data-tooltip="" data-i18n="avgPrice">Avg. Einstiegspreis</label><input type="number" step="0.00001" id="pos-avg-price" class="form-input"></div><div class="form-group"><label data-tip="currentPrice" data-tooltip="" data-i18n="currentPrice">Aktueller Preis</label><input type="number" step="0.00001" id="pos-current-price" class="form-input"></div></div><button class="btn btn-success btn-block" onclick="savePosition()" data-i18n="positionSave">💾 Position speichern</button></div></div>
+    <div class="modal-overlay" id="position-modal"><div class="modal"><div class="modal-header"><h3 class="modal-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="addPositionTitle">Position hinzufügen</span></h3><button class="modal-close" onclick="closeModal('position-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="pos-instrument" class="form-input"></select></div><div class="grid grid-2"><div class="form-group"><label data-tip="positionSize" data-tooltip="" data-i18n="size">Position Size</label><input type="number" step="0.01" id="pos-size" class="form-input"></div><div class="form-group"><label data-tip="direction" data-tooltip="" data-i18n="direction">Richtung</label><select id="pos-direction" class="form-input"><option value="long" data-i18n="long">Long</option><option value="short" data-i18n="short">Short</option></select></div></div><div class="grid grid-2"><div class="form-group"><label data-tip="avgPrice" data-tooltip="" data-i18n="avgPrice">Avg. Einstiegspreis</label><input type="number" step="0.00001" id="pos-avg-price" class="form-input"></div><div class="form-group"><label data-tip="currentPrice" data-tooltip="" data-i18n="currentPrice">Aktueller Preis</label><input type="number" step="0.00001" id="pos-current-price" class="form-input"></div></div><button class="btn btn-success btn-block" onclick="savePosition()" data-i18n="positionSave">Position speichern</button></div></div>
     <div id="toast" class="toast"></div>
     
     <!-- Migration Modal -->
@@ -482,7 +484,7 @@
                 <div class="card card-dark mb-3" id="migration-summary"></div>
                 
                 <div class="card card-gold mb-3" style="padding:12px;">
-                    <p style="font-size:0.85rem; margin-bottom:8px;"><strong data-i18n="whatToDo">⚠️ Was möchtest du tun?</strong></p>
+                    <p style="font-size:0.85rem; margin-bottom:8px;"><strong data-i18n="whatToDo">Was möchtest du tun?</strong></p>
                     <p style="font-size:0.8rem; color:var(--muted); line-height:1.4;">
                         • <strong data-i18n="uploadLocal">⬆️ Lokale hochladen</strong> = <span data-i18n="syncToCloud">Diese Daten in die Cloud speichern</span><br>
                         • <strong data-i18n="loadCloud">⬇️ Cloud laden</strong> = <span data-i18n="loadCloudDesc">Daten aus der Cloud holen</span>
@@ -501,43 +503,81 @@
     <div class="modal-overlay" id="onboarding-modal">
         <div class="modal" style="max-width:450px;">
             <div class="modal-header">
-                <h3 class="modal-title">🚀 <span data-i18n="welcomeTitle">Willkommen bei Trading Target Tracker!</span></h3>
+                <h3 class="modal-title"><span class="i i-24" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M16 4C16 4 8 10 8 20C8 24 10 28 16 28S24 24 24 20C24 10 16 4 16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/><path d="M8 20L4 24M24 20L28 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span> <span data-i18n="welcomeTitle">Willkommen bei Trading Target Tracker!</span></h3>
             </div>
             <div id="onboarding-content">
                 <p style="margin-bottom:16px; color:var(--muted);" data-i18n="setupSubtitle">Bitte gib deine Startparameter ein:</p>
                 
                 <div class="form-group">
-                    <label data-i18n="onboardStart">💰 Anfangskapital (€)</label>
+                    <label data-i18n="onboardStart">Anfangskapital (€)</label>
                     <input type="number" id="onboard-start-capital" class="form-input highlight" placeholder="z.B. 10000" step="0.01">
                 </div>
                 
                 <div class="form-group">
-                    <label data-i18n="onboardTarget">🎯 Zielkapital (€)</label>
+                    <label data-i18n="onboardTarget">Zielkapital (€)</label>
                     <input type="number" id="onboard-target-capital" class="form-input highlight" placeholder="z.B. 1000000" step="0.01">
                 </div>
                 
                 <div class="form-group">
-                    <label data-i18n="startDate">📅 Startdatum</label>
+                    <label data-i18n="startDate">Startdatum</label>
                     <input type="date" id="onboard-start-date" class="form-input highlight">
                 </div>
                 
                 <div class="form-group">
-                    <label data-i18n="onboardDaily">📈 Tagesziel (%)</label>
+                    <label data-i18n="onboardDaily">Tagesziel (%)</label>
                     <input type="number" id="onboard-daily-target" class="form-input" value="1.03" step="0.01">
                     <small class="text-muted" data-i18n="onboardRecommended">Empfohlen: 1.0 - 1.5%</small>
                 </div>
                 
                 <div class="card card-dark mb-3" id="onboard-preview" style="display:none;">
-                    <div class="card-title"><span>📊</span> <span data-i18n="calculation">Berechnung</span></div>
+                    <div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg></span> <span data-i18n="calculation">Berechnung</span></div>
                     <div id="onboard-calc"></div>
                 </div>
                 
-                <button class="btn btn-success btn-block" onclick="completeOnboarding()" data-i18n="startNow">✅ Starten</button>
+                <button class="btn btn-success btn-block" onclick="completeOnboarding()" data-i18n="startNow">Starten</button>
             </div>
         </div>
     </div>
     
     <script>
+        // ============================================================
+        // TARGETTRADER ICON SYSTEM v1.0
+        // ============================================================
+        const I={
+            dashboard:'<svg viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="18" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="23.5" cy="23.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><circle cx="23.5" cy="23.5" r="2" fill="currentColor"/></svg>',
+            target:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="16" cy="16" r="2" fill="currentColor"/><line x1="16" y1="1" x2="16" y2="6" stroke="currentColor" stroke-width="2"/><line x1="16" y1="26" x2="16" y2="31" stroke="currentColor" stroke-width="2"/><line x1="1" y1="16" x2="6" y2="16" stroke="currentColor" stroke-width="2"/><line x1="26" y1="16" x2="31" y2="16" stroke="currentColor" stroke-width="2"/></svg>',
+            positions:'<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg>',
+            entry:'<svg viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="22" x2="16" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="22" r="1" fill="currentColor"/></svg>',
+            perf:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg>',
+            instr:'<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="8" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="20" y="4" width="8" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="4" x2="8" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="24" x2="8" y2="28" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="1" x2="24" y2="4" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="28" x2="24" y2="31" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="1.5" opacity="0.5"/></svg>',
+            history:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="16 8 16 16 22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 8L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            settings:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/><path d="M16 3V7M16 25V29M3 16H7M25 16H29" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6.8 6.8L9.6 9.6M22.4 22.4L25.2 25.2M6.8 25.2L9.6 22.4M22.4 9.6L25.2 6.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            stats:'<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg>',
+            balance:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="6" x2="16" y2="8" stroke="currentColor" stroke-width="2"/><line x1="16" y1="24" x2="16" y2="26" stroke="currentColor" stroke-width="2"/><path d="M12 12H18C19.66 12 21 13.34 21 15S19.66 18 18 18H12V12Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 18H19C20.66 18 22 19.34 22 21S20.66 24 19 24H12V18Z" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="10" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/></svg>',
+            buffer:'<svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg>',
+            streak:'<svg viewBox="0 0 32 32" fill="none"><path d="M16 2C16 2 20 8 20 14C20 18 18 20 16 22C14 20 12 18 12 14C12 8 16 2 16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 22C16 22 18 24 18 27C18 29 17 30 16 30S14 29 14 27C14 24 16 22 16 22Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="14" r="2" fill="currentColor"/></svg>',
+            cloud:'<svg viewBox="0 0 32 32" fill="none"><path d="M8 24C4.69 24 2 21.31 2 18C2 15.2 3.9 12.9 6.5 12.2C7.2 8.7 10.3 6 14 6C17.1 6 19.8 7.9 21 10.5H22C25.9 10.5 29 13.6 29 17.5C29 21.1 26.3 24 22.8 24H8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="17" r="1" fill="currentColor"/></svg>',
+            proj:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 26L12 20L18 24L24 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16L28 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/><circle cx="28" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="10" r="1" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg>',
+            gold:'<svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="17" r="2" fill="currentColor"/><line x1="16" y1="10" x2="16" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="21" x2="16" y2="24" stroke="currentColor" stroke-width="1.5"/></svg>',
+            moodG:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="13" r="1.5" fill="currentColor"/><circle cx="21" cy="13" r="1.5" fill="currentColor"/><path d="M10 20C10 20 12 24 16 24S22 20 22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            moodO:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="13" r="1.5" fill="currentColor"/><circle cx="21" cy="13" r="1.5" fill="currentColor"/><path d="M11 20C11 20 13 22 16 22S21 20 21 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            moodN:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="13" r="1.5" fill="currentColor"/><circle cx="21" cy="13" r="1.5" fill="currentColor"/><line x1="10" y1="21" x2="22" y2="21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            moodB:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="13" r="1.5" fill="currentColor"/><circle cx="21" cy="13" r="1.5" fill="currentColor"/><path d="M10 24C10 24 12 20 16 20S22 24 22 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            sun:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="26" x2="16" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="16" x2="6" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="26" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6.1" y1="6.1" x2="8.9" y2="8.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="23.1" y1="23.1" x2="25.9" y2="25.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="6.1" y1="25.9" x2="8.9" y2="23.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="23.1" y1="8.9" x2="25.9" y2="6.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            moon:'<svg viewBox="0 0 32 32" fill="none"><path d="M28 18.3C26.8 19.4 25.2 20 23.5 20C19.4 20 16 16.6 16 12.5C16 10.8 16.6 9.2 17.7 8C10.5 8.9 5 14.9 5 22C5 29.2 11.3 30 16 30C23.1 30 28 24.5 28 18.3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="21" cy="10" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="26" cy="6" r="1" fill="currentColor"/></svg>',
+            lock:'<svg viewBox="0 0 32 32" fill="none"><rect x="6" y="14" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 14V10C10 6.69 12.69 4 16 4S22 6.69 22 10V14" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/></svg>',
+            rocket:'<svg viewBox="0 0 32 32" fill="none"><path d="M16 4C16 4 8 10 8 20C8 24 10 28 16 28S24 24 24 20C24 10 16 4 16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/><path d="M8 20L4 24M24 20L28 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            bulb:'<svg viewBox="0 0 32 32" fill="none"><path d="M12 26H20M13 28H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 22V20C8 18 6 14 6 10C6 4.48 10.48 0 16 0S26 4.48 26 10C26 14 24 18 20 20V22H12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" transform="translate(0, 2)"/><circle cx="16" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>',
+            check:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+            warn:'<svg viewBox="0 0 32 32" fill="none"><path d="M16 4L30 28H2L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="16" y1="12" x2="16" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="23" r="1.5" fill="currentColor"/></svg>',
+            trash:'<svg viewBox="0 0 32 32" fill="none"><path d="M6 8H26L24 28H8L6 8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="4" y1="8" x2="28" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 8V5C12 4 13 3 14 3H18C19 3 20 4 20 5V8" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="13" x2="12" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="13" x2="16" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="20" y1="13" x2="20" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            edit:'<svg viewBox="0 0 32 32" fill="none"><path d="M22 4L28 10L12 26H6V20L22 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="18" y1="8" x2="24" y2="14" stroke="currentColor" stroke-width="1.5"/></svg>',
+            stop:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+            eye:'<svg viewBox="0 0 32 32" fill="none"><path d="M2 16C2 16 7 6 16 6C25 6 30 16 30 16C30 16 25 26 16 26C7 26 2 16 2 16Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="16" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>',
+            sync:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 16C4 9.37 9.37 4 16 4C20.42 4 24.27 6.35 26.38 9.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 16C28 22.63 22.63 28 16 28C11.58 28 7.73 25.65 5.62 22.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><polyline points="22 10 27 10 27 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10 22 5 22 5 27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        };
+        const ic=(n,s=20,c)=>`<span class="i i-${s}" style="${c?'color:'+c:''}width:${s}px;height:${s}px">${I[n]||''}</span>`;
+
         // ============================================================
         // SUPABASE CONFIG
         // ============================================================
@@ -549,7 +589,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.1.0';
+        const VERSION = '4.2.0';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -636,7 +676,7 @@
                 currentPrice: 'Aktueller Preis',
                 positionAdded: 'Position hinzugefügt',
                 positionRemoved: 'Position entfernt',
-                positionSave: '💾 Position speichern',
+                positionSave: 'Position speichern',
                 quickCopy: 'Quick Copy',
                 slTpCalculator: 'SL/TP Rechner',
                 stopLoss: 'Stop-Loss',
@@ -652,20 +692,20 @@
                 unrealizedPL: 'Unrealisierter P/L (€)',
                 numTrades: 'Anzahl Trades',
                 mood: 'Stimmung',
-                moodGreat: '🚀 Hervorragend',
-                moodGood: '😊 Gut',
-                moodNeutral: '😐 Neutral',
-                moodBad: '😔 Schlecht',
+                moodGreat: 'Hervorragend',
+                moodGood: 'Gut',
+                moodNeutral: 'Neutral',
+                moodBad: 'Schlecht',
                 notes: 'Notizen',
                 notesPlaceholder: 'z.B. Gold Breakout...',
                 balancePlaceholder: 'z.B. 15365.00',
-                saveEntry: '💾 Eintrag speichern',
+                saveEntry: 'Eintrag speichern',
                 entryRequired: 'Bitte Kontostand eingeben',
                 entryOverwrite: 'Eintrag überschreiben?',
                 entryDelete: 'Eintrag löschen?',
                 preview: 'Vorschau',
-                targetReachedYes: '✅ Ziel erreicht',
-                targetReachedNo: '⚠️ Unter Ziel',
+                targetReachedYes: 'Ziel erreicht',
+                targetReachedNo: 'Unter Ziel',
                 
                 // === PERFORMANCE ===
                 thisWeek: 'Diese Woche',
@@ -689,7 +729,7 @@
                 stocks: 'Aktien',
                 comingSoon: 'Kommt bald',
                 calibrated: '✓ Kalibriert',
-                notCalibrated: '⚠️ Nicht kalibriert',
+                notCalibrated: 'Nicht kalibriert',
                 calibrate: 'Instrument kalibrieren',
                 calibrateFirst: 'Bitte erst Instrument kalibrieren',
                 calibrationTitle: '🔧 Instrument kalibrieren',
@@ -715,13 +755,13 @@
                 bufferSystem: 'Buffer-System',
                 bufferEnabled: 'Buffer aktiviert',
                 maxBufferDays: 'Max. Buffer (Tage)',
-                saveSettings: '💾 Einstellungen speichern',
+                saveSettings: 'Einstellungen speichern',
                 settingsSaved: 'Einstellungen gespeichert',
                 
                 // === BACKUP ===
                 backupRestore: 'Backup & Restore',
-                export: '📤 Exportieren',
-                import: '📥 Importieren',
+                export: 'Exportieren',
+                import: 'Importieren',
                 backupCreated: 'Backup erstellt',
                 imported: 'Importiert',
                 invalidFile: 'Ungültige Datei',
@@ -738,7 +778,7 @@
                 
                 // === DANGER ZONE ===
                 dangerZone: 'Gefahrenzone',
-                deleteAll: '🗑️ Alle Daten löschen',
+                deleteAll: 'Alle Daten löschen',
                 deleteConfirm1: 'ALLE DATEN LÖSCHEN?',
                 deleteConfirm2: 'Wirklich sicher?',
                 deleted: 'Gelöscht',
@@ -749,7 +789,7 @@
                 offline: 'Offline',
                 offlineMode: 'Offline-Modus',
                 login: 'Anmelden',
-                logout: '🚪 Abmelden',
+                logout: 'Abmelden',
                 loggedOut: 'Abgemeldet',
                 createAccount: 'Konto erstellen',
                 email: 'E-Mail',
@@ -790,12 +830,12 @@
                 welcome: 'Willkommen!',
                 setupAccount: 'Richte dein Trading-Konto ein',
                 setupSubtitle: 'Bitte gib deine Startparameter ein:',
-                onboardStart: '💰 Startkapital (€)',
-                onboardTarget: '🎯 Zielkapital (€)',
-                onboardDaily: '📈 Tagesziel (%)',
+                onboardStart: 'Startkapital (€)',
+                onboardTarget: 'Zielkapital (€)',
+                onboardDaily: 'Tagesziel (%)',
                 onboardRecommended: 'Empfohlen: 1.0 - 1.5%',
                 calculation: 'Berechnung',
-                startNow: '✅ Starten',
+                startNow: 'Starten',
                 day1Target: 'Tagesziel (Tag 1):',
                 daysToGoal: 'Tage bis zum Ziel:',
                 
@@ -805,7 +845,7 @@
                 pleaseEnterStartCapital: 'Bitte Anfangskapital eingeben',
                 pleaseEnterStartDate: 'Bitte Startdatum eingeben',
                 fillAllFields: 'Bitte alle Felder ausfüllen',
-                setupComplete: 'Setup abgeschlossen! 🚀',
+                setupComplete: 'Setup abgeschlossen!',
                 migrationSuccess: 'Daten erfolgreich migriert! 🎉',
                 migrationError: 'Fehler bei Migration',
                 
@@ -873,10 +913,10 @@
                 addPositionTitle: 'Position hinzufügen',
                 calibrationTitle: '🔧 Instrument kalibrieren',
                 welcomeTitle: 'Willkommen bei Trading Target Tracker!',
-                startDate: '📅 Startdatum',
+                startDate: 'Startdatum',
                 equityCurve7: 'Equity Curve (7 Tage)',
                 streakStats: 'Streak & Statistiken',
-                positionSave: '💾 Position speichern',
+                positionSave: 'Position speichern',
                 trades: 'Trades',
                 pl: 'P/L',
                 stillToReach: 'Noch zu erreichen',
@@ -917,11 +957,11 @@
                 themeToggle: 'Design wechseln',
                 dataConflictTitle: '📦 Lokale Daten gefunden',
                 dataConflictText: 'Auf diesem Gerät gibt es',
-                whatToDo: '⚠️ Was möchtest du tun?',
+                whatToDo: 'Was möchtest du tun?',
                 uploadLocal: '⬆️ Lokale hochladen',
                 loadCloud: '⬇️ Cloud laden',
                 phase: 'Phase',
-                lockedFeature: '🔒 Kommt bald',
+                lockedFeature: 'Kommt bald',
                 loadCloudDesc: 'Daten aus der Cloud holen',
                 syncNow: 'Jetzt synchronisieren',
                 offlineModeDesc: 'Offline-Modus - Daten nur lokal gespeichert.',
@@ -962,7 +1002,7 @@
                 perDollar: 'pro $1',
                 units: 'Einheiten',
                 calibrated: '✓ Kalibriert',
-                notCalibrated: '⚠️ Nicht kalibriert',
+                notCalibrated: 'Nicht kalibriert',
                 plFactor: 'Faktor',
                 enterNewPrice: 'Neuer Preis:',
                 profit: 'Gewinn',
@@ -1049,7 +1089,7 @@
                 currentPrice: 'Current Price',
                 positionAdded: 'Position added',
                 positionRemoved: 'Position removed',
-                positionSave: '💾 Save Position',
+                positionSave: 'Save Position',
                 quickCopy: 'Quick Copy',
                 slTpCalculator: 'SL/TP Calculator',
                 stopLoss: 'Stop-Loss',
@@ -1065,20 +1105,20 @@
                 unrealizedPL: 'Unrealized P/L (€)',
                 numTrades: 'Number of Trades',
                 mood: 'Mood',
-                moodGreat: '🚀 Excellent',
-                moodGood: '😊 Good',
-                moodNeutral: '😐 Neutral',
-                moodBad: '😔 Bad',
+                moodGreat: 'Excellent',
+                moodGood: 'Good',
+                moodNeutral: 'Neutral',
+                moodBad: 'Bad',
                 notes: 'Notes',
                 notesPlaceholder: 'e.g. Gold breakout...',
                 balancePlaceholder: 'e.g. 15365.00',
-                saveEntry: '💾 Save Entry',
+                saveEntry: 'Save Entry',
                 entryRequired: 'Please enter balance',
                 entryOverwrite: 'Overwrite entry?',
                 entryDelete: 'Delete entry?',
                 preview: 'Preview',
-                targetReachedYes: '✅ Target reached',
-                targetReachedNo: '⚠️ Under target',
+                targetReachedYes: 'Target reached',
+                targetReachedNo: 'Under target',
                 
                 // === PERFORMANCE ===
                 thisWeek: 'This Week',
@@ -1102,7 +1142,7 @@
                 stocks: 'Stocks',
                 comingSoon: 'Coming soon',
                 calibrated: '✓ Calibrated',
-                notCalibrated: '⚠️ Not calibrated',
+                notCalibrated: 'Not calibrated',
                 calibrate: 'Calibrate Instrument',
                 calibrateFirst: 'Please calibrate instrument first',
                 calibrationTitle: '🔧 Calibrate Instrument',
@@ -1128,13 +1168,13 @@
                 bufferSystem: 'Buffer System',
                 bufferEnabled: 'Buffer Enabled',
                 maxBufferDays: 'Max. Buffer (Days)',
-                saveSettings: '💾 Save Settings',
+                saveSettings: 'Save Settings',
                 settingsSaved: 'Settings saved',
                 
                 // === BACKUP ===
                 backupRestore: 'Backup & Restore',
-                export: '📤 Export',
-                import: '📥 Import',
+                export: 'Export',
+                import: 'Import',
                 backupCreated: 'Backup created',
                 imported: 'Imported',
                 invalidFile: 'Invalid file',
@@ -1151,7 +1191,7 @@
                 
                 // === DANGER ZONE ===
                 dangerZone: 'Danger Zone',
-                deleteAll: '🗑️ Delete All Data',
+                deleteAll: 'Delete All Data',
                 deleteConfirm1: 'DELETE ALL DATA?',
                 deleteConfirm2: 'Are you sure?',
                 deleted: 'Deleted',
@@ -1162,7 +1202,7 @@
                 offline: 'Offline',
                 offlineMode: 'Offline Mode',
                 login: 'Login',
-                logout: '🚪 Logout',
+                logout: 'Logout',
                 loggedOut: 'Logged out',
                 createAccount: 'Create Account',
                 email: 'Email',
@@ -1203,12 +1243,12 @@
                 welcome: 'Welcome!',
                 setupAccount: 'Set up your trading account',
                 setupSubtitle: 'Please enter your start parameters:',
-                onboardStart: '💰 Start Capital (€)',
-                onboardTarget: '🎯 Target Capital (€)',
-                onboardDaily: '📈 Daily Target (%)',
+                onboardStart: 'Start Capital (€)',
+                onboardTarget: 'Target Capital (€)',
+                onboardDaily: 'Daily Target (%)',
                 onboardRecommended: 'Recommended: 1.0 - 1.5%',
                 calculation: 'Calculation',
-                startNow: '✅ Start',
+                startNow: 'Start',
                 day1Target: 'Daily Target (Day 1):',
                 daysToGoal: 'Days to goal:',
                 
@@ -1218,7 +1258,7 @@
                 pleaseEnterStartCapital: 'Please enter start capital',
                 pleaseEnterStartDate: 'Please enter start date',
                 fillAllFields: 'Please fill all fields',
-                setupComplete: 'Setup complete! 🚀',
+                setupComplete: 'Setup complete!',
                 migrationSuccess: 'Data migrated successfully! 🎉',
                 migrationError: 'Migration error',
                 
@@ -1286,10 +1326,10 @@
                 addPositionTitle: 'Add Position',
                 calibrationTitle: '🔧 Calibrate Instrument',
                 welcomeTitle: 'Welcome to Trading Target Tracker!',
-                startDate: '📅 Start Date',
+                startDate: 'Start Date',
                 equityCurve7: 'Equity Curve (7 Days)',
                 streakStats: 'Streak & Statistics',
-                positionSave: '💾 Save Position',
+                positionSave: 'Save Position',
                 trades: 'Trades',
                 pl: 'P/L',
                 stillToReach: 'Still to reach',
@@ -1330,11 +1370,11 @@
                 themeToggle: 'Toggle theme',
                 dataConflictTitle: '📦 Local Data Found',
                 dataConflictText: 'This device has',
-                whatToDo: '⚠️ What would you like to do?',
+                whatToDo: 'What would you like to do?',
                 uploadLocal: '⬆️ Upload Local',
                 loadCloud: '⬇️ Load Cloud',
                 phase: 'Phase',
-                lockedFeature: '🔒 Coming soon',
+                lockedFeature: 'Coming soon',
                 loadCloudDesc: 'Load data from cloud',
                 syncNow: 'Sync now',
                 offlineModeDesc: 'Offline mode - data stored locally only.',
@@ -1375,7 +1415,7 @@
                 perDollar: 'per $1',
                 units: 'units',
                 calibrated: '✓ Calibrated',
-                notCalibrated: '⚠️ Not calibrated',
+                notCalibrated: 'Not calibrated',
                 plFactor: 'Factor',
                 enterNewPrice: 'New price:',
                 profit: 'Profit',
@@ -1462,7 +1502,7 @@
                 currentPrice: 'Precio Actual',
                 positionAdded: 'Posición añadida',
                 positionRemoved: 'Posición eliminada',
-                positionSave: '💾 Guardar Posición',
+                positionSave: 'Guardar Posición',
                 quickCopy: 'Copia Rápida',
                 slTpCalculator: 'Calculadora SL/TP',
                 stopLoss: 'Stop-Loss',
@@ -1478,20 +1518,20 @@
                 unrealizedPL: 'P/L No Realizado (€)',
                 numTrades: 'Número de Trades',
                 mood: 'Estado de Ánimo',
-                moodGreat: '🚀 Excelente',
-                moodGood: '😊 Bueno',
-                moodNeutral: '😐 Neutral',
-                moodBad: '😔 Malo',
+                moodGreat: 'Excelente',
+                moodGood: 'Bueno',
+                moodNeutral: 'Neutral',
+                moodBad: 'Malo',
                 notes: 'Notas',
                 notesPlaceholder: 'ej. Ruptura del oro...',
                 balancePlaceholder: 'ej. 15365.00',
-                saveEntry: '💾 Guardar Entrada',
+                saveEntry: 'Guardar Entrada',
                 entryRequired: 'Por favor ingrese el saldo',
                 entryOverwrite: '¿Sobrescribir entrada?',
                 entryDelete: '¿Eliminar entrada?',
                 preview: 'Vista Previa',
-                targetReachedYes: '✅ Objetivo alcanzado',
-                targetReachedNo: '⚠️ Bajo objetivo',
+                targetReachedYes: 'Objetivo alcanzado',
+                targetReachedNo: 'Bajo objetivo',
                 
                 // === PERFORMANCE ===
                 thisWeek: 'Esta Semana',
@@ -1515,7 +1555,7 @@
                 stocks: 'Acciones',
                 comingSoon: 'Próximamente',
                 calibrated: '✓ Calibrado',
-                notCalibrated: '⚠️ No calibrado',
+                notCalibrated: 'No calibrado',
                 calibrate: 'Calibrar Instrumento',
                 calibrateFirst: 'Por favor calibre el instrumento primero',
                 calibrationTitle: '🔧 Calibrar Instrumento',
@@ -1541,13 +1581,13 @@
                 bufferSystem: 'Sistema de Buffer',
                 bufferEnabled: 'Buffer Activado',
                 maxBufferDays: 'Máx. Buffer (Días)',
-                saveSettings: '💾 Guardar Ajustes',
+                saveSettings: 'Guardar Ajustes',
                 settingsSaved: 'Ajustes guardados',
                 
                 // === BACKUP ===
                 backupRestore: 'Respaldo y Restaurar',
-                export: '📤 Exportar',
-                import: '📥 Importar',
+                export: 'Exportar',
+                import: 'Importar',
                 backupCreated: 'Respaldo creado',
                 imported: 'Importado',
                 invalidFile: 'Archivo inválido',
@@ -1564,7 +1604,7 @@
                 
                 // === DANGER ZONE ===
                 dangerZone: 'Zona de Peligro',
-                deleteAll: '🗑️ Eliminar Todos los Datos',
+                deleteAll: 'Eliminar Todos los Datos',
                 deleteConfirm1: '¿ELIMINAR TODOS LOS DATOS?',
                 deleteConfirm2: '¿Está seguro?',
                 deleted: 'Eliminado',
@@ -1575,7 +1615,7 @@
                 offline: 'Sin conexión',
                 offlineMode: 'Modo Sin Conexión',
                 login: 'Iniciar Sesión',
-                logout: '🚪 Cerrar Sesión',
+                logout: 'Cerrar Sesión',
                 loggedOut: 'Sesión cerrada',
                 createAccount: 'Crear Cuenta',
                 email: 'Correo',
@@ -1616,12 +1656,12 @@
                 welcome: '¡Bienvenido!',
                 setupAccount: 'Configura tu cuenta de trading',
                 setupSubtitle: 'Por favor ingresa tus parámetros iniciales:',
-                onboardStart: '💰 Capital Inicial (€)',
-                onboardTarget: '🎯 Capital Objetivo (€)',
-                onboardDaily: '📈 Objetivo Diario (%)',
+                onboardStart: 'Capital Inicial (€)',
+                onboardTarget: 'Capital Objetivo (€)',
+                onboardDaily: 'Objetivo Diario (%)',
                 onboardRecommended: 'Recomendado: 1.0 - 1.5%',
                 calculation: 'Cálculo',
-                startNow: '✅ Comenzar',
+                startNow: 'Comenzar',
                 day1Target: 'Objetivo Diario (Día 1):',
                 daysToGoal: 'Días hasta la meta:',
                 
@@ -1631,7 +1671,7 @@
                 pleaseEnterStartCapital: 'Por favor ingrese el capital inicial',
                 pleaseEnterStartDate: 'Por favor ingrese la fecha de inicio',
                 fillAllFields: 'Por favor complete todos los campos',
-                setupComplete: '¡Configuración completa! 🚀',
+                setupComplete: '¡Configuración completa!',
                 migrationSuccess: '¡Datos migrados exitosamente! 🎉',
                 migrationError: 'Error de migración',
                 
@@ -1699,10 +1739,10 @@
                 addPositionTitle: 'Añadir Posición',
                 calibrationTitle: '🔧 Calibrar Instrumento',
                 welcomeTitle: '¡Bienvenido a Trading Target Tracker!',
-                startDate: '📅 Fecha de Inicio',
+                startDate: 'Fecha de Inicio',
                 equityCurve7: 'Curva de Capital (7 Días)',
                 streakStats: 'Racha y Estadísticas',
-                positionSave: '💾 Guardar Posición',
+                positionSave: 'Guardar Posición',
                 trades: 'Trades',
                 pl: 'P/L',
                 stillToReach: 'Aún por alcanzar',
@@ -1743,11 +1783,11 @@
                 themeToggle: 'Cambiar tema',
                 dataConflictTitle: '📦 Datos Locales Encontrados',
                 dataConflictText: 'Este dispositivo tiene',
-                whatToDo: '⚠️ ¿Qué deseas hacer?',
+                whatToDo: '¿Qué deseas hacer?',
                 uploadLocal: '⬆️ Subir Locales',
                 loadCloud: '⬇️ Cargar Nube',
                 phase: 'Fase',
-                lockedFeature: '🔒 Próximamente',
+                lockedFeature: 'Próximamente',
                 loadCloudDesc: 'Cargar datos de la nube',
                 syncNow: 'Sincronizar ahora',
                 offlineModeDesc: 'Modo sin conexión - datos guardados localmente.',
@@ -1788,7 +1828,7 @@
                 perDollar: 'por $1',
                 units: 'unidades',
                 calibrated: '✓ Calibrado',
-                notCalibrated: '⚠️ No calibrado',
+                notCalibrated: 'No calibrado',
                 plFactor: 'Factor',
                 enterNewPrice: 'Nuevo precio:',
                 profit: 'Ganancia',
@@ -1816,10 +1856,10 @@
         
         const INSTRUMENT_LIBRARY = {
             metals: [
-                { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: '🥇', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
-                { id: 'xagusd', symbol: 'XAGUSD', name: 'Silber', icon: '🥈', color: '#9ca3af', priceDecimals: 4, calculationType: 'factor', standardSize: 50 },
-                { id: 'xptusd', symbol: 'XPTUSD', name: 'Platin', icon: '⚪', color: '#e5e7eb', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
-                { id: 'xpdusd', symbol: 'XPDUSD', name: 'Palladium', icon: '🔘', color: '#6b7280', priceDecimals: 2, calculationType: 'factor', standardSize: 1 }
+                { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: 'gold', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
+                { id: 'xagusd', symbol: 'XAGUSD', name: 'Silber', icon: 'gold', color: '#9ca3af', priceDecimals: 4, calculationType: 'factor', standardSize: 50 },
+                { id: 'xptusd', symbol: 'XPTUSD', name: 'Platin', icon: 'gold', color: '#e5e7eb', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
+                { id: 'xpdusd', symbol: 'XPDUSD', name: 'Palladium', icon: 'gold', color: '#6b7280', priceDecimals: 2, calculationType: 'factor', standardSize: 1 }
             ]
         };
         const DEFAULT_DATA = {
@@ -1931,15 +1971,15 @@
             document.getElementById('auth-screen').classList.add('hidden');
             
             const cloudHint = cloudHasData 
-                ? `<div class="card card-blue mb-3" style="padding:10px;"><p style="font-size:0.85rem;margin:0;">☁️ <strong>Die Cloud hat bereits Daten!</strong><br><span style="font-size:0.8rem;color:var(--muted);">Wenn du auf einem anderen Gerät schon Daten eingegeben hast, klicke "Cloud laden".</span></p></div>`
-                : `<div class="card card-dark mb-3" style="padding:10px;"><p style="font-size:0.85rem;margin:0;color:var(--muted);">☁️ Die Cloud ist leer. Klicke "Lokale hochladen" um diese Daten zu synchronisieren.</p></div>`;
+                ? `<div class="card card-blue mb-3" style="padding:10px;"><p style="font-size:0.85rem;margin:0;">${ic('cloud',16)} <strong>Die Cloud hat bereits Daten!</strong><br><span style="font-size:0.8rem;color:var(--muted);">Wenn du auf einem anderen Gerät schon Daten eingegeben hast, klicke "Cloud laden".</span></p></div>`
+                : `<div class="card card-dark mb-3" style="padding:10px;"><p style="font-size:0.85rem;margin:0;color:var(--muted);">${ic('cloud',16)} Die Cloud ist leer. Klicke "Lokale hochladen" um diese Daten zu synchronisieren.</p></div>`;
             
             document.getElementById('migration-summary').innerHTML = `
                 <div style="font-size:0.9rem;">
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>📊 Kalibrierte Instrumente:</span><strong>${localData.summary.instruments}</strong></div>
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>📍 Offene Positionen:</span><strong>${localData.summary.positions}</strong></div>
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>📅 Tageseinträge:</span><strong>${localData.summary.dailyLogs}</strong></div>
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>🏦 Buffer:</span><strong>${fmt(localData.summary.buffer)}</strong></div>
+                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>${ic('instr',16)} Kalibrierte Instrumente:</span><strong>${localData.summary.instruments}</strong></div>
+                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>${ic('positions',16)} Offene Positionen:</span><strong>${localData.summary.positions}</strong></div>
+                    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>${ic('history',16)} Tageseinträge:</span><strong>${localData.summary.dailyLogs}</strong></div>
+                    <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>${ic('buffer',16,'#fbbf24')} Buffer:</span><strong>${fmt(localData.summary.buffer)}</strong></div>
                 </div>
                 ${cloudHint}
             `;
@@ -2167,7 +2207,7 @@
             saveData();
             closeModal('onboarding-modal');
             render();
-            showToast('Setup abgeschlossen! 🚀');
+            showToast('Setup abgeschlossen!');
         }
 
         // ============================================================
@@ -2442,18 +2482,18 @@
         function fmtPrice(n, inst) { return (n||0).toFixed(inst?.priceDecimals || 2); }
         function fmtPct(n) { return (n||0).toFixed(1) + '%'; }
         function formatDate(s) { if (!s) return '-'; const [y,m,d] = s.split('-'); return `${d}.${m}.${y}`; }
-        function getMoodEmoji(m) { return { great: '🚀', good: '😊', neutral: '😐', bad: '😔' }[m] || '😐'; }
+        function getMoodEmoji(m) { const map = { great: 'moodG', good: 'moodO', neutral: 'moodN', bad: 'moodB' }; const colors = { great: '#10b981', good: '#00d4aa', neutral: '#fbbf24', bad: '#ef4444' }; return ic(map[m] || 'moodN', 18, colors[m] || '#fbbf24'); }
 
         // ============================================================
         // RECOMMENDATIONS
         // ============================================================
         function generateRecommendations() {
             const recs = []; const weekData = getWeeklyData(); const target = getDailyTarget(); const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
-            if (weekData.realized >= weekData.target) recs.push({ id: 'weekly_exceeded', priority: 'medium', icon: '🎯', title: 'Wochenziel erreicht!', message: `${fmt(weekData.realized)} von ${fmt(weekData.target)} (+${fmt(weekData.variance)})`, dismissable: true });
-            if (todayLog && todayLog.variancePercent > 100) recs.push({ id: 'great_day_'+todayLog.date, priority: 'info', icon: '🚀', title: 'Hervorragender Tag!', message: `+${todayLog.variancePercent.toFixed(0)}% über Ziel`, dismissable: true });
+            if (weekData.realized >= weekData.target) recs.push({ id: 'weekly_exceeded', priority: 'medium', icon: 'target', title: 'Wochenziel erreicht!', message: `${fmt(weekData.realized)} von ${fmt(weekData.target)} (+${fmt(weekData.variance)})`, dismissable: true });
+            if (todayLog && todayLog.variancePercent > 100) recs.push({ id: 'great_day_'+todayLog.date, priority: 'info', icon: 'rocket', title: 'Hervorragender Tag!', message: `+${todayLog.variancePercent.toFixed(0)}% über Ziel`, dismissable: true });
             const bufferDays = data.buffer.currentBuffer / target;
-            if (bufferDays < 2 && data.dailyLogs.length > 5) recs.push({ id: 'buffer_low', priority: 'low', icon: '💰', title: 'Reserve aufbauen', message: `Reserve deckt nur ${bufferDays.toFixed(1)} Tage`, dismissable: true });
-            if (!currentUser && data.dailyLogs.length > 3) recs.push({ id: 'enable_cloud', priority: 'low', icon: '☁️', title: 'Cloud-Sync aktivieren', message: 'Anmelden für Sync auf allen Geräten', dismissable: true });
+            if (bufferDays < 2 && data.dailyLogs.length > 5) recs.push({ id: 'buffer_low', priority: 'low', icon: 'balance', title: 'Reserve aufbauen', message: `Reserve deckt nur ${bufferDays.toFixed(1)} Tage`, dismissable: true });
+            if (!currentUser && data.dailyLogs.length > 3) recs.push({ id: 'enable_cloud', priority: 'low', icon: 'cloud', title: 'Cloud-Sync aktivieren', message: 'Anmelden für Sync auf allen Geräten', dismissable: true });
             return recs.filter(r => !data.dismissedRecommendations.includes(r.id));
         }
         function dismissRecommendation(id) { data.dismissedRecommendations.push(id); saveData(); render(); }
@@ -2511,7 +2551,7 @@
             document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
             updateTooltips();
             const recs = generateRecommendations();
-            document.getElementById('recommendations-container').innerHTML = recs.length > 0 ? `<div class="card"><div class="card-title"><span>💡</span> ${t('recommendations')}</div>${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${r.icon}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : '';
+            document.getElementById('recommendations-container').innerHTML = recs.length > 0 ? `<div class="card"><div class="card-title">${ic('bulb',20,'#fbbf24')} ${t('recommendations')}</div>${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${ic(r.icon,24)}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : '';
             document.getElementById('week-number').textContent = weekData.weekNumber;
             const dayNames = [t('mon'),t('tue'),t('wed'),t('thu'),t('fri')]; const today = getLocalDateString(new Date());
             document.getElementById('week-grid').innerHTML = weekData.dates.map((d, i) => { const log = weekData.logs.find(l => l.date === d); const pl = log ? log.realizedPL : null; const isToday = d === today; const cls = pl !== null ? (pl >= 0 ? 'profit' : 'loss') : ''; return `<div class="week-day ${cls} ${isToday?'today':''}"><div class="week-day-name">${dayNames[i]}</div><div class="week-day-value ${pl!==null?(pl>=0?'positive':'negative'):'empty'}">${pl!==null?(pl>=0?'+':'')+fmtNum(pl,0):'-'}</div></div>`; }).join('');
@@ -2559,9 +2599,9 @@
             `;
             
             const bufHist = data.buffer.history.slice(-3).reverse();
-            document.getElementById('buffer-history').innerHTML = bufHist.length > 0 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'➕':'➖'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') : '<span class="text-muted">' + t('noBufferActivity') + '</span>';
+            document.getElementById('buffer-history').innerHTML = bufHist.length > 0 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'+':'-'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') : '<span class="text-muted">' + t('noBufferActivity') + '</span>';
             const activePos = data.positions.filter(p => p.active); const totalUnr = activePos.reduce((s, p) => s + calculatePL(p), 0);
-            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${inst?.icon||'📊'} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
+            document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${ic(inst?.icon||'gold',20,inst?.color)} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${totalUnr>=0?'text-green':'text-red'} font-bold">${totalUnr>=0?'+':''}${fmt(totalUnr)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
             const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
             document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">${t('stillMissing')} ${fmt(m-balance)}</div></div>`).join('');
             
@@ -2587,7 +2627,7 @@
                         </svg>
                         <div class="circle-center">
                             <div class="circle-value ${todayPL >= target ? 'text-green' : ''}">${fmtPct(todayProgressPct)}</div>
-                            <div class="circle-label">${todayPL >= target ? '✅ ' + t('reached') : t('progress')}</div>
+                            <div class="circle-label">${todayPL >= target ? ic('check',14,'#10b981') + ' ' + t('reached') : t('progress')}</div>
                         </div>
                     </div>
                     <div class="progress-details-compact">
@@ -2604,7 +2644,7 @@
                             <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">📅 ${t('tomorrow')}</span>
+                            <span class="detail-label">${t('tomorrow')}</span>
                             <span class="detail-value text-blue">${fmt(tomorrowTarget)}</span>
                         </div>
                     </div>
@@ -2737,7 +2777,7 @@
             document.getElementById('streak-stats').innerHTML = `
                 <div class="streak-container">
                     <div class="streak-box">
-                        <div class="streak-value streak-fire">${currentStreak} 🔥</div>
+                        <div class="streak-value streak-fire">${currentStreak} ${ic('streak',20,'#fbbf24')}</div>
                         <div class="streak-label">${t('currentStreak')}</div>
                     </div>
                     <div class="streak-box">
@@ -2770,9 +2810,9 @@
         function renderPositions() {
             const target = getDailyTarget(); const risk = getRiskPerTrade();
             document.getElementById('position-stats').innerHTML = `<div class="card stat-box"><div class="stat-label">${t('dailyTarget')}</div><div class="stat-value text-green">${fmt(target)}</div></div><div class="card stat-box"><div class="stat-label">${t('riskPerTrade')}</div><div class="stat-value text-orange">${fmt(risk)}</div></div><div class="card stat-box"><div class="stat-label">${t('maxDailyLoss')}</div><div class="stat-value text-red">${fmt(getMaxDailyLoss())}</div></div><div class="card stat-box"><div class="stat-label">${t('rrRatio')}</div><div class="stat-value">1:${data.settings.rrRatio}</div></div>`;
-            document.getElementById('positions-list').innerHTML = data.positions.length > 0 ? data.positions.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); const sltp = calculateStopLimit(pos); return `<div class="card position-card" style="border-left-color:${inst?.color||'#fff'};"><div class="position-header"><div class="position-info"><span class="position-icon">${inst?.icon||'📊'}</span><div><div class="position-symbol">${inst?.symbol||pos.instrumentId}</div><div class="position-name">${inst?.name||''} | ${pos.size} × ${pos.direction.toUpperCase()}</div></div></div><div class="position-pl"><div class="position-pl-value ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div><div style="font-size:0.8rem;color:var(--muted);">@ ${fmtPrice(pos.currentPrice, inst)}</div></div></div><div class="grid grid-4" style="font-size:0.85rem;margin-bottom:12px;"><div><span class="text-muted">Avg:</span> ${fmtPrice(pos.avgPrice, inst)}</div><div><span class="text-muted">${t('current')}:</span> ${fmtPrice(pos.currentPrice, inst)}</div><div><span class="text-muted">P/L/$1:</span> ${inst?.plFactor?fmt(pos.size*inst.plFactor):'N/A'}</div><div style="text-align:right;"><button class="btn btn-sm btn-ghost" onclick="updatePositionPrice('${pos.id}')">📝</button><button class="btn btn-sm btn-danger" onclick="removePosition('${pos.id}')">✕</button></div></div>${sltp?`<div class="sl-tp-row"><div class="sl-tp-box stop"><div class="sl-tp-label">🛑 ${t('stopLoss')}</div><div class="sl-tp-value">${fmtPrice(sltp.stopPrice, inst)}</div><div class="sl-tp-dist">-${fmt(sltp.potentialLoss)}</div></div><div class="sl-tp-box tp"><div class="sl-tp-label">✅ TP R:R</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceRR, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitRR)}</div></div><div class="sl-tp-box target"><div class="sl-tp-label">🎯 TP ${t('target')}</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceTarget, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitTarget)}</div></div></div>`:'<div class="card card-dark text-center" style="padding:10px;"><span class="text-orange">' + t('notCalibrated') + '</span></div>'}</div>`; }).join('') : '<p class="text-muted text-center" style="padding:20px;">' + t('noPositions') + '</p>';
+            document.getElementById('positions-list').innerHTML = data.positions.length > 0 ? data.positions.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); const sltp = calculateStopLimit(pos); return `<div class="card position-card" style="border-left-color:${inst?.color||'#fff'};"><div class="position-header"><div class="position-info"><span class="position-icon">${ic(inst?.icon||'gold',24,inst?.color)}</span><div><div class="position-symbol">${inst?.symbol||pos.instrumentId}</div><div class="position-name">${inst?.name||''} | ${pos.size} × ${pos.direction.toUpperCase()}</div></div></div><div class="position-pl"><div class="position-pl-value ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div><div style="font-size:0.8rem;color:var(--muted);">@ ${fmtPrice(pos.currentPrice, inst)}</div></div></div><div class="grid grid-4" style="font-size:0.85rem;margin-bottom:12px;"><div><span class="text-muted">Avg:</span> ${fmtPrice(pos.avgPrice, inst)}</div><div><span class="text-muted">${t('current')}:</span> ${fmtPrice(pos.currentPrice, inst)}</div><div><span class="text-muted">P/L/$1:</span> ${inst?.plFactor?fmt(pos.size*inst.plFactor):'N/A'}</div><div style="text-align:right;"><button class="btn btn-sm btn-ghost" onclick="updatePositionPrice('${pos.id}')">${ic('edit',14)}</button><button class="btn btn-sm btn-danger" onclick="removePosition('${pos.id}')">×</button></div></div>${sltp?`<div class="sl-tp-row"><div class="sl-tp-box stop"><div class="sl-tp-label">${ic('stop',14,'#ef4444')} ${t('stopLoss')}</div><div class="sl-tp-value">${fmtPrice(sltp.stopPrice, inst)}</div><div class="sl-tp-dist">-${fmt(sltp.potentialLoss)}</div></div><div class="sl-tp-box tp"><div class="sl-tp-label">${ic('check',14,'#10b981')} TP R:R</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceRR, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitRR)}</div></div><div class="sl-tp-box target"><div class="sl-tp-label">${ic('target',14,'#00d4aa')} TP ${t('target')}</div><div class="sl-tp-value">${fmtPrice(sltp.tpPriceTarget, inst)}</div><div class="sl-tp-dist">+${fmt(sltp.potentialProfitTarget)}</div></div></div>`:'<div class="card card-dark text-center" style="padding:10px;"><span class="text-orange">' + t('notCalibrated') + '</span></div>'}</div>`; }).join('') : '<p class="text-muted text-center" style="padding:20px;">' + t('noPositions') + '</p>';
             const activePos = data.positions.filter(p => p.active);
-            document.getElementById('quick-copy-list').innerHTML = activePos.length > 0 ? activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const sltp = calculateStopLimit(pos); if (!sltp) return ''; return `<div class="card card-dark"><div class="font-bold text-gold mb-2">${inst?.icon} ${inst?.symbol} (${pos.size})</div><table style="width:100%;font-size:0.85rem;"><tr><td class="text-muted">Avg:</td><td class="text-right">${fmtPrice(pos.avgPrice, inst)}</td></tr><tr><td class="text-red">${t('stopLoss')}:</td><td class="text-right font-bold">${fmtPrice(sltp.stopPrice, inst)}</td></tr><tr><td class="text-green">TP:</td><td class="text-right font-bold">${fmtPrice(sltp.tpPriceRR, inst)}</td></tr></table></div>`; }).join('') : '<p class="text-muted">' + t('noActivePositions') + '</p>';
+            document.getElementById('quick-copy-list').innerHTML = activePos.length > 0 ? activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const sltp = calculateStopLimit(pos); if (!sltp) return ''; return `<div class="card card-dark"><div class="font-bold text-gold mb-2">${ic(inst?.icon||'gold',18,inst?.color)} ${inst?.symbol} (${pos.size})</div><table style="width:100%;font-size:0.85rem;"><tr><td class="text-muted">Avg:</td><td class="text-right">${fmtPrice(pos.avgPrice, inst)}</td></tr><tr><td class="text-red">${t('stopLoss')}:</td><td class="text-right font-bold">${fmtPrice(sltp.stopPrice, inst)}</td></tr><tr><td class="text-green">TP:</td><td class="text-right font-bold">${fmtPrice(sltp.tpPriceRR, inst)}</td></tr></table></div>`; }).join('') : '<p class="text-muted">' + t('noActivePositions') + '</p>';
         }
         function renderPerformance() {
             const weekData = getWeeklyData(); const balance = getBalance(); const start = data.settings.startCapital; const total = balance - start;
@@ -2986,11 +3026,11 @@
             `;
         }
         function renderInstruments() {
-            document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${inst.icon}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?t('calibrated'):t('notCalibrated')}</div></div></div>`; }).join('');
+            document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${ic(inst.icon,32,inst.color)}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?t('calibrated'):t('notCalibrated')}</div></div></div>`; }).join('');
         }
         function renderHistory() {
             const sorted = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date));
-            document.getElementById('history-table').innerHTML = sorted.length > 0 ? sorted.map(log => `<tr><td>${formatDate(log.date)}</td><td class="text-right">${fmt(log.startingBalance)}</td><td class="text-right">${fmt(log.endingBalance)}</td><td class="text-right ${log.realizedPL>=0?'text-green':'text-red'} font-bold">${log.realizedPL>=0?'+':''}${fmt(log.realizedPL)}</td><td class="text-center">${log.targetHit?'✅':'⚠️'}</td><td class="text-center">${getMoodEmoji(log.mood)}</td><td class="text-center"><button class="btn btn-sm btn-danger" onclick="deleteLog('${log.id}')">🗑️</button></td></tr>`).join('') : '<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">' + t('noEntries') + '</td></tr>';
+            document.getElementById('history-table').innerHTML = sorted.length > 0 ? sorted.map(log => `<tr><td>${formatDate(log.date)}</td><td class="text-right">${fmt(log.startingBalance)}</td><td class="text-right">${fmt(log.endingBalance)}</td><td class="text-right ${log.realizedPL>=0?'text-green':'text-red'} font-bold">${log.realizedPL>=0?'+':''}${fmt(log.realizedPL)}</td><td class="text-center">${log.targetHit?ic('check',16,'#10b981'):ic('warn',16,'#fbbf24')}</td><td class="text-center">${getMoodEmoji(log.mood)}</td><td class="text-center"><button class="btn btn-sm btn-danger" onclick="deleteLog('${log.id}')">${ic('trash',14)}</button></td></tr>`).join('') : '<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">' + t('noEntries') + '</td></tr>';
         }
         function renderSettings() {
             document.getElementById('set-start-capital').value = data.settings.startCapital;
@@ -3002,7 +3042,7 @@
             document.getElementById('set-rr-ratio').value = data.settings.rrRatio;
             document.getElementById('set-buffer-enabled').value = data.buffer.settings.enabled.toString();
             document.getElementById('set-buffer-max-days').value = data.buffer.settings.maxBufferDays;
-            document.getElementById('cloud-sync-content').innerHTML = currentUser ? `<div style="display:flex;align-items:center;gap:12px;"><div class="sync-dot ${isOnline?'online':'offline'}" style="width:12px;height:12px;"></div><div><div class="font-bold">${currentUser.email}</div><div class="text-muted" style="font-size:0.8rem;">${isOnline?t('cloudConnected'):t('offline')}</div></div></div><button class="btn btn-ghost btn-sm mt-3" onclick="syncToCloud()">🔄 ${t('syncNow')}</button>` : `<div class="text-muted mb-2">${t('offlineModeDesc')}</div><button class="btn btn-primary btn-sm" onclick="showAuthScreen()">☁️ ${t('enableCloudSync')}</button>`;
+            document.getElementById('cloud-sync-content').innerHTML = currentUser ? `<div style="display:flex;align-items:center;gap:12px;"><div class="sync-dot ${isOnline?'online':'offline'}" style="width:12px;height:12px;"></div><div><div class="font-bold">${currentUser.email}</div><div class="text-muted" style="font-size:0.8rem;">${isOnline?t('cloudConnected'):t('offline')}</div></div></div><button class="btn btn-ghost btn-sm mt-3" onclick="syncToCloud()">${ic('sync',16)} ${t('syncNow')}</button>` : `<div class="text-muted mb-2">${t('offlineModeDesc')}</div><button class="btn btn-primary btn-sm" onclick="showAuthScreen()">${ic('cloud',16)} ${t('enableCloudSync')}</button>`;
         }
 
         // ============================================================
@@ -3026,7 +3066,7 @@
         function openAddPositionModal() {
             const calibrated = Object.values(data.instruments).filter(i => i.isCalibrated);
             if (calibrated.length === 0) { showToast(t('calibrateFirst'), 'warning'); return; }
-            document.getElementById('pos-instrument').innerHTML = calibrated.map(inst => `<option value="${inst.id}">${inst.icon} ${inst.symbol} - ${inst.name}</option>`).join('');
+            document.getElementById('pos-instrument').innerHTML = calibrated.map(inst => `<option value="${inst.id}">${inst.symbol} - ${inst.name}</option>`).join('');
             document.getElementById('pos-size').value = ''; document.getElementById('pos-avg-price').value = ''; document.getElementById('pos-current-price').value = ''; document.getElementById('pos-direction').value = 'long';
             openModal('position-modal');
         }
@@ -3045,7 +3085,7 @@
             const pl = calculatePL(pos);
             const plText = pl >= 0 ? `+${fmt(pl)} ${t('profit')}` : `${fmt(pl)} ${t('loss')}`;
             
-            const confirmed = confirm(`${t('removePosition')}\n${inst?.symbol || pos.instrumentId}\n\n${t('unrealized')} P/L: ${plText}\n\n⚠️ ${t('removeHint')}`);
+            const confirmed = confirm(`${t('removePosition')}\n${inst?.symbol || pos.instrumentId}\n\n${t('unrealized')} P/L: ${plText}\n\n${t('removeHint')}`);
             if (!confirmed) return;
             
             data.positions = data.positions.filter(p => p.id !== id); 
@@ -3056,7 +3096,7 @@
         }
         function openCalibrationModal(instrumentId) {
             const inst = data.instruments[instrumentId]; if (!inst) return;
-            document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><span style="font-size:2.5rem;">${inst.icon}</span><div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:`<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}</div><p class="text-muted mb-3" style="font-size:0.85rem;">${t('enterValues')}:</p><div class="grid grid-2"><div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">💾 ${t('saveFactor')}</button>`;
+            document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">${ic(inst.icon,48,inst.color)}<div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:`<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}</div><p class="text-muted mb-3" style="font-size:0.85rem;">${t('enterValues')}:</p><div class="grid grid-2"><div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">${t('saveFactor')}</button>`;
             ['cal-size','cal-avg','cal-last','cal-pl'].forEach(id => document.getElementById(id)?.addEventListener('input', () => updateCalibrationPreview(instrumentId)));
             openModal('calibration-modal'); updateCalibrationPreview(instrumentId);
         }
@@ -3450,7 +3490,7 @@
         function importData(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (e) => { try { const imported = JSON.parse(e.target.result); if (!imported.version) { showToast('Ungültige Datei', 'error'); return; } if (!confirm('Alle Daten überschreiben?')) return; data = deepMerge(DEFAULT_DATA, imported); saveData(); render(); showToast(t('imported')); } catch (err) { showToast('Fehler', 'error'); } }; reader.readAsText(file); event.target.value = ''; }
         function resetAllData() { if (!confirm('ALLE DATEN LÖSCHEN?')) return; if (!confirm('Wirklich sicher?')) return; localStorage.removeItem(STORAGE_KEY); data = JSON.parse(JSON.stringify(DEFAULT_DATA)); initializeInstruments(); saveData(); render(); showToast(t('deleted')); }
         function openUserMenu() {
-            document.getElementById('user-modal-content').innerHTML = currentUser ? `<div class="text-center mb-3"><div class="user-avatar" style="width:60px;height:60px;font-size:1.5rem;margin:0 auto 12px;">${(currentUser.user_metadata?.full_name||currentUser.email||'?').charAt(0).toUpperCase()}</div><div class="font-bold">${currentUser.user_metadata?.full_name||'User'}</div><div class="text-muted" style="font-size:0.85rem;">${currentUser.email}</div></div><div class="card card-dark mb-3"><div style="display:flex;align-items:center;gap:8px;"><div class="sync-dot ${isOnline?'online':'offline'}"></div><span>${isOnline?'Cloud verbunden':'Offline'}</span></div></div><button class="btn btn-danger btn-block" onclick="logout()">🚪 Abmelden</button>` : `<div class="text-center mb-3"><div class="text-muted">Offline-Modus</div></div><button class="btn btn-primary btn-block" onclick="closeModal('user-modal');showAuthScreen();">☁️ Anmelden</button>`;
+            document.getElementById('user-modal-content').innerHTML = currentUser ? `<div class="text-center mb-3"><div class="user-avatar" style="width:60px;height:60px;font-size:1.5rem;margin:0 auto 12px;">${(currentUser.user_metadata?.full_name||currentUser.email||'?').charAt(0).toUpperCase()}</div><div class="font-bold">${currentUser.user_metadata?.full_name||'User'}</div><div class="text-muted" style="font-size:0.85rem;">${currentUser.email}</div></div><div class="card card-dark mb-3"><div style="display:flex;align-items:center;gap:8px;"><div class="sync-dot ${isOnline?'online':'offline'}"></div><span>${isOnline?'Cloud verbunden':'Offline'}</span></div></div><button class="btn btn-danger btn-block" onclick="logout()">Abmelden</button>` : `<div class="text-center mb-3"><div class="text-muted">Offline-Modus</div></div><button class="btn btn-primary btn-block" onclick="closeModal('user-modal');showAuthScreen();">${ic('cloud',16)} Anmelden</button>`;
             openModal('user-modal');
         }
 
@@ -3465,15 +3505,15 @@
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', newTheme === 'dark' ? '' : 'light');
-            document.querySelector('.theme-toggle').textContent = newTheme === 'light' ? '🌙' : '☀️';
+            document.getElementById('theme-btn').innerHTML = newTheme === 'light' ? '<span class="i i-20">'+I.moon+'</span>' : '<span class="i i-20">'+I.sun+'</span>';
             localStorage.setItem('theme', newTheme);
         }
         function loadTheme() {
             const saved = localStorage.getItem('theme') || 'dark';
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
-                const btn = document.querySelector('.theme-toggle');
-                if (btn) btn.textContent = '🌙';
+                const btn = document.getElementById('theme-btn');
+                if (btn) btn.innerHTML = '<span class="i i-20">'+I.moon+'</span>';
             }
         }
 
@@ -3484,7 +3524,7 @@
         document.getElementById('entry-balance')?.addEventListener('input', function() {
             const newBalance = parseFloat(this.value); const preview = document.getElementById('entry-preview');
             if (newBalance) { const prevBalance = getBalance(); const pl = newBalance - prevBalance; const target = getDailyTarget(); const variance = pl - target; const variancePct = (variance / target) * 100;
-            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title"><span>👁️</span> ${t('preview')}</div><div class="grid grid-4 text-center"><div><div class="stat-label">${t('current')}</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">${t('new')}</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">${t('pl')}</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">${t('vsTarget')}</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?`<span class="text-green font-bold">✅ ${t('targetReachedYes')}</span>`:`<span class="text-orange">⚠️ ${t('target')}: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
+            preview.classList.remove('hidden'); preview.innerHTML = `<div class="card-title">${ic('eye',20,'var(--accent)')} ${t('preview')}</div><div class="grid grid-4 text-center"><div><div class="stat-label">${t('current')}</div><div class="font-bold">${fmt(prevBalance)}</div></div><div><div class="stat-label">${t('new')}</div><div class="font-bold">${fmt(newBalance)}</div></div><div><div class="stat-label">${t('pl')}</div><div class="font-bold ${pl>=0?'text-green':'text-red'}">${pl>=0?'+':''}${fmt(pl)}</div></div><div><div class="stat-label">${t('vsTarget')}</div><div class="font-bold ${variance>=0?'text-green':'text-orange'}">${variance>=0?'+':''}${fmtPct(variancePct)}</div></div></div><div class="text-center mt-2">${pl>=target?`<span class="text-green font-bold">${ic('check',16,'#10b981')} ${t('targetReachedYes')}</span>`:`<span class="text-orange">${ic('warn',16,'#fbbf24')} ${t('target')}: ${fmt(target)}</span>`}</div>`; } else { preview.classList.add('hidden'); }
         });
         document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); }); });
 

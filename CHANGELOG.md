@@ -1,93 +1,48 @@
-# Changelog
+# TargetTrader Changelog
 
-## [4.1.0] - 2026-01-21
+## v4.2.0 - Custom Icon System (2026-01-21)
 
-### ✨ Neues Branding: TargetTrader
+### ✨ New Features
+- Complete custom SVG icon system (25+ icons)
+- Military scope design language throughout app
+- All emojis replaced with vector icons
+- Color-coded icons for moods, instruments, and status
 
-- **Neues Logo**: Military Scope + Candlesticks (6 Kerzen mit Wicks)
-- **Neuer Name**: "TargetTrader" statt "Trading Target Tracker"
-- **Neue Accent-Farbe**: #00d4aa (Mint) für Dark Mode, #059669 für Light Mode
-- **Inline SVG Logo**: Lädt sofort, passt sich an Dark/Light Mode an
-- **Neue PWA Icons**: Alle Größen von 48px bis 512px
-- **Neues Favicon**: Multi-Size ICO + PNG Varianten
-- **Aktualisiertes Manifest**: TargetTrader Branding, theme_color #00d4aa
+### 🎨 Icon Categories
+- Navigation: dashboard, positions, entry, performance, instruments, history, settings
+- Trading: target, profit, buffer, streak, balance, projection
+- Instruments: gold (reused for all metals with color coding)
+- Moods: moodG (great), moodO (good), moodN (neutral), moodB (bad)
+- Status: check, warn, lock, eye, edit, trash, stop
+- UI: sun, moon, cloud, sync, bulb, rocket
 
-### 🎨 Design-Änderungen
+### 🔧 Technical
+- `ic(name, size, color)` function for dynamic icon rendering
+- `.i` CSS class with size variants (i-16, i-18, i-20, i-24, i-32)
+- Inline SVG for zero external dependencies
+- Theme-aware colors using CSS variables
 
-- Header: "Target" (weiß) + "Trader" (accent color)
-- Tagline: "Hit your daily targets"
-- Auth Screen mit neuem Logo
-- PDF Export Footer aktualisiert
+## v4.1.0 - TargetTrader Branding (2026-01-21)
 
-## [4.0.3] - 2026-01-20
+### ✨ Branding
+- New "TargetTrader" name and logo
+- Military scope crosshair design
+- 6-candle chart visualization
+- Favicon and manifest updates
 
-### Behoben
-- Timezone-Fix mit getLocalDateString()
-- User Badge Fix nach Login
-- Debug Logs entfernt
+## v4.0.0 - Cloud Sync (2026-01-xx)
 
-## [4.0.2] - 2026-01-20
+### ✨ Features
+- Supabase cloud synchronization
+- Multi-device support
+- User authentication
+- Data migration wizard
 
-### Hinzugefügt
-- Systematische i18n Completion (240+ Keys × 3 Sprachen)
-- Dashboard Stat Box Tooltips
-- Migration Modal Übersetzung
+## v3.x - Core Features
 
-### Behoben
-- Kritischer Fix: Doppelte Funktionsdefinitionen
-
-## [4.0.1] - 2026-01-20
-
-### Hinzugefügt
-- Erweiterte Tooltips für Settings und Entry Forms
-- LANG Objekt auf 200+ Keys erweitert
-
-## [4.0.0] - 2026-01-20
-
-### Hinzugefügt
-- Internationalisierung (DE/EN/ES)
-- Tooltip-System
-- Sprachauswahl in Settings
-
-## [3.9.2] - 2026-01-20
-
-### Hinzugefügt
-- PDF Export mit jsPDF
-- Equity Curve Chart im PDF
-- P/L Bar Chart im PDF
-
-### Behoben
-- EUR Spacing Fix
-- Emoji/Unicode Ersetzungen
-
-## [3.8.0] - 2026-01-20
-
-### Hinzugefügt
-- Extended Performance Charts
-- Full Equity Curve
-- Monthly Performance Bars
-- Weekday Analysis
-
-## [3.7.0] - 2026-01-20
-
-### Hinzugefügt
-- Dashboard Charts
-- Mini Equity Curve (7 Tage)
-- Streak Statistics
-
-## [3.6.0] - 2026-01-20
-
-### Geändert
-- Komplettes Header Redesign
-- Dark/Light Mode Toggle
-
-## [3.5.0] - 2026-01-19
-
-### Hinzugefügt
-- Circular Progress Charts
-- Tomorrow's Target Display
-- Side-by-Side Layout
-
-### Behoben
-- Exponential Projection Fix
-- Buffer System Korrektur
+- Daily P/L tracking
+- Buffer/reserve system
+- Instrument calibration
+- Position management
+- Equity curve charts
+- Multi-language (DE/EN/ES)
