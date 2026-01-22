@@ -248,13 +248,21 @@
         .sl-tp-label{font-size:0.7rem;color:var(--muted);margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:4px}
         .sl-tp-value{font-size:1rem;font-weight:700}
         .sl-tp-dist{font-size:0.7rem;opacity:0.7;margin-top:2px}
-        .instrument-card{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:all 0.2s}
+        .instrument-card{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:all 0.2s;border-radius:10px;margin-bottom:8px;background:var(--bg)}
         .instrument-card:hover{background:var(--card-hover)}
+        .instrument-card.inactive{opacity:0.5}
         .instrument-icon{font-size:2rem;width:50px;text-align:center}
         .instrument-info{flex:1}
         .instrument-symbol{font-weight:700;font-size:1rem}
         .instrument-name{color:var(--muted);font-size:0.8rem}
         .instrument-factor{font-size:0.85rem;font-weight:600}
+        .instrument-status{text-align:right}
+        .inst-tab{background:var(--bg);border:1px solid var(--border);color:var(--text)}
+        .inst-tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+        .inst-tab:hover:not(.active){background:var(--card-hover)}
+        .toggle-btn{padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--muted);transition:all 0.2s}
+        .toggle-btn.active{background:var(--green);color:var(--bg);border-color:var(--green)}
+        .lot-config-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border-radius:8px;margin-bottom:8px}
         .calibrated{color:var(--green)}
         .not-calibrated{color:var(--orange)}
         table{width:100%;border-collapse:collapse;font-size:0.85rem}
@@ -591,8 +599,19 @@
             <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L12 20L18 24L24 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16L28 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/><circle cx="28" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="10" r="1" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="projection">Ziel-Projektion</span></div><div id="projection-content"></div></div>
         </div>
         <div id="instruments" class="tab-content">
-            <div class="card"><div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="17" r="2" fill="currentColor"/><line x1="16" y1="10" x2="16" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="21" x2="16" y2="24" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="metals">Edelmetalle</span></div><div id="instruments-metals"></div></div>
-            <div class="card" style="opacity:0.6;"><div class="card-title"><span class="i i-20" style="color:var(--muted)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="stocks">Aktien</span> <span class="text-muted" style="font-size:0.75rem;">(Phase 3)</span></div><p class="text-muted" style="font-size:0.85rem;"><span class="i i-16"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="14" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 14V10C10 6.69 12.69 4 16 4S22 6.69 22 10V14" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="21" r="2" fill="currentColor"/></svg></span> <span data-i18n="comingSoon">Kommt bald</span></p></div>
+            <div class="card">
+                <div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="5" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="instruments">Instrumente</span></div>
+                <div class="instrument-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px;">
+                    <button class="btn btn-sm inst-tab active" onclick="switchInstrumentTab('metals')" data-tab="metals">🥇 <span data-i18n="metals">Metalle</span></button>
+                    <button class="btn btn-sm inst-tab" onclick="switchInstrumentTab('indices')" data-tab="indices">📊 <span data-i18n="indices">Indizes</span></button>
+                    <button class="btn btn-sm inst-tab" onclick="switchInstrumentTab('commodities')" data-tab="commodities">🛢️ <span data-i18n="commodities">Rohstoffe</span></button>
+                    <button class="btn btn-sm inst-tab" onclick="switchInstrumentTab('forex')" data-tab="forex">💱 <span data-i18n="forex">Forex</span></button>
+                    <button class="btn btn-sm inst-tab" onclick="switchInstrumentTab('stocks')" data-tab="stocks">📈 <span data-i18n="stocks">Aktien</span></button>
+                    <button class="btn btn-sm inst-tab" onclick="switchInstrumentTab('custom')" data-tab="custom">➕ <span data-i18n="custom">Custom</span></button>
+                </div>
+                <div id="instruments-content"></div>
+            </div>
+            <div class="card"><div class="card-title" data-tip="lotSizing" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="activeLotSizes">Aktive Lot-Konfiguration</span> <span class="help-icon">?</span></div><div id="active-lot-config"></div></div>
         </div>
         <div id="history" class="tab-content">
             <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="16 8 16 16 22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 8L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span> <span data-i18n="tradingHistory">Trading Historie</span></div><div style="overflow-x:auto;"><table><thead><tr><th data-i18n="date">Datum</th><th style="text-align:right" data-i18n="start">Start</th><th style="text-align:right" data-i18n="end">Ende</th><th style="text-align:right">P/L</th><th style="text-align:center" data-i18n="target">Ziel</th><th style="text-align:center" data-i18n="mood">Stimmung</th><th></th></tr></thead><tbody id="history-table"></tbody></table></div></div>
@@ -602,7 +621,7 @@
             <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="6" x2="16" y2="8" stroke="currentColor" stroke-width="2"/><line x1="16" y1="24" x2="16" y2="26" stroke="currentColor" stroke-width="2"/><path d="M12 12H18C19.66 12 21 13.34 21 15S19.66 18 18 18H12V12Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 18H19C20.66 18 22 19.34 22 21S20.66 24 19 24H12V18Z" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="10" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="capitalGoals">Kapital & Ziele</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="startCapital" data-tooltip=""><span data-i18n="startCapital">Startkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-start-capital" class="form-input"></div><div class="form-group"><label data-tip="currentBalance" data-tooltip=""><span data-i18n="currentBalance">Aktueller Stand (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-current-balance" class="form-input"></div><div class="form-group"><label data-tip="targetCapital" data-tooltip=""><span data-i18n="targetCapital">Zielkapital (€)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-target-capital" class="form-input"></div></div></div>
             <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="12" width="6" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="4" width="6" height="24" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="25" cy="8" r="0.75" fill="currentColor"/></svg></span> <span data-i18n="riskManagement">Risk Management</span></div><div class="grid grid-4"><div class="form-group"><label data-tip="dailyTarget" data-tooltip=""><span data-i18n="dailyTarget">Tagesziel (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-daily-target" class="form-input"></div><div class="form-group"><label data-tip="riskPerTrade" data-tooltip=""><span data-i18n="riskPerTrade">Risiko/Trade (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-risk-per-trade" class="form-input"></div><div class="form-group"><label data-tip="maxDailyLoss" data-tooltip=""><span data-i18n="maxDailyLoss">Max. Tagesverlust (%)</span> <span class="help-icon">?</span></label><input type="number" step="0.01" id="set-max-daily-loss" class="form-input"></div><div class="form-group"><label data-tip="rRRatio" data-tooltip=""><span data-i18n="rrRatio">Risk:Reward</span> <span class="help-icon">?</span></label><input type="number" step="0.1" id="set-rr-ratio" class="form-input"></div></div></div>
             <div class="card"><div class="card-title"><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 8V16C4 22.63 9.37 28 16 28S28 22.63 28 16V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="15" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="15" r="2" fill="currentColor"/><line x1="16" y1="8" x2="16" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="19" x2="16" y2="22" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="bufferSystem">Buffer-System</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="bufferEnabled" data-tooltip=""><span data-i18n="bufferEnabled">Buffer aktiviert</span> <span class="help-icon">?</span></label><select id="set-buffer-enabled" class="form-input"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="maxBufferDays" data-tooltip=""><span data-i18n="maxBufferDays">Max. Buffer (Tage)</span> <span class="help-icon">?</span></label><input type="number" id="set-buffer-max-days" class="form-input"></div></div></div>
-            <div class="card"><div class="card-title" data-tip="lotSizing" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" fill="currentColor"/><circle cx="23" cy="9" r="2" fill="currentColor"/><circle cx="9" cy="23" r="2" fill="currentColor"/><circle cx="23" cy="23" r="2" fill="currentColor"/></svg></span> <span data-i18n="lotSizing">Positions-Skalierung</span> <span class="help-icon">?</span></div><div class="grid grid-3"><div class="form-group"><label data-tip="lotSizingEnabled" data-tooltip=""><span data-i18n="lotSizingEnabled">Aktiviert</span> <span class="help-icon">?</span></label><select id="set-lot-sizing-enabled" class="form-input" onchange="updateLotSizingPreview()"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="baseBalance" data-tooltip=""><span data-i18n="baseBalance">Basis-Kontostand</span> <span class="help-icon">?</span></label><input type="number" id="set-base-balance" class="form-input" placeholder="15000" oninput="updateLotSizingPreview()"></div><div class="form-group"><label data-tip="baseLotSize" data-tooltip=""><span data-i18n="baseLotSize">Basis-Lotgröße</span> <span class="help-icon">?</span></label><input type="number" step="1" id="set-base-lot-size" class="form-input" placeholder="1" oninput="updateLotSizingPreview()"></div></div><div id="lot-sizing-preview" style="margin-top:10px;padding:10px;background:var(--bg);border-radius:8px;font-size:0.8rem;"></div></div>
+            <div class="card"><div class="card-title" data-tip="lotSizing" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" fill="currentColor"/><circle cx="23" cy="9" r="2" fill="currentColor"/><circle cx="9" cy="23" r="2" fill="currentColor"/><circle cx="23" cy="23" r="2" fill="currentColor"/></svg></span> <span data-i18n="lotSizing">Positions-Skalierung</span> <span class="help-icon">?</span></div><div class="grid grid-2"><div class="form-group"><label data-tip="lotSizingEnabled" data-tooltip=""><span data-i18n="lotSizingEnabled">Aktiviert</span> <span class="help-icon">?</span></label><select id="set-lot-sizing-enabled" class="form-input" onchange="updateLotSizingPreview()"><option value="true" data-i18n="yes">Ja</option><option value="false" data-i18n="no">Nein</option></select></div><div class="form-group"><label data-tip="baseBalance" data-tooltip=""><span data-i18n="baseBalance">Basis-Kontostand</span> <span class="help-icon">?</span></label><input type="number" id="set-base-balance" class="form-input" placeholder="15000" oninput="updateLotSizingPreview()"></div></div><p class="text-muted" style="font-size:0.75rem;margin:8px 0;" data-i18n="lotSizingHint">Lot-Größen werden pro Instrument im Instrumente-Tab konfiguriert.</p><div id="lot-sizing-preview" style="margin-top:10px;padding:10px;background:var(--bg);border-radius:8px;font-size:0.8rem;"></div></div>
             <button class="btn btn-primary btn-block mb-3" onclick="saveSettings()" data-i18n="saveSettings">Einstellungen speichern</button>
             <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 4V12H24V4" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="16" width="12" height="8" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="20" r="2" fill="currentColor"/></svg></span> <span data-i18n="backupRestore">Backup & Restore</span></div><div class="grid grid-2"><button class="btn btn-ghost btn-block" onclick="exportData()" data-i18n="export">Exportieren</button><label class="btn btn-ghost btn-block" style="cursor:pointer;"><span data-i18n="import">Importieren</span><input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label></div></div>
             <div class="card card-blue"><div class="card-title"><span>📄</span> <span data-i18n="pdfReport">PDF Bericht</span></div><p class="text-muted mb-2" style="font-size:0.85rem;" data-i18n="pdfDescription">Exportiere einen Performance-Bericht als PDF</p><button class="btn btn-primary btn-block" onclick="exportPDF()" data-i18n="createPdf">📄 PDF Bericht erstellen</button></div>
@@ -616,6 +635,24 @@
     
     <!-- Closed Trade Modal -->
     <div class="modal-overlay" id="closed-trade-modal"><div class="modal" style="max-width:380px;"><div class="modal-header"><h3 class="modal-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="addClosedTrade">Trade erfassen</span></h3><button class="modal-close" onclick="closeModal('closed-trade-modal')">&times;</button></div><div class="form-group"><label data-i18n="instrument">Instrument</label><select id="ct-instrument" class="form-input"></select></div><div class="form-group"><label>P/L (€)</label><input type="number" step="0.01" id="ct-pl" class="form-input" placeholder="z.B. 125.50 oder -45.00"></div><div class="form-group"><label data-i18n="notes">Notiz (optional)</label><input type="text" id="ct-note" class="form-input" placeholder="z.B. TP1 erreicht"></div><button class="btn btn-success btn-block" onclick="saveClosedTrade()">Trade erfassen</button></div></div>
+    
+    <!-- Custom Instrument Modal -->
+    <div class="modal-overlay" id="custom-instrument-modal"><div class="modal" style="max-width:450px;"><div class="modal-header"><h3 class="modal-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="10" x2="16" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> <span data-i18n="addCustomInstrument">Custom Instrument</span></h3><button class="modal-close" onclick="closeModal('custom-instrument-modal')">&times;</button></div>
+        <div class="grid grid-2">
+            <div class="form-group"><label data-i18n="symbol">Symbol</label><input type="text" id="ci-symbol" class="form-input" placeholder="z.B. BTCUSD"></div>
+            <div class="form-group"><label data-i18n="name">Name</label><input type="text" id="ci-name" class="form-input" placeholder="z.B. Bitcoin"></div>
+        </div>
+        <div class="grid grid-2">
+            <div class="form-group"><label data-i18n="color">Farbe</label><input type="color" id="ci-color" class="form-input" value="#00d4aa" style="height:40px;padding:4px;"></div>
+            <div class="form-group"><label data-i18n="priceDecimals">Preisdezimalen</label><input type="number" id="ci-decimals" class="form-input" value="2" min="0" max="8"></div>
+        </div>
+        <div class="grid grid-2">
+            <div class="form-group"><label data-i18n="lotStep">Lot-Schritte</label><input type="number" id="ci-lot-step" class="form-input" value="1" min="0.01" step="0.01"></div>
+            <div class="form-group"><label data-i18n="baseLotSize">Basis-Lots</label><input type="number" id="ci-base-lots" class="form-input" value="1" min="0.01"></div>
+        </div>
+        <div class="form-group"><label data-i18n="standardSize">Standard Size (für Kalibrierung)</label><input type="number" id="ci-standard-size" class="form-input" value="1"></div>
+        <button class="btn btn-success btn-block" onclick="saveCustomInstrument()" data-i18n="saveInstrument">Instrument speichern</button>
+    </div></div>
     
     <div id="toast" class="toast"></div>
     
@@ -720,7 +757,16 @@
             edit:'<svg viewBox="0 0 32 32" fill="none"><path d="M22 4L28 10L12 26H6V20L22 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="18" y1="8" x2="24" y2="14" stroke="currentColor" stroke-width="1.5"/></svg>',
             stop:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
             eye:'<svg viewBox="0 0 32 32" fill="none"><path d="M2 16C2 16 7 6 16 6C25 6 30 16 30 16C30 16 25 26 16 26C7 26 2 16 2 16Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="16" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>',
-            sync:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 16C4 9.37 9.37 4 16 4C20.42 4 24.27 6.35 26.38 9.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 16C28 22.63 22.63 28 16 28C11.58 28 7.73 25.65 5.62 22.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><polyline points="22 10 27 10 27 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10 22 5 22 5 27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            sync:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 16C4 9.37 9.37 4 16 4C20.42 4 24.27 6.35 26.38 9.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 16C28 22.63 22.63 28 16 28C11.58 28 7.73 25.65 5.62 22.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><polyline points="22 10 27 10 27 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="10 22 5 22 5 27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+            silver:'<svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="17" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M14 15L18 19M18 15L14 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+            platinum:'<svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><text x="16" y="21" text-anchor="middle" font-size="10" font-weight="bold" fill="currentColor">Pt</text></svg>',
+            palladium:'<svg viewBox="0 0 32 32" fill="none"><polygon points="16 4 28 14 24 28 8 28 4 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><text x="16" y="21" text-anchor="middle" font-size="10" font-weight="bold" fill="currentColor">Pd</text></svg>',
+            index:'<svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 12L28 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="4" width="4" height="22" rx="1" stroke="currentColor" stroke-width="1.5" opacity="0.3"/></svg>',
+            oil:'<svg viewBox="0 0 32 32" fill="none"><path d="M10 12C10 12 8 16 8 20C8 24.42 11.58 28 16 28S24 24.42 24 20C24 16 22 12 22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 12L16 4L20 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="20" r="3" stroke="currentColor" stroke-width="1.5"/></svg>',
+            gas:'<svg viewBox="0 0 32 32" fill="none"><path d="M12 28V18C12 15.79 13.79 14 16 14S20 15.79 20 18V28" stroke="currentColor" stroke-width="1.5"/><path d="M8 28H24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 14V8" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M10 22L14 22M18 22L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>',
+            forex:'<svg viewBox="0 0 32 32" fill="none"><circle cx="12" cy="16" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="16" r="8" stroke="currentColor" stroke-width="1.5"/><text x="10" y="19" font-size="7" font-weight="bold" fill="currentColor">$</text><text x="21" y="19" font-size="7" font-weight="bold" fill="currentColor">€</text></svg>',
+            stock:'<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 18L12 14L16 17L20 11L24 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="11" r="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1" opacity="0.3"/></svg>',
+            plus:'<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="10" x2="16" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
         };
         const ic=(n,s=20,c)=>{const map={'🥇':'gold','🥈':'gold','⚪':'gold','🔘':'gold','📊':'stats'};const key=map[n]||n;return `<span class="i i-${s}" style="${c?'color:'+c+';':''}width:${s}px;height:${s}px">${I[key]||I.gold||''}</span>`;};
 
@@ -735,7 +781,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.7';
+        const VERSION = '4.4.0';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -1070,7 +1116,38 @@
                 scaling: 'Skalierung',
                 apply: 'Übernehmen',
                 lotSizingDisabled: 'Positions-Skalierung deaktiviert',
+                lotSizingHint: 'Lot-Größen werden pro Instrument im Instrumente-Tab konfiguriert.',
                 lotSizingPreviewTitle: 'Vorschau (Gold/Silber)',
+                
+                // === INSTRUMENTS ===
+                instruments: 'Instrumente',
+                indices: 'Indizes',
+                commodities: 'Rohstoffe',
+                forex: 'Forex',
+                custom: 'Custom',
+                active: 'Aktiv',
+                inactive: 'Inaktiv',
+                addCustomInstrument: 'Custom Instrument hinzufügen',
+                noCustomInstruments: 'Keine Custom Instrumente. Klicke auf + um eines hinzuzufügen.',
+                activeLotSizes: 'Aktive Lot-Konfiguration',
+                noActiveInstruments: 'Keine aktiven kalibrierten Instrumente.',
+                scaleFactor: 'Skalierungsfaktor',
+                recommended: 'Empfohlen',
+                lotConfiguration: 'Lot-Konfiguration',
+                atBalance: 'bei Kontostand',
+                globalSetting: 'Globale Einstellung',
+                lotStep: 'Lot-Schritte',
+                plFactorCalibration: 'P/L Faktor Kalibrierung',
+                saveConfiguration: 'Konfiguration speichern',
+                deleteInstrument: 'Instrument löschen',
+                symbol: 'Symbol',
+                priceDecimals: 'Preisdezimalen',
+                standardSize: 'Standard Size',
+                saveInstrument: 'Instrument speichern',
+                symbolNameRequired: 'Symbol und Name sind erforderlich',
+                instrumentExists: 'Ein Instrument mit diesem Symbol existiert bereits',
+                added: 'hinzugefügt',
+                deleted: 'gelöscht',
                 
                 // === ADDITIONAL MISSING ===
                 register: 'Registrieren',
@@ -1507,7 +1584,38 @@
                 scaling: 'Scaling',
                 apply: 'Apply',
                 lotSizingDisabled: 'Position scaling disabled',
+                lotSizingHint: 'Lot sizes are configured per instrument in the Instruments tab.',
                 lotSizingPreviewTitle: 'Preview (Gold/Silver)',
+                
+                // === INSTRUMENTS ===
+                instruments: 'Instruments',
+                indices: 'Indices',
+                commodities: 'Commodities',
+                forex: 'Forex',
+                custom: 'Custom',
+                active: 'Active',
+                inactive: 'Inactive',
+                addCustomInstrument: 'Add Custom Instrument',
+                noCustomInstruments: 'No custom instruments. Click + to add one.',
+                activeLotSizes: 'Active Lot Configuration',
+                noActiveInstruments: 'No active calibrated instruments.',
+                scaleFactor: 'Scale Factor',
+                recommended: 'Recommended',
+                lotConfiguration: 'Lot Configuration',
+                atBalance: 'at balance',
+                globalSetting: 'Global Setting',
+                lotStep: 'Lot Steps',
+                plFactorCalibration: 'P/L Factor Calibration',
+                saveConfiguration: 'Save Configuration',
+                deleteInstrument: 'Delete Instrument',
+                symbol: 'Symbol',
+                priceDecimals: 'Price Decimals',
+                standardSize: 'Standard Size',
+                saveInstrument: 'Save Instrument',
+                symbolNameRequired: 'Symbol and name are required',
+                instrumentExists: 'An instrument with this symbol already exists',
+                added: 'added',
+                deleted: 'deleted',
                 
                 // === ADDITIONAL MISSING ===
                 register: 'Register',
@@ -1944,7 +2052,38 @@
                 scaling: 'Escalado',
                 apply: 'Aplicar',
                 lotSizingDisabled: 'Escalado de posiciones desactivado',
+                lotSizingHint: 'Los tamaños de lote se configuran por instrumento en la pestaña Instrumentos.',
                 lotSizingPreviewTitle: 'Vista previa (Oro/Plata)',
+                
+                // === INSTRUMENTS ===
+                instruments: 'Instrumentos',
+                indices: 'Índices',
+                commodities: 'Materias Primas',
+                forex: 'Forex',
+                custom: 'Personalizado',
+                active: 'Activo',
+                inactive: 'Inactivo',
+                addCustomInstrument: 'Añadir Instrumento Personalizado',
+                noCustomInstruments: 'Sin instrumentos personalizados. Haz clic en + para añadir uno.',
+                activeLotSizes: 'Configuración de Lotes Activos',
+                noActiveInstruments: 'Sin instrumentos activos calibrados.',
+                scaleFactor: 'Factor de Escala',
+                recommended: 'Recomendado',
+                lotConfiguration: 'Configuración de Lotes',
+                atBalance: 'en saldo',
+                globalSetting: 'Configuración Global',
+                lotStep: 'Pasos de Lote',
+                plFactorCalibration: 'Calibración Factor P/L',
+                saveConfiguration: 'Guardar Configuración',
+                deleteInstrument: 'Eliminar Instrumento',
+                symbol: 'Símbolo',
+                priceDecimals: 'Decimales de Precio',
+                standardSize: 'Tamaño Estándar',
+                saveInstrument: 'Guardar Instrumento',
+                symbolNameRequired: 'Símbolo y nombre son requeridos',
+                instrumentExists: 'Ya existe un instrumento con este símbolo',
+                added: 'añadido',
+                deleted: 'eliminado',
                 
                 // === ADDITIONAL MISSING ===
                 register: 'Registrarse',
@@ -2074,10 +2213,32 @@
         
         const INSTRUMENT_LIBRARY = {
             metals: [
-                { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: 'gold', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5, lotStep: 1 },
-                { id: 'xagusd', symbol: 'XAGUSD', name: 'Silber', icon: 'gold', color: '#9ca3af', priceDecimals: 4, calculationType: 'factor', standardSize: 50, lotStep: 10 },
-                { id: 'xptusd', symbol: 'XPTUSD', name: 'Platin', icon: 'gold', color: '#e5e7eb', priceDecimals: 2, calculationType: 'factor', standardSize: 5 },
-                { id: 'xpdusd', symbol: 'XPDUSD', name: 'Palladium', icon: 'gold', color: '#6b7280', priceDecimals: 2, calculationType: 'factor', standardSize: 1 }
+                { id: 'xauusd', symbol: 'XAUUSD', name: 'Gold', icon: 'gold', color: '#fbbf24', priceDecimals: 2, calculationType: 'factor', standardSize: 5, lotStep: 1, defaultBaseLots: 1 },
+                { id: 'xagusd', symbol: 'XAGUSD', name: 'Silber', icon: 'silver', color: '#9ca3af', priceDecimals: 4, calculationType: 'factor', standardSize: 50, lotStep: 10, defaultBaseLots: 50 },
+                { id: 'xptusd', symbol: 'XPTUSD', name: 'Platin', icon: 'platinum', color: '#e5e7eb', priceDecimals: 2, calculationType: 'factor', standardSize: 5, lotStep: 1, defaultBaseLots: 1 },
+                { id: 'xpdusd', symbol: 'XPDUSD', name: 'Palladium', icon: 'palladium', color: '#6b7280', priceDecimals: 2, calculationType: 'factor', standardSize: 1, lotStep: 1, defaultBaseLots: 1 }
+            ],
+            indices: [
+                { id: 'us500', symbol: 'US500', name: 'S&P 500', icon: 'index', color: '#3b82f6', priceDecimals: 2, calculationType: 'factor', standardSize: 1, lotStep: 1, defaultBaseLots: 1 },
+                { id: 'us100', symbol: 'US100', name: 'NASDAQ 100', icon: 'index', color: '#8b5cf6', priceDecimals: 2, calculationType: 'factor', standardSize: 1, lotStep: 1, defaultBaseLots: 1 },
+                { id: 'ger40', symbol: 'GER40', name: 'DAX 40', icon: 'index', color: '#ef4444', priceDecimals: 2, calculationType: 'factor', standardSize: 1, lotStep: 1, defaultBaseLots: 1 },
+                { id: 'us30', symbol: 'US30', name: 'Dow Jones', icon: 'index', color: '#f59e0b', priceDecimals: 2, calculationType: 'factor', standardSize: 1, lotStep: 1, defaultBaseLots: 1 }
+            ],
+            commodities: [
+                { id: 'wti', symbol: 'USOIL', name: 'WTI Crude Oil', icon: 'oil', color: '#1f2937', priceDecimals: 2, calculationType: 'factor', standardSize: 100, lotStep: 10, defaultBaseLots: 10 },
+                { id: 'brent', symbol: 'UKOIL', name: 'Brent Crude', icon: 'oil', color: '#374151', priceDecimals: 2, calculationType: 'factor', standardSize: 100, lotStep: 10, defaultBaseLots: 10 },
+                { id: 'natgas', symbol: 'NATGAS', name: 'Natural Gas', icon: 'gas', color: '#06b6d4', priceDecimals: 3, calculationType: 'factor', standardSize: 1000, lotStep: 100, defaultBaseLots: 100 }
+            ],
+            forex: [
+                { id: 'eurusd', symbol: 'EURUSD', name: 'EUR/USD', icon: 'forex', color: '#2563eb', priceDecimals: 5, calculationType: 'pips', pipValue: 10, lotStep: 0.1, defaultBaseLots: 0.5 },
+                { id: 'gbpusd', symbol: 'GBPUSD', name: 'GBP/USD', icon: 'forex', color: '#dc2626', priceDecimals: 5, calculationType: 'pips', pipValue: 10, lotStep: 0.1, defaultBaseLots: 0.5 },
+                { id: 'usdjpy', symbol: 'USDJPY', name: 'USD/JPY', icon: 'forex', color: '#ea580c', priceDecimals: 3, calculationType: 'pips', pipValue: 9.1, lotStep: 0.1, defaultBaseLots: 0.5 }
+            ],
+            stocks: [
+                { id: 'aapl', symbol: 'AAPL', name: 'Apple', icon: 'stock', color: '#6b7280', priceDecimals: 2, calculationType: 'shares', lotStep: 1, defaultBaseLots: 10 },
+                { id: 'tsla', symbol: 'TSLA', name: 'Tesla', icon: 'stock', color: '#ef4444', priceDecimals: 2, calculationType: 'shares', lotStep: 1, defaultBaseLots: 5 },
+                { id: 'nvda', symbol: 'NVDA', name: 'NVIDIA', icon: 'stock', color: '#22c55e', priceDecimals: 2, calculationType: 'shares', lotStep: 1, defaultBaseLots: 5 },
+                { id: 'msft', symbol: 'MSFT', name: 'Microsoft', icon: 'stock', color: '#0ea5e9', priceDecimals: 2, calculationType: 'shares', lotStep: 1, defaultBaseLots: 5 }
             ]
         };
         const DEFAULT_DATA = {
@@ -2653,7 +2814,30 @@
         function saveLocalData() { try { data.version = VERSION; localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { console.error(e); } }
         function saveData() { saveLocalData(); if (currentUser && isOnline) syncToCloud(); }
         function deepMerge(t, s) { const r = { ...t }; for (const k in s) { if (s[k] && typeof s[k] === 'object' && !Array.isArray(s[k])) r[k] = deepMerge(t[k]||{}, s[k]); else r[k] = s[k]; } return r; }
-        function initializeInstruments() { INSTRUMENT_LIBRARY.metals.forEach(i => { if (!data.instruments[i.id]) data.instruments[i.id] = { ...i, plFactor: null, isCalibrated: false, lastCalibrated: null, calibrationData: null }; }); }
+        function initializeInstruments() { 
+            // Initialize all instruments from library
+            Object.keys(INSTRUMENT_LIBRARY).forEach(category => {
+                INSTRUMENT_LIBRARY[category].forEach(i => { 
+                    if (!data.instruments[i.id]) {
+                        data.instruments[i.id] = { 
+                            ...i, 
+                            category,
+                            plFactor: null, 
+                            isCalibrated: false, 
+                            lastCalibrated: null, 
+                            calibrationData: null,
+                            baseLotSize: i.defaultBaseLots || 1,
+                            isActive: category === 'metals' // Only metals active by default
+                        };
+                    } else {
+                        // Ensure existing instruments have new fields
+                        if (!data.instruments[i.id].category) data.instruments[i.id].category = category;
+                        if (!data.instruments[i.id].baseLotSize) data.instruments[i.id].baseLotSize = i.defaultBaseLots || 1;
+                        if (data.instruments[i.id].isActive === undefined) data.instruments[i.id].isActive = data.instruments[i.id].isCalibrated || category === 'metals';
+                    }
+                });
+            });
+        }
 
         // ============================================================
         // CALCULATIONS
@@ -2809,17 +2993,26 @@
             
             const balance = data.settings.currentBalance || data.settings.startCapital || 0;
             const baseBalance = data.settings.baseBalanceForLots || 15000;
-            const baseLots = data.settings.baseLotSize || 1;
             
             if (balance <= 0 || baseBalance <= 0) return null;
+            
+            // Get instrument-specific settings
+            const inst = data.instruments[instrumentId];
+            if (!inst) return null;
+            
+            // Find library entry for defaults
+            let libInst = null;
+            Object.values(INSTRUMENT_LIBRARY).forEach(category => {
+                const found = category.find(i => i.id === instrumentId);
+                if (found) libInst = found;
+            });
+            
+            const baseLots = inst.baseLotSize || libInst?.defaultBaseLots || 1;
+            const lotStep = inst.lotStep || libInst?.lotStep || 1;
             
             // Calculate scaling factor
             const scaleFactor = balance / baseBalance;
             const rawLots = baseLots * scaleFactor;
-            
-            // Get instrument-specific lot step for rounding
-            const inst = data.instruments[instrumentId] || INSTRUMENT_LIBRARY.metals.find(i => i.id === instrumentId);
-            const lotStep = inst?.lotStep || 1;
             
             // Round to nearest lot step (minimum 1 step)
             const roundedLots = Math.max(lotStep, Math.round(rawLots / lotStep) * lotStep);
@@ -2970,34 +3163,37 @@
             const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
             document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">${t('stillMissing')} ${fmt(m-balance)}</div></div>`).join('');
             
-            // Lot Sizing Widget
+            // Lot Sizing Widget - shows all active calibrated instruments
             const lotWidget = document.getElementById('lot-sizing-widget');
-            if (data.settings.lotSizingEnabled && data.settings.baseBalanceForLots > 0) {
+            const activeInstruments = Object.values(data.instruments).filter(i => i.isActive && i.isCalibrated);
+            
+            if (data.settings.lotSizingEnabled && data.settings.baseBalanceForLots > 0 && activeInstruments.length > 0) {
                 lotWidget.style.display = '';
-                const goldLots = getRecommendedLotSize('xauusd');
-                const silverLots = getRecommendedLotSize('xagusd');
+                const scaleFactor = (data.settings.currentBalance || data.settings.startCapital) / (data.settings.baseBalanceForLots || 15000);
+                
+                // Limit display to max 4 instruments, prioritize calibrated ones
+                const displayInsts = activeInstruments.slice(0, 4);
+                const gridCols = displayInsts.length <= 2 ? '1fr 1fr' : displayInsts.length === 3 ? '1fr 1fr 1fr' : '1fr 1fr 1fr 1fr';
+                
                 document.getElementById('lot-sizing-content').innerHTML = `
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                        <div style="background:var(--bg);padding:12px;border-radius:10px;border-left:3px solid #fbbf24;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                ${ic('gold',18,'#fbbf24')}
-                                <span style="font-size:0.8rem;color:var(--muted);">Gold</span>
-                            </div>
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">${goldLots?.recommended || '--'}</div>
-                            <div style="font-size:0.7rem;color:var(--muted);">Lots</div>
-                        </div>
-                        <div style="background:var(--bg);padding:12px;border-radius:10px;border-left:3px solid #9ca3af;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                ${ic('gold',18,'#9ca3af')}
-                                <span style="font-size:0.8rem;color:var(--muted);">Silber</span>
-                            </div>
-                            <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">${silverLots?.recommended || '--'}</div>
-                            <div style="font-size:0.7rem;color:var(--muted);">Lots</div>
-                        </div>
+                    <div style="display:grid;grid-template-columns:${gridCols};gap:10px;">
+                        ${displayInsts.map(inst => {
+                            const lotInfo = getRecommendedLotSize(inst.id);
+                            return `
+                                <div style="background:var(--bg);padding:10px;border-radius:10px;border-left:3px solid ${inst.color || '#00d4aa'};">
+                                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                                        ${ic(inst.icon || 'gold', 16, inst.color)}
+                                        <span style="font-size:0.75rem;color:var(--muted);">${inst.symbol}</span>
+                                    </div>
+                                    <div style="font-size:1.3rem;font-weight:700;color:var(--accent);">${lotInfo?.recommended || '--'}</div>
+                                    <div style="font-size:0.65rem;color:var(--muted);">Lots</div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:0.75rem;">
-                        <span class="text-muted">${t('basis')}: ${goldLots?.baseLots || 1} @ ${fmt(goldLots?.baseBalance || 15000, 0)}</span>
-                        <span class="text-accent">×${(goldLots?.scaleFactor || 1).toFixed(2)} ${t('scaling')}</span>
+                        <span class="text-muted">${t('baseBalance')}: ${fmt(data.settings.baseBalanceForLots || 15000, 0)}</span>
+                        <span class="text-accent">×${scaleFactor.toFixed(2)} ${t('scaling')}</span>
                     </div>
                 `;
             } else {
@@ -3515,8 +3711,116 @@
                 </div>
             `;
         }
+        let currentInstrumentTab = 'metals';
+        
+        function switchInstrumentTab(tab) {
+            currentInstrumentTab = tab;
+            document.querySelectorAll('.inst-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.inst-tab[data-tab="${tab}"]`)?.classList.add('active');
+            renderInstruments();
+        }
+        
         function renderInstruments() {
-            document.getElementById('instruments-metals').innerHTML = INSTRUMENT_LIBRARY.metals.map(libInst => { const inst = data.instruments[libInst.id] || libInst; const cal = inst.isCalibrated && inst.plFactor; return `<div class="instrument-card" onclick="openCalibrationModal('${inst.id}')"><div class="instrument-icon">${ic(inst.icon,32,inst.color)}</div><div class="instrument-info"><div class="instrument-symbol">${inst.symbol}</div><div class="instrument-name">${inst.name}</div></div><div class="instrument-status"><div class="instrument-factor ${cal?'text-green':'text-orange'}">${cal?fmtNum(inst.plFactor,4):'---'}</div><div style="font-size:0.75rem;" class="${cal?'calibrated':'not-calibrated'}">${cal?t('calibrated'):t('notCalibrated')}</div></div></div>`; }).join('');
+            const container = document.getElementById('instruments-content');
+            if (!container) return;
+            
+            if (currentInstrumentTab === 'custom') {
+                // Custom instruments tab
+                const customInsts = Object.values(data.instruments).filter(i => i.isCustom);
+                container.innerHTML = `
+                    <button class="btn btn-primary mb-3" onclick="openCustomInstrumentModal()">
+                        ${ic('plus',16)} ${t('addCustomInstrument')}
+                    </button>
+                    ${customInsts.length > 0 ? customInsts.map(inst => renderInstrumentCard(inst)).join('') : 
+                        `<p class="text-muted text-center" style="padding:20px;">${t('noCustomInstruments')}</p>`}
+                `;
+            } else {
+                // Library category
+                const libInsts = INSTRUMENT_LIBRARY[currentInstrumentTab] || [];
+                container.innerHTML = libInsts.map(libInst => {
+                    const inst = data.instruments[libInst.id] || { ...libInst, isActive: false };
+                    return renderInstrumentCard(inst);
+                }).join('');
+            }
+            
+            // Render active lot config
+            renderActiveLotConfig();
+        }
+        
+        function renderInstrumentCard(inst) {
+            const cal = inst.isCalibrated && inst.plFactor;
+            const active = inst.isActive !== false;
+            return `
+                <div class="instrument-card ${active ? '' : 'inactive'}">
+                    <div class="instrument-icon" onclick="openCalibrationModal('${inst.id}')">${ic(inst.icon || 'gold', 32, inst.color)}</div>
+                    <div class="instrument-info" onclick="openCalibrationModal('${inst.id}')">
+                        <div class="instrument-symbol">${inst.symbol}</div>
+                        <div class="instrument-name">${inst.name}</div>
+                    </div>
+                    <div class="instrument-status" style="display:flex;align-items:center;gap:10px;">
+                        <div style="text-align:right;" onclick="openCalibrationModal('${inst.id}')">
+                            <div class="instrument-factor ${cal ? 'text-green' : 'text-orange'}">${cal ? fmtNum(inst.plFactor, 4) : '---'}</div>
+                            <div style="font-size:0.7rem;" class="${cal ? 'calibrated' : 'not-calibrated'}">${cal ? t('calibrated') : t('notCalibrated')}</div>
+                        </div>
+                        <button class="toggle-btn ${active ? 'active' : ''}" onclick="toggleInstrumentActive('${inst.id}', event)">
+                            ${active ? t('active') : t('inactive')}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function toggleInstrumentActive(id, event) {
+            event?.stopPropagation();
+            if (data.instruments[id]) {
+                data.instruments[id].isActive = !data.instruments[id].isActive;
+                saveData();
+                renderInstruments();
+            }
+        }
+        
+        function renderActiveLotConfig() {
+            const container = document.getElementById('active-lot-config');
+            if (!container) return;
+            
+            const activeInsts = Object.values(data.instruments).filter(i => i.isActive && i.isCalibrated);
+            if (activeInsts.length === 0) {
+                container.innerHTML = `<p class="text-muted">${t('noActiveInstruments')}</p>`;
+                return;
+            }
+            
+            const balance = data.settings.currentBalance || data.settings.startCapital;
+            const baseBalance = data.settings.baseBalanceForLots || 15000;
+            const scaleFactor = baseBalance > 0 ? balance / baseBalance : 1;
+            
+            container.innerHTML = `
+                <div style="font-size:0.8rem;color:var(--muted);margin-bottom:10px;">
+                    ${t('scaleFactor')}: <strong class="text-accent">×${scaleFactor.toFixed(2)}</strong> 
+                    <span class="text-muted">(${fmt(balance, 0)} / ${fmt(baseBalance, 0)})</span>
+                </div>
+                ${activeInsts.map(inst => {
+                    const lotInfo = getRecommendedLotSize(inst.id);
+                    return `
+                        <div class="lot-config-row">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                ${ic(inst.icon || 'gold', 20, inst.color)}
+                                <span style="font-weight:600;">${inst.symbol}</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:15px;">
+                                <div style="text-align:center;">
+                                    <div style="font-size:0.7rem;color:var(--muted);">${t('baseLots')}</div>
+                                    <div style="font-weight:600;">${inst.baseLotSize || 1}</div>
+                                </div>
+                                <div style="font-size:1.2rem;color:var(--muted);">→</div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:0.7rem;color:var(--muted);">${t('recommended')}</div>
+                                    <div style="font-weight:700;color:var(--accent);font-size:1.1rem;">${lotInfo?.recommended || '--'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
         }
         function renderHistory() {
             const sorted = [...data.dailyLogs].sort((a, b) => b.date.localeCompare(a.date));
@@ -3535,7 +3839,6 @@
             // Lot Sizing Settings
             document.getElementById('set-lot-sizing-enabled').value = (data.settings.lotSizingEnabled !== false).toString();
             document.getElementById('set-base-balance').value = data.settings.baseBalanceForLots || 15000;
-            document.getElementById('set-base-lot-size').value = data.settings.baseLotSize || 1;
             updateLotSizingPreview();
             document.getElementById('cloud-sync-content').innerHTML = currentUser ? `<div style="display:flex;align-items:center;gap:12px;"><div class="sync-dot ${isOnline?'online':'offline'}" style="width:12px;height:12px;"></div><div><div class="font-bold">${currentUser.email}</div><div class="text-muted" style="font-size:0.8rem;">${isOnline?t('cloudConnected'):t('offline')}</div></div></div><button class="btn btn-ghost btn-sm mt-3" onclick="syncToCloud()">${ic('sync',16)} ${t('syncNow')}</button>` : `<div class="text-muted mb-2">${t('offlineModeDesc')}</div><button class="btn btn-primary btn-sm" onclick="showAuthScreen()">${ic('cloud',16)} ${t('enableCloudSync')}</button>`;
         }
@@ -3543,7 +3846,7 @@
         // ============================================================
         // ACTIONS
         // ============================================================
-        function saveSettings() { data.settings.startCapital = parseFloat(document.getElementById('set-start-capital').value)||0; data.settings.currentBalance = parseFloat(document.getElementById('set-current-balance').value)||0; data.settings.targetCapital = parseFloat(document.getElementById('set-target-capital').value)||0; data.settings.dailyTargetPercent = parseFloat(document.getElementById('set-daily-target').value)||1; data.settings.riskPerTradePercent = parseFloat(document.getElementById('set-risk-per-trade').value)||2; data.settings.maxDailyLossPercent = parseFloat(document.getElementById('set-max-daily-loss').value)||3; data.settings.rrRatio = parseFloat(document.getElementById('set-rr-ratio').value)||2; data.buffer.settings.enabled = document.getElementById('set-buffer-enabled').value === 'true'; data.buffer.settings.maxBufferDays = parseInt(document.getElementById('set-buffer-max-days').value)||10; data.settings.lotSizingEnabled = document.getElementById('set-lot-sizing-enabled').value === 'true'; data.settings.baseBalanceForLots = parseFloat(document.getElementById('set-base-balance').value)||15000; data.settings.baseLotSize = parseInt(document.getElementById('set-base-lot-size').value)||1; saveData(); render(); showToast(t('settingsSaved')); }
+        function saveSettings() { data.settings.startCapital = parseFloat(document.getElementById('set-start-capital').value)||0; data.settings.currentBalance = parseFloat(document.getElementById('set-current-balance').value)||0; data.settings.targetCapital = parseFloat(document.getElementById('set-target-capital').value)||0; data.settings.dailyTargetPercent = parseFloat(document.getElementById('set-daily-target').value)||1; data.settings.riskPerTradePercent = parseFloat(document.getElementById('set-risk-per-trade').value)||2; data.settings.maxDailyLossPercent = parseFloat(document.getElementById('set-max-daily-loss').value)||3; data.settings.rrRatio = parseFloat(document.getElementById('set-rr-ratio').value)||2; data.buffer.settings.enabled = document.getElementById('set-buffer-enabled').value === 'true'; data.buffer.settings.maxBufferDays = parseInt(document.getElementById('set-buffer-max-days').value)||10; data.settings.lotSizingEnabled = document.getElementById('set-lot-sizing-enabled').value === 'true'; data.settings.baseBalanceForLots = parseFloat(document.getElementById('set-base-balance').value)||15000; saveData(); render(); showToast(t('settingsSaved')); }
         
         // Lot Sizing Preview in Settings
         function updateLotSizingPreview() {
@@ -3555,21 +3858,30 @@
                 return;
             }
             const baseBalance = parseFloat(document.getElementById('set-base-balance')?.value) || 15000;
-            const baseLots = parseInt(document.getElementById('set-base-lot-size')?.value) || 1;
             const currentBalance = data.settings.currentBalance || data.settings.startCapital || baseBalance;
-            const previewBalances = [baseBalance, baseBalance * 1.5, baseBalance * 2, baseBalance * 3];
+            const scaleFactor = currentBalance / baseBalance;
+            
+            // Show preview for active instruments
+            const activeInsts = Object.values(data.instruments).filter(i => i.isActive && i.isCalibrated).slice(0, 4);
+            
+            if (activeInsts.length === 0) {
+                preview.innerHTML = `<span class="text-muted">${t('noActiveInstruments')}</span>`;
+                return;
+            }
+            
             preview.innerHTML = `
-                <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">${t('lotSizingPreviewTitle')}:</div>
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
-                    ${previewBalances.map(bal => {
-                        const factor = bal / baseBalance;
-                        const goldLots = Math.max(1, Math.round(baseLots * factor));
-                        const silverLots = Math.max(10, Math.round((baseLots * factor * 10) / 10) * 10);
-                        const isActive = Math.abs(bal - currentBalance) < baseBalance * 0.1;
-                        return `<div style="padding:6px;background:${isActive ? 'rgba(0,212,170,0.15)' : 'var(--card)'};border-radius:6px;${isActive ? 'border:1px solid var(--accent);' : ''}">
-                            <div style="font-size:0.7rem;color:var(--muted);">${fmt(bal,0)}</div>
-                            <div style="font-weight:700;color:var(--accent);">${goldLots}/${silverLots}</div>
-                            <div style="font-size:0.65rem;color:var(--muted);">Au/Ag</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">
+                    ${t('scaleFactor')}: <strong class="text-accent">×${scaleFactor.toFixed(2)}</strong>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(${Math.min(activeInsts.length, 4)},1fr);gap:8px;text-align:center;">
+                    ${activeInsts.map(inst => {
+                        const baseLots = inst.baseLotSize || 1;
+                        const lotStep = inst.lotStep || 1;
+                        const recommended = Math.max(lotStep, Math.round((baseLots * scaleFactor) / lotStep) * lotStep);
+                        return `<div style="padding:8px;background:var(--card);border-radius:6px;border-left:2px solid ${inst.color || '#00d4aa'};">
+                            <div style="font-size:0.7rem;color:var(--muted);">${inst.symbol}</div>
+                            <div style="font-size:0.65rem;color:var(--muted);">${baseLots} → </div>
+                            <div style="font-weight:700;color:var(--accent);">${recommended}</div>
                         </div>`;
                     }).join('')}
                 </div>
@@ -3710,7 +4022,61 @@
         
         function openCalibrationModal(instrumentId) {
             const inst = data.instruments[instrumentId]; if (!inst) return;
-            document.getElementById('calibration-content').innerHTML = `<div class="card card-gold mb-3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">${ic(inst.icon,48,inst.color)}<div><div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div><div class="text-muted">${inst.name}</div></div></div>${inst.isCalibrated?`<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>`:`<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}</div><p class="text-muted mb-3" style="font-size:0.85rem;">${t('enterValues')}:</p><div class="grid grid-2"><div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div><div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div></div><div class="grid grid-2"><div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div><div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div></div><div class="card card-dark mb-3"><div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div><div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div><div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div></div><button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">${t('saveFactor')}</button>`;
+            const baseLots = inst.baseLotSize || inst.defaultBaseLots || 1;
+            const lotStep = inst.lotStep || 1;
+            
+            document.getElementById('calibration-content').innerHTML = `
+                <div class="card card-gold mb-3">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                        ${ic(inst.icon,48,inst.color)}
+                        <div>
+                            <div class="font-bold" style="font-size:1.2rem;">${inst.symbol}</div>
+                            <div class="text-muted">${inst.name}</div>
+                        </div>
+                        <button class="toggle-btn ${inst.isActive !== false ? 'active' : ''}" style="margin-left:auto;" onclick="toggleInstrumentActive('${instrumentId}'); openCalibrationModal('${instrumentId}');">
+                            ${inst.isActive !== false ? t('active') : t('inactive')}
+                        </button>
+                    </div>
+                    ${inst.isCalibrated ? `<div class="text-green" style="font-size:0.85rem;">✓ ${t('plFactor')}: ${fmtNum(inst.plFactor,4)} | ${t('lastCalibration')}: ${inst.lastCalibrated?formatDate(inst.lastCalibrated):'-'}</div>` : `<div class="text-orange" style="font-size:0.85rem;">${t('notCalibrated')}</div>`}
+                </div>
+                
+                <!-- Lot Configuration Section -->
+                <div class="card mb-3" style="background:var(--bg);">
+                    <div class="card-title" style="font-size:0.85rem;margin-bottom:10px;">
+                        ${ic('gold',16,inst.color)} ${t('lotConfiguration')}
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label style="font-size:0.8rem;">${t('baseLotSize')}</label>
+                            <input type="number" id="cal-base-lots" class="form-input" value="${baseLots}" step="${lotStep}" min="${lotStep}">
+                            <div style="font-size:0.7rem;color:var(--muted);">${t('lotStep')}: ${lotStep}</div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:0.8rem;">${t('atBalance')}</label>
+                            <input type="number" id="cal-base-balance" class="form-input" value="${data.settings.baseBalanceForLots || 15000}" readonly style="opacity:0.7;">
+                            <div style="font-size:0.7rem;color:var(--muted);">${t('globalSetting')}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- P/L Factor Calibration Section -->
+                <div style="font-size:0.85rem;color:var(--muted);margin-bottom:10px;">${t('plFactorCalibration')}:</div>
+                <div class="grid grid-2">
+                    <div class="form-group"><label>${t('size')}</label><input type="number" id="cal-size" class="form-input highlight" value="${inst.calibrationData?.size||inst.standardSize}" step="0.01"></div>
+                    <div class="form-group"><label>${t('avgPriceShort')}</label><input type="number" id="cal-avg" class="form-input highlight" value="${inst.calibrationData?.avgPrice||''}" step="0.00001"></div>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group"><label>${t('lastPrice')}</label><input type="number" id="cal-last" class="form-input highlight" value="${inst.calibrationData?.lastPrice||''}" step="0.00001"></div>
+                    <div class="form-group"><label>${t('unrealizedPL')}</label><input type="number" id="cal-pl" class="form-input highlight" value="${inst.calibrationData?.unrealizedPL||''}" step="0.01"></div>
+                </div>
+                <div class="card card-dark mb-3">
+                    <div class="text-muted" style="font-size:0.8rem;">${t('calcFactor')}:</div>
+                    <div id="cal-result" class="font-bold text-green" style="font-size:1.3rem;">---</div>
+                    <div id="cal-pl-per-dollar" class="text-muted" style="font-size:0.85rem;"></div>
+                </div>
+                <button class="btn btn-success btn-block" onclick="saveCalibration('${instrumentId}')">${t('saveConfiguration')}</button>
+                ${inst.isCustom ? `<button class="btn btn-danger btn-block mt-2" onclick="deleteCustomInstrument('${instrumentId}')">${t('deleteInstrument')}</button>` : ''}
+            `;
             ['cal-size','cal-avg','cal-last','cal-pl'].forEach(id => document.getElementById(id)?.addEventListener('input', () => updateCalibrationPreview(instrumentId)));
             openModal('calibration-modal'); updateCalibrationPreview(instrumentId);
         }
@@ -3723,12 +4089,110 @@
             document.getElementById('cal-pl-per-dollar').textContent = factor > 0 ? `${t('atSize')} ${inst?.standardSize||size}: ${fmt(plPerDollar)} ${t('perDollar')}` : '';
         }
         async function saveCalibration(instrumentId) {
-            const size = parseFloat(document.getElementById('cal-size').value)||0; const avgPrice = parseFloat(document.getElementById('cal-avg').value)||0; const lastPrice = parseFloat(document.getElementById('cal-last').value)||0; const unrealizedPL = parseFloat(document.getElementById('cal-pl').value)||0;
+            const size = parseFloat(document.getElementById('cal-size').value)||0; 
+            const avgPrice = parseFloat(document.getElementById('cal-avg').value)||0; 
+            const lastPrice = parseFloat(document.getElementById('cal-last').value)||0; 
+            const unrealizedPL = parseFloat(document.getElementById('cal-pl').value)||0;
+            const baseLots = parseFloat(document.getElementById('cal-base-lots').value) || 1;
+            const inst = data.instruments[instrumentId];
+            const lotStep = inst?.lotStep || 1;
+            
+            // Round baseLots to lotStep
+            const roundedBaseLots = Math.max(lotStep, Math.round(baseLots / lotStep) * lotStep);
+            
             const diff = lastPrice - avgPrice;
-            if (Math.abs(diff) < 0.00001 || size <= 0) { showToast('Ungültige Werte', 'error'); return; }
-            const factor = Math.abs(unrealizedPL / (diff * size));
-            data.instruments[instrumentId] = { ...data.instruments[instrumentId], plFactor: factor, isCalibrated: true, lastCalibrated: getLocalDateString(new Date()), calibrationData: { size, avgPrice, lastPrice, unrealizedPL, calculatedFactor: factor } };
-            saveData(); render(); closeModal('calibration-modal'); showToast(`${data.instruments[instrumentId].symbol} kalibriert: ${fmtNum(factor, 4)}`);
+            let factor = inst?.plFactor || 0;
+            
+            // Only calculate factor if we have valid calibration data
+            if (Math.abs(diff) > 0.00001 && size > 0) {
+                factor = Math.abs(unrealizedPL / (diff * size));
+            }
+            
+            data.instruments[instrumentId] = { 
+                ...data.instruments[instrumentId], 
+                plFactor: factor || inst?.plFactor, 
+                isCalibrated: factor > 0 || inst?.isCalibrated,
+                isActive: true,
+                lastCalibrated: factor > 0 ? getLocalDateString(new Date()) : inst?.lastCalibrated, 
+                baseLotSize: roundedBaseLots,
+                calibrationData: factor > 0 ? { size, avgPrice, lastPrice, unrealizedPL, calculatedFactor: factor } : inst?.calibrationData
+            };
+            saveData(); render(); closeModal('calibration-modal'); 
+            showToast(`${data.instruments[instrumentId].symbol}: ${factor > 0 ? t('calibrated') + ' (' + fmtNum(factor, 4) + ')' : ''} ${t('baseLots')}: ${roundedBaseLots}`);
+        }
+        
+        // Custom Instrument Functions
+        function openCustomInstrumentModal() {
+            document.getElementById('ci-symbol').value = '';
+            document.getElementById('ci-name').value = '';
+            document.getElementById('ci-color').value = '#00d4aa';
+            document.getElementById('ci-decimals').value = '2';
+            document.getElementById('ci-lot-step').value = '1';
+            document.getElementById('ci-base-lots').value = '1';
+            document.getElementById('ci-standard-size').value = '1';
+            openModal('custom-instrument-modal');
+        }
+        
+        function saveCustomInstrument() {
+            const symbol = document.getElementById('ci-symbol').value.trim().toUpperCase();
+            const name = document.getElementById('ci-name').value.trim();
+            const color = document.getElementById('ci-color').value;
+            const priceDecimals = parseInt(document.getElementById('ci-decimals').value) || 2;
+            const lotStep = parseFloat(document.getElementById('ci-lot-step').value) || 1;
+            const baseLots = parseFloat(document.getElementById('ci-base-lots').value) || 1;
+            const standardSize = parseFloat(document.getElementById('ci-standard-size').value) || 1;
+            
+            if (!symbol || !name) {
+                showToast(t('symbolNameRequired'), 'error');
+                return;
+            }
+            
+            const id = 'custom_' + symbol.toLowerCase().replace(/[^a-z0-9]/g, '');
+            
+            if (data.instruments[id]) {
+                showToast(t('instrumentExists'), 'error');
+                return;
+            }
+            
+            data.instruments[id] = {
+                id,
+                symbol,
+                name,
+                icon: 'stock',
+                color,
+                priceDecimals,
+                calculationType: 'factor',
+                standardSize,
+                lotStep,
+                defaultBaseLots: baseLots,
+                baseLotSize: baseLots,
+                isCustom: true,
+                isActive: true,
+                isCalibrated: false,
+                plFactor: null,
+                category: 'custom'
+            };
+            
+            saveData();
+            closeModal('custom-instrument-modal');
+            switchInstrumentTab('custom');
+            showToast(`${symbol} ${t('added')}`);
+        }
+        
+        function deleteCustomInstrument(instrumentId) {
+            const inst = data.instruments[instrumentId];
+            if (!inst?.isCustom) return;
+            
+            if (!confirm(`${t('deleteInstrument')}: ${inst.symbol}?`)) return;
+            
+            // Remove any positions with this instrument
+            data.positions = data.positions.filter(p => p.instrumentId !== instrumentId);
+            
+            delete data.instruments[instrumentId];
+            saveData();
+            closeModal('calibration-modal');
+            render();
+            showToast(`${inst.symbol} ${t('deleted')}`);
         }
         function exportData() { const exp = { ...data, exportDate: new Date().toISOString(), version: VERSION }; const blob = new Blob([JSON.stringify(exp, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `trading-tracker-backup-${getLocalDateString(new Date())}.json`; a.click(); URL.revokeObjectURL(url); showToast(t('backupCreated')); }
         
