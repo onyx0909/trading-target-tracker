@@ -791,7 +791,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.4.3';
+        const VERSION = '4.4.4';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -814,6 +814,16 @@
                 to: 'bis',
                 from: 'von',
                 total: 'Gesamt',
+                later: 'Später',
+                help: 'Hilfe',
+                update: 'Aktualisieren',
+                install: 'Installieren',
+                updateAvailable: 'Neue Version verfügbar!',
+                installApp: 'TargetTrader installieren',
+                installAppDesc: 'Schneller Zugriff vom Homescreen',
+                installIosHint: 'Tippe auf Teilen ⬆ dann "Zum Home-Bildschirm"',
+                keyboardShortcuts: 'Tastaturkürzel',
+                targetReached: 'Tagesziel erreicht!',
                 
                 // === TABS ===
                 tabDashboard: 'Dashboard',
@@ -1282,6 +1292,16 @@
                 to: 'to',
                 from: 'from',
                 total: 'Total',
+                later: 'Later',
+                help: 'Help',
+                update: 'Update',
+                install: 'Install',
+                updateAvailable: 'New version available!',
+                installApp: 'Install TargetTrader',
+                installAppDesc: 'Quick access from homescreen',
+                installIosHint: 'Tap Share ⬆ then "Add to Home Screen"',
+                keyboardShortcuts: 'Keyboard Shortcuts',
+                targetReached: 'Daily target reached!',
                 
                 // === TABS ===
                 tabDashboard: 'Dashboard',
@@ -1750,6 +1770,16 @@
                 to: 'hasta',
                 from: 'desde',
                 total: 'Total',
+                later: 'Después',
+                help: 'Ayuda',
+                update: 'Actualizar',
+                install: 'Instalar',
+                updateAvailable: '¡Nueva versión disponible!',
+                installApp: 'Instalar TargetTrader',
+                installAppDesc: 'Acceso rápido desde la pantalla de inicio',
+                installIosHint: 'Toca Compartir ⬆ luego "Añadir a inicio"',
+                keyboardShortcuts: 'Atajos de teclado',
+                targetReached: '¡Objetivo diario alcanzado!',
                 
                 // === TABS ===
                 tabDashboard: 'Panel',
@@ -3987,7 +4017,23 @@
             const pl = parseFloat(document.getElementById('ct-pl').value);
             const note = document.getElementById('ct-note').value.trim();
             if (isNaN(pl) || pl === 0) { showToast('P/L eingeben', 'error'); return; }
+            
+            // Check if target was NOT reached before this trade
+            const targetBefore = getDailyTarget();
+            const todayLog = data.dailyLogs.find(l => l.date === getLocalDateString(new Date()));
+            const intradayBefore = getIntradayPL();
+            const plBefore = (todayLog ? todayLog.realizedPL : 0) + intradayBefore;
+            const wasTargetReached = plBefore >= targetBefore;
+            
             addClosedTrade(instrumentId || null, pl, note);
+            
+            // Check if target is NOW reached (and wasn't before)
+            const intradayAfter = getIntradayPL();
+            const plAfter = (todayLog ? todayLog.realizedPL : 0) + intradayAfter;
+            if (!wasTargetReached && plAfter >= targetBefore && targetBefore > 0) {
+                setTimeout(() => triggerConfetti(), 300);
+            }
+            
             closeModal('closed-trade-modal');
         }
         function renderClosedTrades() {
@@ -4623,17 +4669,11 @@
         let swUpdateAvailable = false;
         let deferredInstallPrompt = null;
         
-        // Service Worker Registration
         async function registerServiceWorker() {
-            if (!('serviceWorker' in navigator)) {
-                console.log('Service Worker not supported');
-                return;
-            }
-            
+            if (!('serviceWorker' in navigator)) return;
             try {
                 swRegistration = await navigator.serviceWorker.register('./sw.js');
                 console.log('SW registered:', swRegistration.scope);
-                
                 swRegistration.addEventListener('updatefound', () => {
                     const newWorker = swRegistration.installing;
                     newWorker.addEventListener('statechange', () => {
@@ -4643,37 +4683,23 @@
                         }
                     });
                 });
-                
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     if (swUpdateAvailable) window.location.reload();
                 });
-                
-            } catch (error) {
-                console.error('SW registration failed:', error);
-            }
+            } catch (error) { console.error('SW registration failed:', error); }
         }
         
         function showUpdateNotification() {
             const existing = document.getElementById('sw-update-banner');
             if (existing) existing.remove();
-            
             const banner = document.createElement('div');
             banner.id = 'sw-update-banner';
-            banner.innerHTML = `
-                <div style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:90%;animation:slideUp 0.3s ease;">
-                    <span style="font-size:1.2rem;">🔄</span>
-                    <span style="color:var(--text);font-size:0.9rem;">Neue Version verfügbar!</span>
-                    <button onclick="applyUpdate()" style="background:var(--accent);color:#0f1419;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">Aktualisieren</button>
-                    <button onclick="dismissUpdate()" style="background:transparent;color:var(--muted);border:none;padding:8px;cursor:pointer;font-size:1rem;">✕</button>
-                </div>
-            `;
+            banner.innerHTML = `<div style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:90%;animation:slideUp 0.3s ease;"><span style="font-size:1.2rem;">🔄</span><span style="color:var(--text);font-size:0.9rem;">${t('updateAvailable') || 'Neue Version verfügbar!'}</span><button onclick="applyUpdate()" style="background:var(--accent);color:#0f1419;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">${t('update') || 'Aktualisieren'}</button><button onclick="dismissUpdate()" style="background:transparent;color:var(--muted);border:none;padding:8px;cursor:pointer;font-size:1rem;">✕</button></div>`;
             document.body.appendChild(banner);
         }
         
         function applyUpdate() {
-            if (swRegistration && swRegistration.waiting) {
-                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            }
+            if (swRegistration && swRegistration.waiting) swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
             dismissUpdate();
         }
         
@@ -4686,67 +4712,26 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredInstallPrompt = e;
-            
-            // Check if user dismissed before
             const dismissed = localStorage.getItem('pwa-install-dismissed');
             if (dismissed) {
-                const dismissedDate = new Date(dismissed);
-                const daysSinceDismiss = (Date.now() - dismissedDate.getTime()) / (1000 * 60 * 60 * 24);
-                if (daysSinceDismiss < 7) return; // Don't show for 7 days after dismiss
+                const daysSince = (Date.now() - new Date(dismissed).getTime()) / (1000 * 60 * 60 * 24);
+                if (daysSince < 7) return;
             }
-            
-            // Check visit count
-            let visitCount = parseInt(localStorage.getItem('pwa-visit-count') || '0');
-            visitCount++;
+            let visitCount = parseInt(localStorage.getItem('pwa-visit-count') || '0') + 1;
             localStorage.setItem('pwa-visit-count', visitCount.toString());
-            
-            // Show banner after 2nd visit
-            if (visitCount >= 2) {
-                setTimeout(() => showInstallBanner(), 2000);
-            }
+            if (visitCount >= 2) setTimeout(() => showInstallBanner(), 2000);
         });
         
         function showInstallBanner() {
             if (!deferredInstallPrompt) return;
-            
-            // Don't show if already installed
-            if (window.matchMedia('(display-mode: standalone)').matches) return;
-            if (window.navigator.standalone === true) return;
-            
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
             const existing = document.getElementById('pwa-install-banner');
             if (existing) existing.remove();
-            
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            
             const banner = document.createElement('div');
             banner.id = 'pwa-install-banner';
-            banner.innerHTML = `
-                <div style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--card),#1a2332);border-top:2px solid var(--accent);padding:16px 20px;z-index:9999;animation:slideUp 0.3s ease;padding-bottom:calc(16px + var(--safe-bottom,0px));">
-                    <div style="max-width:600px;margin:0 auto;display:flex;align-items:center;gap:16px;">
-                        <div style="width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-                                <circle cx="32" cy="32" r="28" stroke="#00d4aa" stroke-width="2"/>
-                                <circle cx="32" cy="32" r="4" fill="#00d4aa"/>
-                                <line x1="32" y1="4" x2="32" y2="12" stroke="#00d4aa" stroke-width="2.5"/>
-                                <line x1="32" y1="52" x2="32" y2="60" stroke="#00d4aa" stroke-width="2.5"/>
-                                <line x1="4" y1="32" x2="12" y2="32" stroke="#00d4aa" stroke-width="2.5"/>
-                                <line x1="52" y1="32" x2="60" y2="32" stroke="#00d4aa" stroke-width="2.5"/>
-                            </svg>
-                        </div>
-                        <div style="flex:1;min-width:0;">
-                            <div style="font-weight:600;color:var(--text);font-size:0.95rem;">TargetTrader installieren</div>
-                            <div style="color:var(--muted);font-size:0.8rem;margin-top:2px;">${isIOS ? 'Tippe auf Teilen ⬆ dann "Zum Home-Bildschirm"' : 'Schneller Zugriff direkt vom Homescreen'}</div>
-                        </div>
-                        <div style="display:flex;gap:8px;flex-shrink:0;">
-                            ${isIOS ? '' : '<button onclick="triggerInstall()" style="background:var(--accent);color:#0f1419;border:none;padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">Installieren</button>'}
-                            <button onclick="dismissInstallBanner(false)" style="background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:0.85rem;">Später</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            banner.innerHTML = `<div style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--card),#1a2332);border-top:2px solid var(--accent);padding:16px 20px;z-index:9999;animation:slideUp 0.3s ease;padding-bottom:calc(16px + var(--safe-bottom,0px));"><div style="max-width:600px;margin:0 auto;display:flex;align-items:center;gap:16px;"><div style="width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" stroke="#00d4aa" stroke-width="2"/><circle cx="32" cy="32" r="4" fill="#00d4aa"/><line x1="32" y1="4" x2="32" y2="12" stroke="#00d4aa" stroke-width="2.5"/><line x1="32" y1="52" x2="32" y2="60" stroke="#00d4aa" stroke-width="2.5"/><line x1="4" y1="32" x2="12" y2="32" stroke="#00d4aa" stroke-width="2.5"/><line x1="52" y1="32" x2="60" y2="32" stroke="#00d4aa" stroke-width="2.5"/></svg></div><div style="flex:1;min-width:0;"><div style="font-weight:600;color:var(--text);font-size:0.95rem;">${t('installApp') || 'TargetTrader installieren'}</div><div style="color:var(--muted);font-size:0.8rem;margin-top:2px;">${isIOS ? (t('installIosHint') || 'Tippe auf Teilen ⬆ dann "Zum Home-Bildschirm"') : (t('installAppDesc') || 'Schneller Zugriff vom Homescreen')}</div></div><div style="display:flex;gap:8px;flex-shrink:0;">${isIOS ? '' : `<button onclick="triggerInstall()" style="background:var(--accent);color:#0f1419;border:none;padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">${t('install') || 'Installieren'}</button>`}<button onclick="dismissInstallBanner()" style="background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:0.85rem;">${t('later') || 'Später'}</button></div></div></div>`;
             document.body.appendChild(banner);
-            
-            // Add animation style
             if (!document.getElementById('pwa-banner-style')) {
                 const style = document.createElement('style');
                 style.id = 'pwa-banner-style';
@@ -4757,37 +4742,145 @@
         
         async function triggerInstall() {
             if (!deferredInstallPrompt) return;
-            
             deferredInstallPrompt.prompt();
             const { outcome } = await deferredInstallPrompt.userChoice;
-            
-            if (outcome === 'accepted') {
-                showToast('🎉 App installiert!', 'success');
-                localStorage.removeItem('pwa-visit-count');
-            }
-            
+            if (outcome === 'accepted') { showToast('🎉 App installiert!', 'success'); localStorage.removeItem('pwa-visit-count'); }
             deferredInstallPrompt = null;
-            dismissInstallBanner(true);
+            dismissInstallBanner();
         }
         
-        function dismissInstallBanner(permanent) {
+        function dismissInstallBanner() {
             const banner = document.getElementById('pwa-install-banner');
-            if (banner) {
-                banner.style.animation = 'slideDown 0.3s ease forwards';
-                setTimeout(() => banner.remove(), 300);
-            }
-            
-            if (!permanent) {
-                localStorage.setItem('pwa-install-dismissed', new Date().toISOString());
-            }
+            if (banner) { banner.style.animation = 'slideDown 0.3s ease forwards'; setTimeout(() => banner.remove(), 300); }
+            localStorage.setItem('pwa-install-dismissed', new Date().toISOString());
         }
         
-        // Check if app was installed
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA installed');
-            deferredInstallPrompt = null;
-            dismissInstallBanner(true);
+        window.addEventListener('appinstalled', () => { deferredInstallPrompt = null; dismissInstallBanner(); });
+        
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        const SHORTCUTS = {
+            'n': { action: () => openClosedTradeModal(), desc: 'Neuer Trade' },
+            'p': { action: () => openPositionModal(), desc: 'Neue Position' },
+            'd': { action: () => switchTab('dashboard'), desc: 'Dashboard' },
+            'o': { action: () => switchTab('positions'), desc: 'Positionen' },
+            'i': { action: () => switchTab('instruments'), desc: 'Instrumente' },
+            'h': { action: () => switchTab('history'), desc: 'Historie' },
+            's': { action: () => switchTab('settings'), desc: 'Einstellungen' },
+            'Escape': { action: () => closeAllModals(), desc: 'Modal schließen' },
+            '?': { action: () => showShortcutHelp(), desc: 'Hilfe' }
+        };
+        
+        document.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+            const shortcut = SHORTCUTS[e.key];
+            if (shortcut) { e.preventDefault(); shortcut.action(); }
         });
+        
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+        }
+        
+        function showShortcutHelp() {
+            const shortcuts = [
+                ['N', t('addClosedTrade') || 'Neuer Trade'],
+                ['P', t('addPosition') || 'Neue Position'],
+                ['D', t('tabDashboard') || 'Dashboard'],
+                ['O', t('tabPositions') || 'Positionen'],
+                ['I', t('tabInstruments') || 'Instrumente'],
+                ['H', t('tabHistory') || 'Historie'],
+                ['S', t('tabSettings') || 'Einstellungen'],
+                ['ESC', t('close') || 'Modal schließen'],
+                ['?', t('help') || 'Diese Hilfe']
+            ];
+            const html = `<div class="modal-header"><h3 class="modal-title">⌨️ ${t('keyboardShortcuts') || 'Tastaturkürzel'}</h3><button class="modal-close" onclick="closeModal('shortcut-modal')">×</button></div><div style="display:grid;gap:8px;">${shortcuts.map(([key, desc]) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg);border-radius:8px;"><span style="color:var(--muted);font-size:0.9rem;">${desc}</span><kbd style="background:var(--card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-family:monospace;font-size:0.85rem;color:var(--accent);">${key}</kbd></div>`).join('')}</div>`;
+            let modal = document.getElementById('shortcut-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'shortcut-modal';
+                modal.className = 'modal-overlay';
+                modal.innerHTML = `<div class="modal" style="max-width:360px;">${html}</div>`;
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+                document.body.appendChild(modal);
+            } else {
+                modal.querySelector('.modal').innerHTML = html;
+            }
+            modal.classList.add('show');
+        }
+        
+        // ============================================================
+        // CONFETTI ANIMATION
+        // ============================================================
+        let confettiTriggeredToday = false;
+        
+        function triggerConfetti() {
+            const today = getLocalDateString(new Date());
+            if (localStorage.getItem('confetti-date') === today) return;
+            localStorage.setItem('confetti-date', today);
+            
+            const canvas = document.createElement('canvas');
+            canvas.id = 'confetti-canvas';
+            canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999';
+            document.body.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const colors = ['#00d4aa', '#fbbf24', '#3b82f6', '#10b981', '#ef4444', '#8b5cf6'];
+            const particles = [];
+            
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 15,
+                    vy: Math.random() * -20 - 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 8 + 4,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10
+                });
+            }
+            
+            let frame = 0;
+            const maxFrames = 180;
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.5;
+                    p.rotation += p.rotationSpeed;
+                    p.vx *= 0.99;
+                    
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = Math.max(0, 1 - frame / maxFrames);
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    ctx.restore();
+                });
+                
+                frame++;
+                if (frame < maxFrames) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                }
+            }
+            
+            animate();
+            showToast('🎯 ' + (t('targetReached') || 'Tagesziel erreicht!'), 'success');
+        }
+        
+        // Check target on P/L update
+        const originalUpdateTodayPL = typeof updateTodayPL === 'function' ? updateTodayPL : null;
         
         // Register SW on load
         registerServiceWorker();
