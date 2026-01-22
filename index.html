@@ -540,8 +540,8 @@
                 </div>
             </div>
             <div class="grid grid-2">
-                <div class="card"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span></div><div id="dashboard-positions"></div></div>
-                <div class="card card-green"><div class="card-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span></div><div id="dashboard-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
+                <div class="card"><div class="card-title" data-tip="openPositions" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span> <span class="help-icon">?</span></div><div id="dashboard-positions"></div></div>
+                <div class="card card-green"><div class="card-title" data-tip="closedToday" data-tooltip=""><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span> <span class="help-icon">?</span></div><div id="dashboard-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
             </div>
             <div class="grid grid-2">
                 <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
@@ -553,7 +553,7 @@
             <div class="grid grid-4" id="position-stats"></div>
             <div id="positions-list"></div>
             <button class="btn btn-add" onclick="openAddPositionModal()" data-i18n="addPosition">+ Neue Position hinzufügen</button>
-            <div class="card card-green mt-3"><div class="card-title"><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span></div><div id="positions-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
+            <div class="card card-green mt-3"><div class="card-title" data-tip="closedToday" data-tooltip=""><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span> <span class="help-icon">?</span></div><div id="positions-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
             <div class="card card-gold mt-3"><div class="card-title"><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="10" y="10" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M22 10V6C22 4.9 21.1 4 20 4H6C4.9 4 4 4.9 4 6V20C4 21.1 4.9 22 6 22H10" stroke="currentColor" stroke-width="1.5"/></svg></span> <span data-i18n="quickCopy">Quick Copy</span></div><div class="grid grid-2" id="quick-copy-list"></div></div>
         </div>
         <div id="entry" class="tab-content">
@@ -733,7 +733,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.5';
+        const VERSION = '4.3.6';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -1021,6 +1021,8 @@
                 tipAvgDailyPL: 'Durchschnittlicher täglicher Gewinn/Verlust über alle Handelstage.',
                 
                 // === TOOLTIPS - POSITIONS ===
+                tipOpenPositions: 'Deine aktuell offenen Trades. Der unrealisierte P/L ändert sich mit dem Markt.',
+                tipClosedToday: 'Heute geschlossene Trades. Diese zählen zum realisierten Tagesgewinn.',
                 tipPositionSize: 'Anzahl der Einheiten (Lots, Kontrakte, Unzen).',
                 tipAvgPrice: 'Durchschnittlicher Einstiegspreis deiner Position.',
                 tipCurrentPrice: 'Aktueller Marktpreis für die P/L Berechnung.',
@@ -1440,6 +1442,8 @@
                 tipAvgDailyPL: 'Average daily profit/loss across all trading days.',
                 
                 // === TOOLTIPS - POSITIONS ===
+                tipOpenPositions: 'Your currently open trades. Unrealized P/L changes with the market.',
+                tipClosedToday: 'Trades closed today. These count towards your realized daily profit.',
                 tipPositionSize: 'Number of units (lots, contracts, ounces).',
                 tipAvgPrice: 'Average entry price of your position.',
                 tipCurrentPrice: 'Current market price for P/L calculation.',
@@ -1859,6 +1863,8 @@
                 tipAvgDailyPL: 'Ganancia/pérdida diaria promedio en todos los días.',
                 
                 // === TOOLTIPS - POSITIONS ===
+                tipOpenPositions: 'Tus operaciones abiertas actualmente. El P/L no realizado cambia con el mercado.',
+                tipClosedToday: 'Operaciones cerradas hoy. Estas cuentan para tu ganancia diaria realizada.',
                 tipPositionSize: 'Número de unidades (lotes, contratos, onzas).',
                 tipAvgPrice: 'Precio promedio de entrada de tu posición.',
                 tipCurrentPrice: 'Precio actual del mercado para cálculo de P/L.',
@@ -3318,7 +3324,7 @@
                             const y = pl >= 0 ? centerY - barHeight : centerY;
                             const gradient = pl >= 0 ? 'url(#barGradGreen)' : 'url(#barGradRed)';
                             const color = pl >= 0 ? 'var(--green)' : 'var(--red)';
-                            const label = new Date(m + '-01').toLocaleDateString('de-DE', { month: 'short' });
+                            const label = new Date(m + '-15T12:00:00').toLocaleDateString('de-DE', { month: 'short' });
                             return `
                                 <g filter="url(#barShadow)">
                                     <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="${gradient}" rx="4" ry="4"/>
