@@ -169,11 +169,12 @@
         .circle-progress{position:relative;width:120px;height:120px;margin:0 auto;flex-shrink:0}
         .circle-progress svg{transform:rotate(-90deg);width:100%;height:100%}
         .circle-progress .bg{fill:none;stroke:var(--border);stroke-width:10}
-        .circle-progress .progress{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 0.5s ease}
+        .circle-progress .progress{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 0.5s ease, stroke 0.3s ease}
         .circle-progress .progress.green{stroke:var(--green)}
         .circle-progress .progress.blue{stroke:var(--blue)}
         .circle-progress .progress.gold{stroke:var(--gold)}
         .circle-progress .progress.purple{stroke:var(--purple)}
+        .circle-progress .progress.gradient{stroke:url(#progressGradient)}
         .circle-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
         .circle-value{font-size:1.4rem;font-weight:700;line-height:1.2}
         .circle-label{font-size:0.7rem;color:var(--muted)}
@@ -732,7 +733,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.3.4';
+        const VERSION = '4.3.5';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -2719,6 +2720,28 @@
         function fmtNum(n, d = 2) { return (n||0).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }); }
         function fmtPrice(n, inst) { return (n||0).toFixed(inst?.priceDecimals || 2); }
         function fmtPct(n) { return (n||0).toFixed(1) + '%'; }
+        
+        // Gradient color from red (0%) → yellow (50%) → green (100%)
+        function getProgressColor(pct) {
+            pct = Math.max(0, Math.min(100, pct));
+            const red = { r: 239, g: 68, b: 68 };     // #ef4444
+            const yellow = { r: 251, g: 191, b: 36 }; // #fbbf24
+            const green = { r: 0, g: 212, b: 170 };   // #00d4aa
+            
+            let r, g, b;
+            if (pct <= 50) {
+                const t = pct / 50;
+                r = Math.round(red.r + (yellow.r - red.r) * t);
+                g = Math.round(red.g + (yellow.g - red.g) * t);
+                b = Math.round(red.b + (yellow.b - red.b) * t);
+            } else {
+                const t = (pct - 50) / 50;
+                r = Math.round(yellow.r + (green.r - yellow.r) * t);
+                g = Math.round(yellow.g + (green.g - yellow.g) * t);
+                b = Math.round(yellow.b + (green.b - yellow.b) * t);
+            }
+            return `rgb(${r},${g},${b})`;
+        }
         function formatDate(s) { if (!s) return '-'; const [y,m,d] = s.split('-'); return `${d}.${m}.${y}`; }
         function getMoodEmoji(m) { const map = { great: 'moodG', good: 'moodO', neutral: 'moodN', bad: 'moodB' }; const colors = { great: '#10b981', good: '#00d4aa', neutral: '#fbbf24', bad: '#ef4444' }; return ic(map[m] || 'moodN', 18, colors[m] || '#fbbf24'); }
 
@@ -2808,14 +2831,22 @@
             const bufPct = maxBuf > 0 ? (data.buffer.currentBuffer / maxBuf) * 100 : 0;
             const bufCircumference = 2 * Math.PI * 45;
             const bufDashOffset = bufCircumference - (bufCircumference * Math.min(bufPct, 100) / 100);
-            const bufColor = bufPct >= 80 ? 'green' : (bufPct >= 40 ? 'gold' : 'purple');
+            const bufStrokeColor = getProgressColor(bufPct);
             
             document.getElementById('buffer-content').innerHTML = `
                 <div class="progress-grid-compact">
                     <div class="circle-progress">
                         <svg viewBox="0 0 100 100">
+                            <defs>
+                                <linearGradient id="bufferGrad${Date.now()}" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#ef4444"/>
+                                    <stop offset="50%" stop-color="#fbbf24"/>
+                                    <stop offset="100%" stop-color="#00d4aa"/>
+                                </linearGradient>
+                            </defs>
                             <circle class="bg" cx="50" cy="50" r="45"/>
-                            <circle class="progress ${bufColor}" cx="50" cy="50" r="45" 
+                            <circle class="progress" cx="50" cy="50" r="45" 
+                                stroke="${bufStrokeColor}"
                                 stroke-dasharray="${bufCircumference}" 
                                 stroke-dashoffset="${bufDashOffset}"/>
                         </svg>
@@ -2835,7 +2866,7 @@
                         </div>
                         <div class="detail-item" style="grid-column: span 2;">
                             <span class="detail-label">${t('progress')}</span>
-                            <span class="detail-value ${bufColor === 'green' ? 'text-green' : bufColor === 'gold' ? 'text-gold' : 'text-purple'}">${fmtPct(bufPct)}</span>
+                            <span class="detail-value" style="color:${bufStrokeColor}">${fmtPct(bufPct)}</span>
                         </div>
                     </div>
                 </div>
@@ -2850,7 +2881,7 @@
             // Heutiger Fortschritt mit Kreisdiagramm
             const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 100) : 0;
             const remaining = target - todayPL;
-            const progressColor = todayPL >= target ? 'green' : (todayPL >= target * 0.5 ? 'gold' : 'blue');
+            const progressStrokeColor = getProgressColor(todayProgressPct);
             const circumference = 2 * Math.PI * 45; // radius = 45
             const dashOffset = circumference - (circumference * Math.min(todayProgressPct, 100) / 100);
             
@@ -2863,12 +2894,13 @@
                     <div class="circle-progress">
                         <svg viewBox="0 0 100 100">
                             <circle class="bg" cx="50" cy="50" r="45"/>
-                            <circle class="progress ${progressColor}" cx="50" cy="50" r="45" 
+                            <circle class="progress" cx="50" cy="50" r="45" 
+                                stroke="${progressStrokeColor}"
                                 stroke-dasharray="${circumference}" 
                                 stroke-dashoffset="${dashOffset}"/>
                         </svg>
                         <div class="circle-center">
-                            <div class="circle-value ${todayPL >= target ? 'text-green' : ''}">${fmtPct(todayProgressPct)}</div>
+                            <div class="circle-value" style="color:${todayPL >= target ? '#00d4aa' : ''}">${fmtPct(todayProgressPct)}</div>
                             <div class="circle-label">${todayPL >= target ? ic('check',14,'#10b981') + ' ' + t('reached') : t('progress')}</div>
                         </div>
                     </div>
