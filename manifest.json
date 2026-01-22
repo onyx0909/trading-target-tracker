@@ -1,71 +1,75 @@
 {
-  "name": "TargetTrader",
+  "name": "TargetTrader - Trading Target Tracker",
   "short_name": "TargetTrader",
-  "description": "Hit your daily targets. Grow your account.",
+  "description": "Professionelles Trading-Tagebuch mit dynamischen Tageszielen, Buffer-System und Positions-Skalierung",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#00d4aa",
   "orientation": "portrait-primary",
+  "background_color": "#0f1419",
+  "theme_color": "#0f1419",
+  "categories": ["finance", "productivity", "utilities"],
+  "lang": "de",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "assets/icon-48.png",
+      "src": "assets/favicon-48.png",
       "sizes": "48x48",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "assets/icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png"
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "assets/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png"
+      "purpose": "any maskable"
     },
     {
       "src": "assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icon-maskable-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "assets/icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "TargetTrader Dashboard"
+    },
+    {
+      "src": "assets/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "TargetTrader Mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Neuer Trade",
+      "short_name": "Trade",
+      "description": "Schnell einen neuen Trade erfassen",
+      "url": "./index.html?action=new-trade",
+      "icons": [{ "src": "assets/favicon-48.png", "sizes": "48x48" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Zum Dashboard",
+      "url": "./index.html?tab=dashboard",
+      "icons": [{ "src": "assets/favicon-48.png", "sizes": "48x48" }]
+    }
+  ],
+  "related_applications": [],
+  "handle_links": "preferred"
 }
