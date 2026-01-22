@@ -559,9 +559,9 @@
             </div>
             <div class="grid grid-2">
                 <div class="card"><div class="card-title" data-tip="openPositions" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="28" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="12" x2="12" y2="26" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="19" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.6"/><circle cx="22" cy="19" r="1.5" fill="currentColor"/></svg></span> <span data-i18n="openPositions">Offene Positionen</span> <span class="help-icon">?</span></div><div id="dashboard-positions"></div></div>
-                <div class="card" id="lot-sizing-widget" style="display:none;"><div class="card-title" data-tip="lotSizing" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" fill="currentColor"/><circle cx="23" cy="9" r="2" fill="currentColor"/><circle cx="9" cy="23" r="2" fill="currentColor"/><circle cx="23" cy="23" r="2" fill="currentColor"/></svg></span> <span data-i18n="recommendedLotSize">Empfohlene Lotgröße</span> <span class="help-icon">?</span></div><div id="lot-sizing-content"></div></div>
                 <div class="card card-green"><div class="card-title" data-tip="closedToday" data-tooltip=""><span class="i i-20" style="color:#10b981"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><polyline points="10 16 14 20 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> <span data-i18n="closedToday">Heute geschlossen</span> <span class="help-icon">?</span></div><div id="dashboard-closed-trades"></div><button class="btn btn-sm btn-ghost mt-2" onclick="openClosedTradeModal()" data-i18n="addClosedTrade">+ Trade erfassen</button></div>
             </div>
+            <div class="card" id="lot-sizing-widget" style="display:none;"><div class="card-title" data-tip="lotSizing" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2" fill="currentColor"/><circle cx="23" cy="9" r="2" fill="currentColor"/><circle cx="9" cy="23" r="2" fill="currentColor"/><circle cx="23" cy="23" r="2" fill="currentColor"/></svg></span> <span data-i18n="recommendedLotSize">Empfohlene Lotgröße</span> <span class="help-icon">?</span></div><div id="lot-sizing-content"></div></div>
             <div class="grid grid-2">
                 <div class="card"><div class="card-title" data-tip="equityCurve" data-tooltip=""><span class="i i-20" style="color:var(--accent)"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26L10 18L16 22L22 14L28 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="6" r="1.5" fill="currentColor"/><circle cx="4" cy="26" r="2" fill="currentColor"/></svg></span> <span data-i18n="equityCurve7">Equity Curve (7 Tage)</span> <span class="help-icon">?</span></div><div id="mini-equity-chart"></div></div>
                 <div class="card"><div class="card-title" data-tip="streak" data-tooltip=""><span class="i i-20" style="color:#fbbf24"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2C16 2 20 8 20 14C20 18 18 20 16 22C14 20 12 18 12 14C12 8 16 2 16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 22C16 22 18 24 18 27C18 29 17 30 16 30S14 29 14 27C14 24 16 22 16 22Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="14" r="2" fill="currentColor"/></svg></span> <span data-i18n="streakStats">Streak & Statistiken</span> <span class="help-icon">?</span></div><div id="streak-stats"></div></div>
@@ -791,7 +791,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.4.4';
+        const VERSION = '4.4.5';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -824,6 +824,7 @@
                 installIosHint: 'Tippe auf Teilen ⬆ dann "Zum Home-Bildschirm"',
                 keyboardShortcuts: 'Tastaturkürzel',
                 targetReached: 'Tagesziel erreicht!',
+                scaling: 'Skalierung',
                 
                 // === TABS ===
                 tabDashboard: 'Dashboard',
@@ -1302,6 +1303,7 @@
                 installIosHint: 'Tap Share ⬆ then "Add to Home Screen"',
                 keyboardShortcuts: 'Keyboard Shortcuts',
                 targetReached: 'Daily target reached!',
+                scaling: 'Scaling',
                 
                 // === TABS ===
                 tabDashboard: 'Dashboard',
@@ -1780,6 +1782,7 @@
                 installIosHint: 'Toca Compartir ⬆ luego "Añadir a inicio"',
                 keyboardShortcuts: 'Atajos de teclado',
                 targetReached: '¡Objetivo diario alcanzado!',
+                scaling: 'Escalado',
                 
                 // === TABS ===
                 tabDashboard: 'Panel',
@@ -2704,7 +2707,7 @@
                 // Kein INSERT hier - Trigger erstellt das Profil automatisch
                 
                 const { data: instruments } = await db.from('instruments').select('*').eq('user_id', currentUser.id);
-                if (instruments) instruments.forEach(i => { data.instruments[i.symbol.toLowerCase()] = { id: i.symbol.toLowerCase(), symbol: i.symbol, name: i.name, icon: i.icon, color: i.color, priceDecimals: i.price_decimals, calculationType: i.calculation_type, plFactor: i.pl_factor ? parseFloat(i.pl_factor) : null, standardSize: parseFloat(i.standard_size)||1, isCalibrated: i.is_calibrated, lastCalibrated: i.last_calibrated, calibrationData: i.calibration_data }; });
+                if (instruments) instruments.forEach(i => { data.instruments[i.symbol.toLowerCase()] = { id: i.symbol.toLowerCase(), symbol: i.symbol, name: i.name, icon: i.icon, color: i.color, priceDecimals: i.price_decimals, calculationType: i.calculation_type, plFactor: i.pl_factor ? parseFloat(i.pl_factor) : null, standardSize: parseFloat(i.standard_size)||1, lotStep: parseFloat(i.lot_step)||1, baseLotSize: parseFloat(i.base_lot_size)||1, isCalibrated: i.is_calibrated, isActive: i.is_active !== false, lastCalibrated: i.last_calibrated, calibrationData: i.calibration_data }; });
                 
                 const { data: logs } = await db.from('daily_logs').select('*').eq('user_id', currentUser.id).order('date', { ascending: false }).limit(100);
                 if (logs) data.dailyLogs = logs.map(l => ({ id: l.id, date: l.date, startingBalance: parseFloat(l.starting_balance)||0, endingBalance: parseFloat(l.ending_balance)||0, realizedPL: parseFloat(l.realized_pl)||0, unrealizedPL: parseFloat(l.unrealized_pl)||0, dailyTarget: parseFloat(l.daily_target)||0, variance: parseFloat(l.variance)||0, variancePercent: parseFloat(l.variance_percent)||0, daysEquivalent: parseFloat(l.days_equivalent)||0, targetHit: l.target_hit, tradesCount: l.trades_count||0, mood: l.mood, notes: l.notes }));
@@ -2744,7 +2747,7 @@
                 }).eq('id', currentUser.id);
                 if (profileError) console.error('Profile sync error:', profileError);
                 for (const [id, inst] of Object.entries(data.instruments)) {
-                    if (inst.isCalibrated) await db.from('instruments').upsert({ user_id: currentUser.id, symbol: inst.symbol, name: inst.name, asset_class: 'metal', icon: inst.icon, color: inst.color, price_decimals: inst.priceDecimals, calculation_type: inst.calculationType, pl_factor: inst.plFactor, standard_size: inst.standardSize, is_calibrated: inst.isCalibrated, last_calibrated: inst.lastCalibrated, calibration_data: inst.calibrationData }, { onConflict: 'user_id,symbol' });
+                    if (inst.isCalibrated || inst.baseLotSize) await db.from('instruments').upsert({ user_id: currentUser.id, symbol: inst.symbol, name: inst.name, asset_class: 'metal', icon: inst.icon, color: inst.color, price_decimals: inst.priceDecimals, calculation_type: inst.calculationType, pl_factor: inst.plFactor, standard_size: inst.standardSize, lot_step: inst.lotStep, base_lot_size: inst.baseLotSize, is_calibrated: inst.isCalibrated, last_calibrated: inst.lastCalibrated, calibration_data: inst.calibrationData, is_active: inst.isActive }, { onConflict: 'user_id,symbol' });
                 }
                 updateSyncStatus('online');
             } catch (e) { console.error('Sync error:', e); updateSyncStatus('offline'); }
@@ -4762,7 +4765,7 @@
         // ============================================================
         const SHORTCUTS = {
             'n': { action: () => openClosedTradeModal(), desc: 'Neuer Trade' },
-            'p': { action: () => openPositionModal(), desc: 'Neue Position' },
+            'p': { action: () => openAddPositionModal(), desc: 'Neue Position' },
             'd': { action: () => switchTab('dashboard'), desc: 'Dashboard' },
             'o': { action: () => switchTab('positions'), desc: 'Positionen' },
             'i': { action: () => switchTab('instruments'), desc: 'Instrumente' },
@@ -4813,8 +4816,6 @@
         // ============================================================
         // CONFETTI ANIMATION
         // ============================================================
-        let confettiTriggeredToday = false;
-        
         function triggerConfetti() {
             const today = getLocalDateString(new Date());
             if (localStorage.getItem('confetti-date') === today) return;
@@ -4850,14 +4851,8 @@
             
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
                 particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.5;
-                    p.rotation += p.rotationSpeed;
-                    p.vx *= 0.99;
-                    
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.5; p.rotation += p.rotationSpeed; p.vx *= 0.99;
                     ctx.save();
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.rotation * Math.PI / 180);
@@ -4866,21 +4861,13 @@
                     ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
                     ctx.restore();
                 });
-                
                 frame++;
-                if (frame < maxFrames) {
-                    requestAnimationFrame(animate);
-                } else {
-                    canvas.remove();
-                }
+                if (frame < maxFrames) requestAnimationFrame(animate);
+                else canvas.remove();
             }
-            
             animate();
             showToast('🎯 ' + (t('targetReached') || 'Tagesziel erreicht!'), 'success');
         }
-        
-        // Check target on P/L update
-        const originalUpdateTodayPL = typeof updateTodayPL === 'function' ? updateTodayPL : null;
         
         // Register SW on load
         registerServiceWorker();
