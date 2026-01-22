@@ -791,7 +791,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.4.2';
+        const VERSION = '4.4.3';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -4617,14 +4617,13 @@
         document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); }); });
 
         // ============================================================
-        // INIT
-        // ============================================================
-        // ============================================================
-        // SERVICE WORKER REGISTRATION
+        // SERVICE WORKER & PWA INSTALL
         // ============================================================
         let swRegistration = null;
         let swUpdateAvailable = false;
+        let deferredInstallPrompt = null;
         
+        // Service Worker Registration
         async function registerServiceWorker() {
             if (!('serviceWorker' in navigator)) {
                 console.log('Service Worker not supported');
@@ -4635,23 +4634,18 @@
                 swRegistration = await navigator.serviceWorker.register('./sw.js');
                 console.log('SW registered:', swRegistration.scope);
                 
-                // Check for updates
                 swRegistration.addEventListener('updatefound', () => {
                     const newWorker = swRegistration.installing;
                     newWorker.addEventListener('statechange', () => {
                         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // New version available
                             swUpdateAvailable = true;
                             showUpdateNotification();
                         }
                     });
                 });
                 
-                // Listen for controller change (new SW activated)
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (swUpdateAvailable) {
-                        window.location.reload();
-                    }
+                    if (swUpdateAvailable) window.location.reload();
                 });
                 
             } catch (error) {
@@ -4660,14 +4654,13 @@
         }
         
         function showUpdateNotification() {
-            // Remove existing notification if any
             const existing = document.getElementById('sw-update-banner');
             if (existing) existing.remove();
             
             const banner = document.createElement('div');
             banner.id = 'sw-update-banner';
             banner.innerHTML = `
-                <div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:90%;animation:slideUp 0.3s ease;">
+                <div style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:90%;animation:slideUp 0.3s ease;">
                     <span style="font-size:1.2rem;">🔄</span>
                     <span style="color:var(--text);font-size:0.9rem;">Neue Version verfügbar!</span>
                     <button onclick="applyUpdate()" style="background:var(--accent);color:#0f1419;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">Aktualisieren</button>
@@ -4675,14 +4668,6 @@
                 </div>
             `;
             document.body.appendChild(banner);
-            
-            // Add animation style if not exists
-            if (!document.getElementById('sw-update-style')) {
-                const style = document.createElement('style');
-                style.id = 'sw-update-style';
-                style.textContent = '@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
-                document.head.appendChild(style);
-            }
         }
         
         function applyUpdate() {
@@ -4697,9 +4682,119 @@
             if (banner) banner.remove();
         }
         
+        // PWA Install Prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            
+            // Check if user dismissed before
+            const dismissed = localStorage.getItem('pwa-install-dismissed');
+            if (dismissed) {
+                const dismissedDate = new Date(dismissed);
+                const daysSinceDismiss = (Date.now() - dismissedDate.getTime()) / (1000 * 60 * 60 * 24);
+                if (daysSinceDismiss < 7) return; // Don't show for 7 days after dismiss
+            }
+            
+            // Check visit count
+            let visitCount = parseInt(localStorage.getItem('pwa-visit-count') || '0');
+            visitCount++;
+            localStorage.setItem('pwa-visit-count', visitCount.toString());
+            
+            // Show banner after 2nd visit
+            if (visitCount >= 2) {
+                setTimeout(() => showInstallBanner(), 2000);
+            }
+        });
+        
+        function showInstallBanner() {
+            if (!deferredInstallPrompt) return;
+            
+            // Don't show if already installed
+            if (window.matchMedia('(display-mode: standalone)').matches) return;
+            if (window.navigator.standalone === true) return;
+            
+            const existing = document.getElementById('pwa-install-banner');
+            if (existing) existing.remove();
+            
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            
+            const banner = document.createElement('div');
+            banner.id = 'pwa-install-banner';
+            banner.innerHTML = `
+                <div style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--card),#1a2332);border-top:2px solid var(--accent);padding:16px 20px;z-index:9999;animation:slideUp 0.3s ease;padding-bottom:calc(16px + var(--safe-bottom,0px));">
+                    <div style="max-width:600px;margin:0 auto;display:flex;align-items:center;gap:16px;">
+                        <div style="width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="28" stroke="#00d4aa" stroke-width="2"/>
+                                <circle cx="32" cy="32" r="4" fill="#00d4aa"/>
+                                <line x1="32" y1="4" x2="32" y2="12" stroke="#00d4aa" stroke-width="2.5"/>
+                                <line x1="32" y1="52" x2="32" y2="60" stroke="#00d4aa" stroke-width="2.5"/>
+                                <line x1="4" y1="32" x2="12" y2="32" stroke="#00d4aa" stroke-width="2.5"/>
+                                <line x1="52" y1="32" x2="60" y2="32" stroke="#00d4aa" stroke-width="2.5"/>
+                            </svg>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-weight:600;color:var(--text);font-size:0.95rem;">TargetTrader installieren</div>
+                            <div style="color:var(--muted);font-size:0.8rem;margin-top:2px;">${isIOS ? 'Tippe auf Teilen ⬆ dann "Zum Home-Bildschirm"' : 'Schneller Zugriff direkt vom Homescreen'}</div>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-shrink:0;">
+                            ${isIOS ? '' : '<button onclick="triggerInstall()" style="background:var(--accent);color:#0f1419;border:none;padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">Installieren</button>'}
+                            <button onclick="dismissInstallBanner(false)" style="background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:0.85rem;">Später</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(banner);
+            
+            // Add animation style
+            if (!document.getElementById('pwa-banner-style')) {
+                const style = document.createElement('style');
+                style.id = 'pwa-banner-style';
+                style.textContent = '@keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}';
+                document.head.appendChild(style);
+            }
+        }
+        
+        async function triggerInstall() {
+            if (!deferredInstallPrompt) return;
+            
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                showToast('🎉 App installiert!', 'success');
+                localStorage.removeItem('pwa-visit-count');
+            }
+            
+            deferredInstallPrompt = null;
+            dismissInstallBanner(true);
+        }
+        
+        function dismissInstallBanner(permanent) {
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) {
+                banner.style.animation = 'slideDown 0.3s ease forwards';
+                setTimeout(() => banner.remove(), 300);
+            }
+            
+            if (!permanent) {
+                localStorage.setItem('pwa-install-dismissed', new Date().toISOString());
+            }
+        }
+        
+        // Check if app was installed
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA installed');
+            deferredInstallPrompt = null;
+            dismissInstallBanner(true);
+        });
+        
         // Register SW on load
         registerServiceWorker();
         
+        // ============================================================
+        // INIT
+        // ============================================================
         init();
     </script>
 </body>

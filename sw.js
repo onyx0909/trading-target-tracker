@@ -1,6 +1,6 @@
-// TargetTrader Service Worker v4.4.2
-const CACHE_NAME = 'targettrader-v4.4.2';
-const STATIC_CACHE = 'targettrader-static-v4.4.2';
+// TargetTrader Service Worker v4.4.3
+const CACHE_NAME = 'targettrader-v4.4.3';
+const STATIC_CACHE = 'targettrader-static-v4.4.3';
 
 // Assets to cache immediately on install
 const PRECACHE_ASSETS = [
@@ -28,7 +28,7 @@ const NO_CACHE_DOMAINS = [
 
 // Install event - precache static assets
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing...');
+    console.log('[SW] Installing v4.4.3...');
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then((cache) => {
@@ -46,7 +46,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating...');
+    console.log('[SW] Activating v4.4.3...');
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {
@@ -71,14 +71,10 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
     
     // Skip non-GET requests
-    if (event.request.method !== 'GET') {
-        return;
-    }
+    if (event.request.method !== 'GET') return;
     
-    // Skip chrome-extension and other non-http(s) requests
-    if (!url.protocol.startsWith('http')) {
-        return;
-    }
+    // Skip non-http(s) requests
+    if (!url.protocol.startsWith('http')) return;
     
     // Check if this is a no-cache domain (API calls)
     const isNoCacheDomain = NO_CACHE_DOMAINS.some(domain => url.hostname.includes(domain));
@@ -86,14 +82,12 @@ self.addEventListener('fetch', (event) => {
     if (isNoCacheDomain) {
         // Network-only for API calls
         event.respondWith(
-            fetch(event.request)
-                .catch(() => {
-                    console.log('[SW] API call failed, no offline fallback');
-                    return new Response(JSON.stringify({ error: 'offline' }), {
-                        status: 503,
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                })
+            fetch(event.request).catch(() => {
+                return new Response(JSON.stringify({ error: 'offline' }), {
+                    status: 503,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            })
         );
         return;
     }
@@ -125,7 +119,7 @@ self.addEventListener('fetch', (event) => {
         caches.match(event.request)
             .then((cachedResponse) => {
                 if (cachedResponse) {
-                    // Return cached version and update in background
+                    // Update cache in background
                     fetch(event.request)
                         .then((networkResponse) => {
                             if (networkResponse && networkResponse.status === 200) {
@@ -142,7 +136,6 @@ self.addEventListener('fetch', (event) => {
                 // Not in cache - fetch from network
                 return fetch(event.request)
                     .then((networkResponse) => {
-                        // Cache successful responses
                         if (networkResponse && networkResponse.status === 200) {
                             const responseToCache = networkResponse.clone();
                             caches.open(STATIC_CACHE).then((cache) => {
@@ -170,12 +163,4 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// Background sync (for future use)
-self.addEventListener('sync', (event) => {
-    if (event.tag === 'sync-trades') {
-        console.log('[SW] Background sync triggered');
-        // Future: sync queued trades when back online
-    }
-});
-
-console.log('[SW] Service Worker loaded - v4.4.2');
+console.log('[SW] Service Worker loaded - v4.4.3');
