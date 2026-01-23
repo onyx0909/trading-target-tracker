@@ -3195,18 +3195,28 @@
             updateTooltips();
             const recs = generateRecommendations();
             
-            // Calculate time to goal
+            // Calculate time to goal (EXPONENTIAL - compound growth)
             const targetCapitalForTime = data.settings.targetCapital || 100000;
-            const remainingToGoal = targetCapitalForTime - balance;
-            const dailyTargetAmount = target;
+            const dailyTargetRate = data.settings.dailyTargetPercent / 100; // e.g. 0.015 for 1.5%
             
-            // Days at daily target pace
-            const daysAtTarget = dailyTargetAmount > 0 ? Math.ceil(remainingToGoal / dailyTargetAmount) : 0;
+            // Days at daily target pace (exponential): days = log(target/current) / log(1+rate)
+            const daysAtTarget = balance > 0 && dailyTargetRate > 0 && targetCapitalForTime > balance
+                ? Math.ceil(Math.log(targetCapitalForTime / balance) / Math.log(1 + dailyTargetRate))
+                : 0;
             
-            // Days at actual pace (based on average daily P/L from logs)
+            // Days at actual pace (based on average daily return from logs)
             const recentLogs = data.dailyLogs.slice(0, 30).filter(l => l.realizedPL !== 0);
-            const avgDailyPL = recentLogs.length > 0 ? recentLogs.reduce((s, l) => s + l.realizedPL, 0) / recentLogs.length : 0;
-            const daysAtActual = avgDailyPL > 0 ? Math.ceil(remainingToGoal / avgDailyPL) : 0;
+            // Calculate average daily return percentage
+            let avgDailyReturnRate = 0;
+            if (recentLogs.length > 0) {
+                // Approximate: use average P/L relative to starting balance of that period
+                const avgPL = recentLogs.reduce((s, l) => s + l.realizedPL, 0) / recentLogs.length;
+                const avgBalance = recentLogs.reduce((s, l) => s + (l.startingBalance || balance), 0) / recentLogs.length;
+                avgDailyReturnRate = avgBalance > 0 ? avgPL / avgBalance : 0;
+            }
+            const daysAtActual = balance > 0 && avgDailyReturnRate > 0 && targetCapitalForTime > balance
+                ? Math.ceil(Math.log(targetCapitalForTime / balance) / Math.log(1 + avgDailyReturnRate))
+                : 0;
             
             // Format days to readable string
             const formatDays = (days) => {
@@ -3224,14 +3234,15 @@
                     : fmt(targetCapitalForTime, 0);
             
             const goalReached = balance >= targetCapitalForTime;
-            const actualPaceText = avgDailyPL > 0 
-                ? formatDays(daysAtActual) + (avgDailyPL > dailyTargetAmount ? ' 🚀' : '')
+            const isFasterThanPlan = avgDailyReturnRate > dailyTargetRate;
+            const actualPaceText = avgDailyReturnRate > 0 
+                ? formatDays(daysAtActual) + (isFasterThanPlan ? ' 🚀' : '')
                 : '—';
             const timeToGoalHtml = !goalReached && targetCapitalForTime > 0 
                 ? `<div class="tomorrow-hint" style="margin-top:12px;">
                     ${ic('target',14,'var(--accent)')} ${t('goal')} <strong>${fmtTarget}</strong>: 
                     ${formatDays(daysAtTarget)} <span style="color:var(--muted);">(${t('plan')})</span> · 
-                    <span style="color:${avgDailyPL > dailyTargetAmount ? '#10b981' : avgDailyPL > 0 ? '#fbbf24' : 'var(--muted)'};">${actualPaceText}</span> <span style="color:var(--muted);">(${t('actual')})</span>
+                    <span style="color:${isFasterThanPlan ? '#10b981' : avgDailyReturnRate > 0 ? '#fbbf24' : 'var(--muted)'};">${actualPaceText}</span> <span style="color:var(--muted);">(${t('actual')})</span>
                 </div>` 
                 : '';
             
