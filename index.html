@@ -1209,6 +1209,8 @@
                 timeToGoal: 'Zeit bis Ziel',
                 atTargetPace: 'Bei Tagesziel',
                 atActualPace: 'Aktuelles Tempo',
+                plan: 'Plan',
+                actual: 'aktuell',
                 years: 'Jahre',
                 months: 'Monate',
                 vsTarget: 'vs. Ziel',
@@ -1696,6 +1698,8 @@
                 timeToGoal: 'Time to Goal',
                 atTargetPace: 'At Target Pace',
                 atActualPace: 'At Actual Pace',
+                plan: 'plan',
+                actual: 'actual',
                 years: 'years',
                 months: 'months',
                 vsTarget: 'vs. Target',
@@ -2183,6 +2187,8 @@
                 timeToGoal: 'Tiempo hasta Meta',
                 atTargetPace: 'Al Ritmo Objetivo',
                 atActualPace: 'Al Ritmo Actual',
+                plan: 'plan',
+                actual: 'actual',
                 years: 'años',
                 months: 'meses',
                 vsTarget: 'vs. Objetivo',
@@ -3210,34 +3216,30 @@
                 return `~${days} ${t('days')}`;
             };
             
+            // Format target capital for display
+            const fmtTarget = targetCapitalForTime >= 1000000 
+                ? (targetCapitalForTime/1000000).toFixed(1) + 'M' 
+                : targetCapitalForTime >= 1000 
+                    ? Math.round(targetCapitalForTime/1000) + 'k' 
+                    : fmt(targetCapitalForTime, 0);
+            
             const goalReached = balance >= targetCapitalForTime;
-            const timeToGoalHtml = !goalReached && targetCapitalForTime > 0 ? `
-                <div style="flex:1;min-width:200px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                        ${ic('target',20,'var(--accent)')}
-                        <span style="font-weight:600;">${t('timeToGoal')}</span>
-                    </div>
-                    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:4px;">${t('goal')}: ${fmt(targetCapitalForTime, 0)}</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
-                        <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
-                            <div style="font-size:0.65rem;color:var(--muted);">${t('atTargetPace')}</div>
-                            <div style="font-size:0.9rem;font-weight:600;color:var(--text);">${formatDays(daysAtTarget)}</div>
-                        </div>
-                        <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
-                            <div style="font-size:0.65rem;color:var(--muted);">${t('atActualPace')}</div>
-                            <div style="font-size:0.9rem;font-weight:600;color:${avgDailyPL > dailyTargetAmount ? '#10b981' : avgDailyPL > 0 ? '#fbbf24' : 'var(--muted)'};">${avgDailyPL > 0 ? formatDays(daysAtActual) + (avgDailyPL > dailyTargetAmount ? ' 🚀' : '') : '—'}</div>
-                        </div>
-                    </div>
-                </div>
-            ` : '';
+            const actualPaceText = avgDailyPL > 0 
+                ? formatDays(daysAtActual) + (avgDailyPL > dailyTargetAmount ? ' 🚀' : '')
+                : '—';
+            const timeToGoalHtml = !goalReached && targetCapitalForTime > 0 
+                ? `<div class="tomorrow-hint" style="margin-top:12px;">
+                    ${ic('target',14,'var(--accent)')} ${t('goal')} <strong>${fmtTarget}</strong>: 
+                    ${formatDays(daysAtTarget)} <span style="color:var(--muted);">(${t('plan')})</span> · 
+                    <span style="color:${avgDailyPL > dailyTargetAmount ? '#10b981' : avgDailyPL > 0 ? '#fbbf24' : 'var(--muted)'};">${actualPaceText}</span> <span style="color:var(--muted);">(${t('actual')})</span>
+                </div>` 
+                : '';
             
             document.getElementById('recommendations-container').innerHTML = (recs.length > 0 || timeToGoalHtml) ? `
                 <div class="card">
                     <div class="card-title">${ic('bulb',20,'#fbbf24')} ${t('recommendations')}</div>
-                    <div style="display:flex;gap:16px;flex-wrap:wrap;">
-                        ${recs.length > 0 ? `<div style="flex:1;min-width:200px;">${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${ic(r.icon,24)}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : ''}
-                        ${timeToGoalHtml}
-                    </div>
+                    ${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${ic(r.icon,24)}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}
+                    ${timeToGoalHtml}
                 </div>
             ` : '';
             document.getElementById('week-number').textContent = weekData.weekNumber;
