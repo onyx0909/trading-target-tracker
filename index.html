@@ -3262,48 +3262,55 @@
             }
             
             // Heutiger Fortschritt mit Kreisdiagramm
-            const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 100) : 0;
+            const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 150) : 0;
+            const displayPct = Math.min(todayProgressPct, 100);
             const remaining = target - todayPL;
-            const progressStrokeColor = getProgressColor(todayProgressPct);
-            const circumference = 2 * Math.PI * 45; // radius = 45
-            const dashOffset = circumference - (circumference * Math.min(todayProgressPct, 100) / 100);
+            const isTargetReached = todayPL >= target;
+            
+            // Color gradient based on progress
+            const getBarColor = (pct) => {
+                if (pct >= 100) return '#10b981'; // Green
+                if (pct >= 75) return '#00d4aa';  // Teal
+                if (pct >= 50) return '#fbbf24';  // Yellow
+                if (pct >= 25) return '#f59e0b';  // Orange
+                return '#ef4444'; // Red
+            };
+            const barColor = getBarColor(todayProgressPct);
             
             // Tagesziel morgen (wenn heute erreicht)
             const tomorrowBalance = balance + target;
             const tomorrowTarget = tomorrowBalance * (data.settings.dailyTargetPercent / 100);
             
             document.getElementById('today-progress-content').innerHTML = `
-                <div class="progress-grid-compact">
-                    <div class="circle-progress">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="bg" cx="50" cy="50" r="45"/>
-                            <circle class="progress" cx="50" cy="50" r="45" 
-                                stroke="${progressStrokeColor}"
-                                stroke-dasharray="${circumference}" 
-                                stroke-dashoffset="${dashOffset}"/>
-                        </svg>
-                        <div class="circle-center">
-                            <div class="circle-value" style="color:${todayPL >= target ? '#00d4aa' : ''}">${fmtPct(todayProgressPct)}</div>
-                            <div class="circle-label">${todayPL >= target ? ic('check',14,'#10b981') + ' ' + t('reached') : t('progress')}</div>
-                        </div>
+                <div style="margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <span style="font-size:0.85rem;color:var(--muted);">${t('progress')}</span>
+                        <span style="font-size:1.1rem;font-weight:700;color:${barColor};">
+                            ${isTargetReached ? '✓ ' : ''}${fmtPct(todayProgressPct)}
+                        </span>
                     </div>
-                    <div class="progress-details-compact">
-                        <div class="detail-item">
-                            <span class="detail-label">${t('targetToday')}</span>
-                            <span class="detail-value">${fmt(target)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">${t('realized')}</span>
-                            <span class="detail-value ${realizedPL>=0?'text-green':'text-red'}">${realizedPL>=0?'+':''}${fmt(realizedPL)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">${t('unrealized')}</span>
-                            <span class="detail-value ${unrealizedPL>=0?'text-green':'text-red'}">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">${todayPL >= target ? t('surplus') : t('stillOpen')}</span>
-                            <span class="detail-value ${todayPL >= target ? 'text-green' : 'text-gold'}">${todayPL >= target ? '+' : ''}${fmt(Math.abs(remaining))}</span>
-                        </div>
+                    <div style="height:24px;background:var(--bg);border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--border);">
+                        <div style="position:absolute;left:0;top:0;bottom:0;width:${displayPct}%;background:linear-gradient(90deg,#ef4444 0%,#f59e0b 25%,#fbbf24 50%,#00d4aa 75%,#10b981 100%);background-size:${100/displayPct*100}% 100%;border-radius:11px;transition:width 0.5s ease;${isTargetReached ? 'box-shadow:0 0 12px #10b98166;' : ''}"></div>
+                        ${todayProgressPct > 100 ? `<div style="position:absolute;left:100%;top:50%;transform:translate(-50%,-50%);width:3px;height:16px;background:#fff;border-radius:2px;opacity:0.8;"></div>` : ''}
+                    </div>
+                    ${isTargetReached ? `<div style="text-align:center;margin-top:8px;font-size:0.8rem;color:#10b981;font-weight:600;">🎯 ${t('targetReached') || 'Tagesziel erreicht!'}</div>` : ''}
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('targetToday')}</div>
+                        <div style="font-size:1rem;font-weight:600;">${fmt(target)}</div>
+                    </div>
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('realized')}</div>
+                        <div style="font-size:1rem;font-weight:600;color:${realizedPL>=0?'#10b981':'#ef4444'};">${realizedPL>=0?'+':''}${fmt(realizedPL)}</div>
+                    </div>
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('unrealized')}</div>
+                        <div style="font-size:1rem;font-weight:600;color:${unrealizedPL>=0?'#10b981':'#ef4444'};">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</div>
+                    </div>
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${isTargetReached ? t('surplus') : t('stillOpen')}</div>
+                        <div style="font-size:1rem;font-weight:600;color:${isTargetReached ? '#10b981' : '#fbbf24'};">${isTargetReached ? '+' : ''}${fmt(Math.abs(remaining))}</div>
                     </div>
                 </div>
                 <div class="tomorrow-hint">
@@ -3750,17 +3757,17 @@
                 <div style="display:flex;flex-direction:column;gap:10px;">
                     ${tradingDays.map(d => {
                         const pct = d.avg !== 0 ? (d.avg / maxAbs) * 100 : 0;
-                        const color = d.avg >= 0 ? 'var(--green)' : 'var(--red)';
+                        const colorHex = d.avg >= 0 ? '#10b981' : '#ef4444';
                         const widthPct = Math.abs(pct);
                         const isBest = d === bestDay && d.avg > 0;
                         return `
                             <div style="display:flex;align-items:center;gap:10px;${isBest ? 'background:var(--bg);padding:6px 8px;margin:-6px -8px;border-radius:8px;' : ''}">
-                                <span style="width:28px;font-size:0.85rem;font-weight:700;${isBest ? 'color:var(--green);' : ''}">${d.day}</span>
+                                <span style="width:28px;font-size:0.85rem;font-weight:700;${isBest ? 'color:#10b981;' : ''}">${d.day}</span>
                                 <div style="flex:1;height:28px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative;border:1px solid var(--border);">
-                                    <div style="position:absolute;left:${d.avg >= 0 ? '50%' : `calc(50% - ${widthPct/2}%)`};width:${widthPct/2}%;height:100%;background:linear-gradient(${d.avg >= 0 ? '90deg' : '270deg'},${color}dd,${color}88);border-radius:${d.avg >= 0 ? '0 6px 6px 0' : '6px 0 0 6px'};transition:width 0.3s ease;"></div>
+                                    <div style="position:absolute;left:${d.avg >= 0 ? '50%' : `calc(50% - ${widthPct/2}%)`};width:${widthPct/2}%;height:100%;background:linear-gradient(${d.avg >= 0 ? '90deg' : '270deg'},${colorHex},${colorHex}88);border-radius:${d.avg >= 0 ? '0 6px 6px 0' : '6px 0 0 6px'};transition:width 0.3s ease;"></div>
                                     <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--border);transform:translateX(-50%);"></div>
                                 </div>
-                                <span style="width:65px;text-align:right;font-size:0.85rem;font-weight:600;color:${color};">${d.avg >= 0 ? '+' : ''}${fmt(d.avg)}</span>
+                                <span style="width:65px;text-align:right;font-size:0.85rem;font-weight:600;color:${colorHex};">${d.avg >= 0 ? '+' : ''}${fmt(d.avg)}</span>
                                 <span style="width:35px;text-align:right;font-size:0.75rem;color:var(--muted);opacity:0.8;">(${d.count}×)</span>
                             </div>
                         `;
