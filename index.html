@@ -3300,14 +3300,14 @@
             document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${ic(inst?.icon||'gold',20,inst?.color)} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${unrealizedPL>=0?'text-green':'text-red'} font-bold">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
             // Dynamic Milestones based on target capital
             const targetCapital = data.settings.targetCapital || 100000;
-            const remaining = targetCapital - balance;
+            const remainingToTarget = targetCapital - balance;
             let milestones = [];
             
-            if (remaining > 0 && targetCapital > balance) {
+            if (remainingToTarget > 0 && targetCapital > balance) {
                 // Calculate 4 milestones at 25%, 50%, 75%, 100% of the way to target
                 const steps = [0.25, 0.5, 0.75, 1.0];
                 milestones = steps.map(step => {
-                    const milestone = balance + (remaining * step);
+                    const milestone = balance + (remainingToTarget * step);
                     return {
                         value: milestone,
                         percent: step * 100,
@@ -3368,7 +3368,7 @@
             // Heutiger Fortschritt mit Kreisdiagramm
             const todayProgressPct = target > 0 ? Math.min((todayPL / target) * 100, 150) : 0;
             const displayPct = Math.min(todayProgressPct, 100);
-            const remaining = target - todayPL;
+            const remainingToday = target - todayPL;
             const isTargetReached = todayPL >= target;
             
             // Color gradient based on progress
@@ -3414,7 +3414,7 @@
                     </div>
                     <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
                         <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${isTargetReached ? t('surplus') : t('stillOpen')}</div>
-                        <div style="font-size:1rem;font-weight:600;color:${isTargetReached ? '#10b981' : '#fbbf24'};">${isTargetReached ? '+' : ''}${fmt(Math.abs(remaining))}</div>
+                        <div style="font-size:1rem;font-weight:600;color:${isTargetReached ? '#10b981' : '#fbbf24'};">${isTargetReached ? '+' : ''}${fmt(Math.abs(remainingToday))}</div>
                     </div>
                 </div>
                 <div class="tomorrow-hint">
@@ -3621,7 +3621,7 @@
             // Exponentielle Projektion (Zinseszins-Effekt)
             const targetCap = data.settings.targetCapital; 
             const dailyRate = data.settings.dailyTargetPercent / 100;
-            const remaining = targetCap - balance;
+            const remainingToCap = targetCap - balance;
             const todayTarget = getDailyTarget();
             
             // Korrekte exponentielle Formel: Tage = log(Ziel/Aktuell) / log(1+Rate)
@@ -3634,7 +3634,7 @@
             document.getElementById('projection-content').innerHTML = `
                 <div class="grid grid-2 mb-2">
                     <div class="stat-box"><div class="stat-label">${t('targetToday')}</div><div class="stat-value text-green">${fmt(todayTarget)}</div></div>
-                    <div class="stat-box"><div class="stat-label">${t('stillToReach')}</div><div class="stat-value">${fmt(remaining)}</div></div>
+                    <div class="stat-box"><div class="stat-label">${t('stillToReach')}</div><div class="stat-value">${fmt(remainingToCap)}</div></div>
                 </div>
                 <div class="grid grid-3">
                     <div class="stat-box"><div class="stat-label">${t('remainingDays')}</div><div class="stat-value">${daysToTarget}</div></div>
