@@ -791,7 +791,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.4.5';
+        const VERSION = '4.4.6';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -2699,7 +2699,23 @@
                 const profile = profiles && profiles.length > 0 ? profiles[0] : null;
                 
                 if (profile) {
-                    data.settings = { accountCurrency: profile.account_currency||'EUR', broker: profile.broker||'IBKR', startCapital: parseFloat(profile.start_capital)||0, currentBalance: parseFloat(profile.current_balance)||0, targetCapital: parseFloat(profile.target_capital)||0, dailyTargetPercent: parseFloat(profile.daily_target_percent)||0.5, riskPerTradePercent: parseFloat(profile.risk_per_trade_percent)||2.0, maxDailyLossPercent: parseFloat(profile.max_daily_loss_percent)||3.0, rrRatio: parseFloat(profile.rr_ratio)||2, tradingDaysPerWeek: profile.trading_days_per_week||5, weekStartDay: 1, startDate: profile.start_date, onboardingComplete: profile.onboarding_complete || false };
+                    data.settings = { 
+                        accountCurrency: profile.account_currency||'EUR', 
+                        broker: profile.broker||'IBKR', 
+                        startCapital: parseFloat(profile.start_capital)||0, 
+                        currentBalance: parseFloat(profile.current_balance)||0, 
+                        targetCapital: parseFloat(profile.target_capital)||0, 
+                        dailyTargetPercent: parseFloat(profile.daily_target_percent)||0.5, 
+                        riskPerTradePercent: parseFloat(profile.risk_per_trade_percent)||2.0, 
+                        maxDailyLossPercent: parseFloat(profile.max_daily_loss_percent)||3.0, 
+                        rrRatio: parseFloat(profile.rr_ratio)||2, 
+                        tradingDaysPerWeek: profile.trading_days_per_week||5, 
+                        weekStartDay: 1, 
+                        startDate: profile.start_date, 
+                        onboardingComplete: profile.onboarding_complete || false,
+                        lotSizingEnabled: profile.lot_sizing_enabled !== false,
+                        baseBalanceForLots: parseFloat(profile.base_balance_for_lots) || 15000
+                    };
                     data.buffer.settings.enabled = profile.buffer_enabled !== false;
                     data.buffer.settings.maxBufferDays = profile.buffer_max_days || 10;
                     data.buffer.currentBuffer = parseFloat(profile.buffer_current) || 0;
@@ -2743,7 +2759,9 @@
                     buffer_max_days: data.buffer.settings.maxBufferDays, 
                     buffer_current: data.buffer.currentBuffer, 
                     start_date: data.settings.startDate, 
-                    onboarding_complete: data.settings.onboardingComplete 
+                    onboarding_complete: data.settings.onboardingComplete,
+                    lot_sizing_enabled: data.settings.lotSizingEnabled,
+                    base_balance_for_lots: data.settings.baseBalanceForLots
                 }).eq('id', currentUser.id);
                 if (profileError) console.error('Profile sync error:', profileError);
                 for (const [id, inst] of Object.entries(data.instruments)) {
