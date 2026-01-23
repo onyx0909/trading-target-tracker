@@ -1,6 +1,6 @@
-// TargetTrader Service Worker v4.4.6
-const CACHE_NAME = 'targettrader-v4.4.6';
-const STATIC_CACHE = 'targettrader-static-v4.4.6';
+// TargetTrader Service Worker v4.4.7
+const CACHE_NAME = 'targettrader-v4.4.7';
+const STATIC_CACHE = 'targettrader-static-v4.4.7';
 
 const PRECACHE_ASSETS = [
     './',
@@ -21,7 +21,7 @@ const CDN_ASSETS = [
 const NO_CACHE_DOMAINS = ['supabase.co', 'supabase.com'];
 
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing v4.4.6...');
+    console.log('[SW] Installing v4.4.7...');
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then(cache => cache.addAll(PRECACHE_ASSETS))
@@ -31,7 +31,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating v4.4.6...');
+    console.log('[SW] Activating v4.4.7...');
     event.waitUntil(
         caches.keys()
             .then(names => Promise.all(
@@ -97,4 +97,4 @@ self.addEventListener('message', (event) => {
     }
 });
 
-console.log('[SW] Service Worker loaded - v4.4.6');
+console.log('[SW] Service Worker loaded - v4.4.7');

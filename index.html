@@ -792,7 +792,7 @@
         // DATA
         // ============================================================
         const STORAGE_KEY = 'trading-tracker-pro-v5';
-        const VERSION = '4.4.6';
+        const VERSION = '4.4.7';
         
         // ============================================================
         // INTERNATIONALIZATION (i18n)
@@ -1203,6 +1203,14 @@
                 profit: 'Gewinn',
                 loss: 'Verlust',
                 stillMissing: 'Noch fehlend',
+                perDay: 'Pro Tag',
+                goal: 'Ziel',
+                goalReached: 'Ziel erreicht!',
+                timeToGoal: 'Zeit bis Ziel',
+                atTargetPace: 'Bei Tagesziel',
+                atActualPace: 'Aktuelles Tempo',
+                years: 'Jahre',
+                months: 'Monate',
                 vsTarget: 'vs. Ziel',
                 atSize: 'bei Größe',
                 avgPriceShort: 'Ø Preis',
@@ -1682,6 +1690,14 @@
                 profit: 'Profit',
                 loss: 'Loss',
                 stillMissing: 'Still missing',
+                perDay: 'Per Day',
+                goal: 'Goal',
+                goalReached: 'Goal reached!',
+                timeToGoal: 'Time to Goal',
+                atTargetPace: 'At Target Pace',
+                atActualPace: 'At Actual Pace',
+                years: 'years',
+                months: 'months',
                 vsTarget: 'vs. Target',
                 atSize: 'at size',
                 avgPriceShort: 'Avg. Price',
@@ -2161,6 +2177,14 @@
                 profit: 'Ganancia',
                 loss: 'Pérdida',
                 stillMissing: 'Aún faltante',
+                perDay: 'Por Día',
+                goal: 'Meta',
+                goalReached: '¡Meta alcanzada!',
+                timeToGoal: 'Tiempo hasta Meta',
+                atTargetPace: 'Al Ritmo Objetivo',
+                atActualPace: 'Al Ritmo Actual',
+                years: 'años',
+                months: 'meses',
                 vsTarget: 'vs. Objetivo',
                 atSize: 'en tamaño',
                 avgPriceShort: 'Precio Prom.',
@@ -3164,7 +3188,58 @@
             document.getElementById('dashboard-stats').innerHTML = `<div class="card stat-box" data-tip="balance" data-tooltip=""><div class="stat-label">${t('balance')} <span class="help-icon">?</span></div><div class="stat-value">${fmt(balance)}</div><div class="stat-sub">${totalPL>=0?'+':''}${fmt(totalPL)} ${t('total').toLowerCase()}</div></div><div class="card stat-box" data-tip="todayPL" data-tooltip=""><div class="stat-label">${t('todayPL')} <span class="help-icon">?</span></div><div class="stat-value ${todayPL>=0?'text-green':'text-red'}">${todayPL>=0?'+':''}${fmt(todayPL)}</div><div class="stat-sub">${t('target')}: ${fmt(target)}</div></div><div class="card stat-box" data-tip="weekProgress" data-tooltip=""><div class="stat-label">${t('thisWeek')} <span class="help-icon">?</span></div><div class="stat-value ${weekData.realized>=0?'text-green':'text-red'}">${fmtPct(weekData.progressPercent)}</div><div class="stat-sub">${fmt(weekData.realized)} / ${fmt(weekData.target)}</div></div><div class="card stat-box" data-tip="reserve" data-tooltip=""><div class="stat-label">${t('reserve')} <span class="help-icon">?</span></div><div class="stat-value text-gold">${fmt(data.buffer.currentBuffer)}</div><div class="stat-sub">${(data.buffer.currentBuffer/target).toFixed(1)} ${t('days')}</div></div>`;
             updateTooltips();
             const recs = generateRecommendations();
-            document.getElementById('recommendations-container').innerHTML = recs.length > 0 ? `<div class="card"><div class="card-title">${ic('bulb',20,'#fbbf24')} ${t('recommendations')}</div>${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${ic(r.icon,24)}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : '';
+            
+            // Calculate time to goal
+            const targetCapitalForTime = data.settings.targetCapital || 100000;
+            const remainingToGoal = targetCapitalForTime - balance;
+            const dailyTargetAmount = target;
+            
+            // Days at daily target pace
+            const daysAtTarget = dailyTargetAmount > 0 ? Math.ceil(remainingToGoal / dailyTargetAmount) : 0;
+            
+            // Days at actual pace (based on average daily P/L from logs)
+            const recentLogs = data.dailyLogs.slice(0, 30).filter(l => l.realizedPL !== 0);
+            const avgDailyPL = recentLogs.length > 0 ? recentLogs.reduce((s, l) => s + l.realizedPL, 0) / recentLogs.length : 0;
+            const daysAtActual = avgDailyPL > 0 ? Math.ceil(remainingToGoal / avgDailyPL) : 0;
+            
+            // Format days to readable string
+            const formatDays = (days) => {
+                if (days <= 0) return '—';
+                if (days > 365) return `~${Math.round(days/365)} ${t('years')}`;
+                if (days > 60) return `~${Math.round(days/30)} ${t('months')}`;
+                return `~${days} ${t('days')}`;
+            };
+            
+            const goalReached = balance >= targetCapitalForTime;
+            const timeToGoalHtml = !goalReached && targetCapitalForTime > 0 ? `
+                <div style="flex:1;min-width:200px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        ${ic('target',20,'var(--accent)')}
+                        <span style="font-weight:600;">${t('timeToGoal')}</span>
+                    </div>
+                    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:4px;">${t('goal')}: ${fmt(targetCapitalForTime, 0)}</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                        <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                            <div style="font-size:0.65rem;color:var(--muted);">${t('atTargetPace')}</div>
+                            <div style="font-size:0.9rem;font-weight:600;color:var(--text);">${formatDays(daysAtTarget)}</div>
+                        </div>
+                        <div style="background:var(--bg);padding:8px;border-radius:6px;text-align:center;">
+                            <div style="font-size:0.65rem;color:var(--muted);">${t('atActualPace')}</div>
+                            <div style="font-size:0.9rem;font-weight:600;color:${avgDailyPL > dailyTargetAmount ? '#10b981' : avgDailyPL > 0 ? '#fbbf24' : 'var(--muted)'};">${avgDailyPL > 0 ? formatDays(daysAtActual) + (avgDailyPL > dailyTargetAmount ? ' 🚀' : '') : '—'}</div>
+                        </div>
+                    </div>
+                </div>
+            ` : '';
+            
+            document.getElementById('recommendations-container').innerHTML = (recs.length > 0 || timeToGoalHtml) ? `
+                <div class="card">
+                    <div class="card-title">${ic('bulb',20,'#fbbf24')} ${t('recommendations')}</div>
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                        ${recs.length > 0 ? `<div style="flex:1;min-width:200px;">${recs.map(r => `<div class="rec-card ${r.priority}">${r.dismissable?`<button class="rec-dismiss" onclick="dismissRecommendation('${r.id}')">&times;</button>`:''}<div class="rec-header"><span class="rec-icon">${ic(r.icon,24)}</span><span class="rec-title">${r.title}</span></div><div class="rec-message">${r.message}</div></div>`).join('')}</div>` : ''}
+                        ${timeToGoalHtml}
+                    </div>
+                </div>
+            ` : '';
             document.getElementById('week-number').textContent = weekData.weekNumber;
             const dayNames = [t('mon'),t('tue'),t('wed'),t('thu'),t('fri')]; const today = getLocalDateString(new Date());
             document.getElementById('week-grid').innerHTML = weekData.dates.map((d, i) => { const log = weekData.logs.find(l => l.date === d); const pl = log ? log.realizedPL : null; const isToday = d === today; const cls = pl !== null ? (pl >= 0 ? 'profit' : 'loss') : ''; return `<div class="week-day ${cls} ${isToday?'today':''}"><div class="week-day-name">${dayNames[i]}</div><div class="week-day-value ${pl!==null?(pl>=0?'positive':'negative'):'empty'}">${pl!==null?(pl>=0?'+':'')+fmtNum(pl,0):'-'}</div></div>`; }).join('');
@@ -3207,6 +3282,14 @@
                         <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('maximum')}</div>
                         <div style="font-size:1rem;font-weight:600;">${fmt(maxBuf)}</div>
                     </div>
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('perDay')}</div>
+                        <div style="font-size:1rem;font-weight:600;">${fmt(target)}</div>
+                    </div>
+                    <div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${t('stillMissing')}</div>
+                        <div style="font-size:1rem;font-weight:600;color:${maxBuf - data.buffer.currentBuffer > 0 ? '#fbbf24' : '#10b981'};">${fmt(Math.max(0, maxBuf - data.buffer.currentBuffer))}</div>
+                    </div>
                 </div>
             `;
             
@@ -3215,8 +3298,35 @@
                 ? bufHist.map(h => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>${h.type==='add'?'+':'-'} ${h.reason}</span><span class="${h.type==='add'?'text-green':'text-red'}">${h.type==='add'?'+':'-'}${fmt(h.amount)}</span></div>`).join('') 
                 : `<div class="tomorrow-hint" style="margin-top:12px;">${ic('info',14,'var(--muted)')} <span style="color:var(--muted);">${t('noBufferActivity')}</span></div>`;
             document.getElementById('dashboard-positions').innerHTML = activePos.length > 0 ? `<div class="grid grid-2">${activePos.map(pos => { const inst = data.instruments[pos.instrumentId]; const pl = calculatePL(pos); return `<div class="card card-dark" style="border-left:3px solid ${inst?.color||'#fff'};"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:700;">${ic(inst?.icon||'gold',20,inst?.color)} ${inst?.symbol||pos.instrumentId}</span><span class="${pl>=0?'text-green':'text-red'} font-bold">${pl>=0?'+':''}${fmt(pl)}</span></div><div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">${pos.size} × ${pos.direction.toUpperCase()} @ ${fmtPrice(pos.avgPrice, inst)}</div></div>`; }).join('')}</div><div style="text-align:right;margin-top:8px;font-size:0.9rem;">${t('unrealized')}: <span class="${unrealizedPL>=0?'text-green':'text-red'} font-bold">${unrealizedPL>=0?'+':''}${fmt(unrealizedPL)}</span></div>` : '<p class="text-muted">' + t('noPositions') + '</p>';
-            const milestones = [25000,50000,100000,250000,500000,1000000].filter(m => m > balance).slice(0, 4);
-            document.getElementById('milestones').innerHTML = milestones.map(m => `<div class="card card-dark text-center"><div class="text-gold font-bold">${m>=1000000?(m/1000000)+'M':(m/1000)+'k'}</div><div class="text-muted" style="font-size:0.75rem;">${t('stillMissing')} ${fmt(m-balance)}</div></div>`).join('');
+            // Dynamic Milestones based on target capital
+            const targetCapital = data.settings.targetCapital || 100000;
+            const remaining = targetCapital - balance;
+            let milestones = [];
+            
+            if (remaining > 0 && targetCapital > balance) {
+                // Calculate 4 milestones at 25%, 50%, 75%, 100% of the way to target
+                const steps = [0.25, 0.5, 0.75, 1.0];
+                milestones = steps.map(step => {
+                    const milestone = balance + (remaining * step);
+                    return {
+                        value: milestone,
+                        percent: step * 100,
+                        missing: milestone - balance,
+                        isTarget: step === 1.0
+                    };
+                }).filter(m => m.value > balance);
+            }
+            
+            document.getElementById('milestones').innerHTML = milestones.length > 0 
+                ? milestones.map(m => `<div class="card card-dark text-center" style="${m.isTarget ? 'border:1px solid var(--accent);' : ''}">
+                    <div style="font-size:0.7rem;color:var(--muted);margin-bottom:2px;">${m.isTarget ? '🎯 ' + t('goal') : m.percent + '%'}</div>
+                    <div class="${m.isTarget ? 'text-accent' : 'text-gold'} font-bold">${m.value >= 1000000 ? (m.value/1000000).toFixed(1) + 'M' : m.value >= 1000 ? Math.round(m.value/1000) + 'k' : fmt(m.value, 0)}</div>
+                    <div class="text-muted" style="font-size:0.7rem;">${t('stillMissing')} ${fmt(m.missing, 0)}</div>
+                </div>`).join('')
+                : `<div class="card card-dark text-center" style="grid-column:span 4;border:1px solid var(--accent);">
+                    <div class="text-accent font-bold">🎉 ${t('goalReached')}</div>
+                    <div class="text-muted" style="font-size:0.8rem;">${fmt(balance)} / ${fmt(targetCapital)}</div>
+                </div>`;
             
             // Lot Sizing Widget - shows all active calibrated instruments
             const lotWidget = document.getElementById('lot-sizing-widget');
