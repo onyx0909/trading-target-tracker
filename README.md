@@ -1,5 +1,11 @@
 # TargetTrader 🎯
 
+> **Status (October 2026): no longer maintained.** The Supabase project behind the cloud sync
+> (`dxlrljzxyxlmcbndjuze`) is being shut down. Sign-in and cloud sync will stop working; the
+> app keeps running locally in the browser. The database schema stays documented in
+> [`docs/supabase-setup.md`](docs/supabase-setup.md); to self-host, create a new Supabase project,
+> run that setup, and replace `SUPABASE_URL` and the anon key in `index.html`.
+
 **Dynamic Trading Target Tracker with Compound Growth**
 
 A professional Progressive Web App (PWA) for traders who want to track their daily profit targets using percentage-based compound growth instead of fixed amounts.
